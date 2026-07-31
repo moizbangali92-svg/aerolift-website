@@ -1,0 +1,52 @@
+<!-- REPLACE: real Aerolift photo — crane spare parts (brakes, limit switches, festoon), 800x600 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Diagram of crane spare parts: an electro-magnetic brake disc, a festoon cable system and a limit switch">
+  <rect width="800" height="600" fill="#eef1f6"/>
+  <g stroke="#c3cddd" stroke-width="2">
+    <path d="M0 120 H800"/><path d="M0 240 H800"/><path d="M0 360 H800"/><path d="M0 480 H800"/>
+  </g>
+
+  <!-- festoon system on a track -->
+  <rect x="60" y="96" width="680" height="14" fill="#16305e"/>
+  <g fill="#2b4c8c">
+    <rect x="150" y="110" width="26" height="20"/><rect x="290" y="110" width="26" height="20"/>
+    <rect x="430" y="110" width="26" height="20"/><rect x="570" y="110" width="26" height="20"/>
+  </g>
+  <g fill="none" stroke="#6b7280" stroke-width="7">
+    <path d="M163 130 Q226 200 303 130"/>
+    <path d="M303 130 Q366 200 443 130"/>
+    <path d="M443 130 Q506 200 583 130"/>
+  </g>
+
+  <!-- electro-magnetic brake disc -->
+  <g transform="translate(238 356)">
+    <circle r="104" fill="#16305e"/>
+    <circle r="72" fill="#eef1f6"/>
+    <circle r="34" fill="#2b4c8c"/>
+    <circle r="14" fill="#eef1f6"/>
+    <g fill="#16305e">
+      <circle cx="0" cy="-52" r="10"/><circle cx="45" cy="-26" r="10"/>
+      <circle cx="45" cy="26" r="10"/><circle cx="0" cy="52" r="10"/>
+      <circle cx="-45" cy="26" r="10"/><circle cx="-45" cy="-26" r="10"/>
+    </g>
+    <!-- caliper -->
+    <path d="M-128 -34 h44 v68 h-44 z" fill="#f5a800"/>
+    <path d="M84 -34 h44 v68 h-44 z" fill="#f5a800"/>
+  </g>
+
+  <!-- limit switch -->
+  <g transform="translate(524 316)">
+    <rect x="0" y="0" width="132" height="118" rx="6" fill="#16305e"/>
+    <rect x="16" y="18" width="100" height="52" rx="3" fill="#eef1f6"/>
+    <rect x="30" y="84" width="30" height="18" fill="#f5a800"/>
+    <rect x="72" y="84" width="30" height="18" fill="#f5a800"/>
+    <!-- actuator lever -->
+    <path d="M132 30 L212 -22" stroke="#6b7280" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="212" cy="-22" r="16" fill="#6b7280"/>
+    <!-- busbar stub -->
+    <rect x="-6" y="140" width="230" height="16" fill="#2b4c8c"/>
+    <rect x="-6" y="156" width="230" height="8" fill="#16305e"/>
+  </g>
+
+  <rect x="0" y="540" width="800" height="60" fill="#dbe1ea"/>
+  <rect x="0" y="540" width="800" height="5" fill="#f5a800"/>
+</svg>

@@ -1,0 +1,33 @@
+<!-- REPLACE: real Aerolift photo — pillar-mounted jib crane, 800x600 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Diagram of a pillar-mounted jib crane with 360 degree rotation arc">
+  <rect width="800" height="600" fill="#eef1f6"/>
+  <g stroke="#c3cddd" stroke-width="2">
+    <path d="M0 120 H800"/><path d="M0 240 H800"/><path d="M0 360 H800"/><path d="M0 480 H800"/>
+  </g>
+  <!-- rotation arc -->
+  <path d="M262 176 A140 140 0 0 1 542 176" fill="none" stroke="#f5a800" stroke-width="6" stroke-dasharray="14 12"/>
+  <path d="M536 158 L556 178 L530 190 Z" fill="#f5a800"/>
+  <!-- pillar -->
+  <rect x="374" y="150" width="54" height="336" fill="#16305e"/>
+  <rect x="374" y="150" width="54" height="10" fill="#f5a800"/>
+  <!-- jib arm -->
+  <rect x="400" y="164" width="266" height="30" fill="#16305e"/>
+  <rect x="400" y="194" width="266" height="9" fill="#2b4c8c"/>
+  <!-- tie brace -->
+  <path d="M404 262 L654 176" stroke="#16305e" stroke-width="12" stroke-linecap="round"/>
+  <!-- trolley hoist -->
+  <rect x="556" y="203" width="76" height="44" fill="#f5a800"/>
+  <rect x="556" y="203" width="76" height="8" fill="#d99400"/>
+  <g stroke="#16305e" stroke-width="4">
+    <path d="M580 247 V352"/><path d="M610 247 V352"/>
+  </g>
+  <rect x="566" y="352" width="60" height="24" rx="3" fill="#16305e"/>
+  <path d="M596 376 v26 a18 18 0 1 0 -15 -9" fill="none" stroke="#16305e" stroke-width="8" stroke-linecap="round"/>
+  <!-- base plate -->
+  <rect x="336" y="486" width="130" height="22" fill="#16305e"/>
+  <g fill="#6b7280">
+    <circle cx="352" cy="497" r="6"/><circle cx="450" cy="497" r="6"/>
+  </g>
+  <rect x="0" y="508" width="800" height="92" fill="#dbe1ea"/>
+  <rect x="0" y="508" width="800" height="5" fill="#f5a800"/>
+</svg>

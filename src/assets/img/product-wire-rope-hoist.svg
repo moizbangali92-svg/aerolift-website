@@ -1,0 +1,39 @@
+<!-- REPLACE: real Aerolift photo — MT-series wire rope hoist, 800x600 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Diagram of an MT-series monorail wire rope hoist on a beam, with rope drum and hook block">
+  <rect width="800" height="600" fill="#eef1f6"/>
+  <g stroke="#c3cddd" stroke-width="2">
+    <path d="M0 120 H800"/><path d="M0 240 H800"/><path d="M0 360 H800"/><path d="M0 480 H800"/>
+  </g>
+  <!-- monorail beam -->
+  <g fill="#16305e">
+    <rect x="0" y="96" width="800" height="18"/>
+    <rect x="368" y="114" width="64" height="44"/>
+    <rect x="0" y="158" width="800" height="18"/>
+  </g>
+  <!-- trolley wheels on the lower flange -->
+  <g fill="#6b7280">
+    <circle cx="330" cy="188" r="15"/><circle cx="470" cy="188" r="15"/>
+  </g>
+  <rect x="300" y="176" width="200" height="20" fill="#2b4c8c"/>
+  <!-- hoist body -->
+  <rect x="286" y="196" width="228" height="96" rx="4" fill="#f5a800"/>
+  <rect x="286" y="196" width="228" height="14" fill="#d99400"/>
+  <!-- rope drum -->
+  <rect x="308" y="222" width="150" height="48" rx="24" fill="#16305e"/>
+  <g stroke="#2b4c8c" stroke-width="4">
+    <path d="M328 222 V270"/><path d="M348 222 V270"/><path d="M368 222 V270"/>
+    <path d="M388 222 V270"/><path d="M408 222 V270"/><path d="M428 222 V270"/>
+  </g>
+  <!-- motor -->
+  <rect x="466" y="212" width="60" height="68" rx="6" fill="#16305e"/>
+  <!-- 4/2 reeving -->
+  <g stroke="#16305e" stroke-width="4">
+    <path d="M330 292 V392"/><path d="M362 292 V392"/>
+    <path d="M438 292 V392"/><path d="M470 292 V392"/>
+  </g>
+  <rect x="318" y="392" width="164" height="36" rx="4" fill="#16305e"/>
+  <rect x="318" y="392" width="164" height="9" fill="#f5a800"/>
+  <path d="M400 428 v36 a24 24 0 1 0 -20 -12" fill="none" stroke="#16305e" stroke-width="9" stroke-linecap="round"/>
+  <rect x="0" y="530" width="800" height="70" fill="#dbe1ea"/>
+  <rect x="0" y="530" width="800" height="5" fill="#f5a800"/>
+</svg>

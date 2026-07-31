@@ -1,0 +1,21 @@
+{
+  "name": "aerolift-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aerolift L.L.C. — industrial lifting equipment supplier, UAE. Static site.",
+  "type": "module",
+  "scripts": {
+    "clean": "node scripts/build.mjs --clean",
+    "copy": "node scripts/build.mjs",
+    "css": "tailwindcss -i ./src/css/input.css -o ./dist/css/style.css",
+    "build": "npm run copy && npm run css -- --minify",
+    "dev": "npm run copy && npm run css -- --watch",
+    "serve": "node scripts/serve.mjs"
+  },
+  "devDependencies": {
+    "@fontsource/barlow-condensed": "^5.1.0",
+    "@fontsource/inter": "^5.1.0",
+    "@tailwindcss/cli": "^4.0.0",
+    "tailwindcss": "^4.0.0"
+  }
+}
