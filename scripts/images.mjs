@@ -58,6 +58,29 @@ for (const w of HERO_WIDTHS) {
   report.push(['aerolift-logo.webp', `${webp.width}x${webp.height}`, kb(webp.size)]);
 }
 
+/* ---- Product cards ----------------------------------------------
+   Cards render at 4:3 (800x600 attributes, object-cover). Emit exactly
+   that crop so the browser never does the cropping itself. Sources that
+   don't exist yet are skipped — cards fall back to their SVGs. */
+const PRODUCTS = ['product-eot-crane', 'product-gantry-crane', 'product-jib-crane', 'product-wire-rope-hoist', 'product-crane-spare-parts'];
+for (const name of PRODUCTS) {
+  const srcFile = resolve(src, `${name}.png`);
+  try {
+    const webp = await sharp(srcFile)
+      .resize({ width: 800, height: 600, fit: 'cover' })
+      .webp({ quality: 78, effort: 6 })
+      .toFile(resolve(out, `${name}.webp`));
+    report.push([`${name}.webp`, `${webp.width}x${webp.height}`, kb(webp.size)]);
+    const jpg = await sharp(srcFile)
+      .resize({ width: 800, height: 600, fit: 'cover' })
+      .jpeg({ quality: 80, progressive: true, mozjpeg: true })
+      .toFile(resolve(out, `${name}.jpg`));
+    report.push([`${name}.jpg`, `${jpg.width}x${jpg.height}`, kb(jpg.size)]);
+  } catch {
+    report.push([`${name}`, '(no source — SVG placeholder stays)', '']);
+  }
+}
+
 /* ---- Open Graph card -------------------------------------------- */
 {
   const info = await sharp(resolve(src, 'hero-crane-bay.png'))

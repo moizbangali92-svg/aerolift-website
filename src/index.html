@@ -353,28 +353,43 @@
     <div class="absolute inset-0 -z-10 bg-gradient-to-r from-primary-dark/90 via-primary-dark/75 to-primary-dark/50 md:from-primary-dark/95 md:via-primary-dark/78 md:via-62% md:to-transparent md:to-95%" aria-hidden="true"></div>
 
     <div class="flex flex-1 items-center">
-      <div class="container-x hero-shell w-full py-12 md:py-14">
+      <div class="container-x hero-shell w-full py-10 md:py-12">
       <!-- Wider than the text measure so the selector's four columns breathe;
            the headline and subline keep their own max-widths. -->
       <div class="max-w-5xl">
-        <h1 class="hero-step max-w-3xl text-balance text-2xl text-white md:text-3xl lg:text-4xl xl:max-w-4xl xl:text-5xl">Industrial Lifting Equipment Supplier in the UAE</h1>
+        <!-- Narrow measure on purpose: the headline sets in three stacked
+             lines, closing on the yellow UAE. -->
+        <h1 class="hero-step max-w-md text-balance text-2xl text-white md:text-3xl lg:max-w-xl lg:text-4xl xl:text-5xl">Industrial Lifting Equipment Supplier in the <span class="text-accent">UAE</span></h1>
 
-        <p class="hero-step mt-4 max-w-xl text-pretty text-base text-white md:text-lg xl:mt-5 xl:max-w-2xl xl:text-xl">
+        <div class="hero-step mt-4 h-1 w-14 rounded-full bg-accent" aria-hidden="true"></div>
+
+        <p class="hero-step mt-4 max-w-xl text-pretty text-base leading-relaxed text-white md:text-lg">
           Supply, installation, rental and 24/7 maintenance of overhead cranes, gantry cranes,
           jib cranes and wire rope hoists.
         </p>
 
+        <div class="hero-step hero-cta mt-7 flex flex-wrap gap-4">
+          <a href="#request-a-quote" class="btn btn-primary">
+            <svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar-check"/></svg>
+            Request a Quote
+          </a>
+          <a href="tel:+971528651180" class="btn btn-ghost-light">
+            <svg class="icon icon-md" aria-hidden="true"><use href="#i-phone"/></svg>
+            Talk to Our Experts
+          </a>
+        </div>
+
         <!-- Equipment selector. Three <select>s and an anchor — no <form>, so
              without JS the button still jumps to the quote form; JS only adds
              the prefill on top. -->
-        <div class="hero-step selector-card selector-card--glass mt-8 xl:mt-12" role="group" aria-labelledby="selector-heading">
-          <h2 id="selector-heading" class="selector-kicker">Specify Your Lift</h2>
+        <div class="hero-step selector-card selector-card--glass mt-7 max-w-4xl" role="group" aria-labelledby="selector-heading">
+          <h2 id="selector-heading" class="selector-kicker">Get Your Specification</h2>
 
           <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-[repeat(3,minmax(0,1fr))_auto]">
             <div>
-              <label for="sel-equipment" class="selector-label"><span>01</span> Equipment</label>
+              <label for="sel-equipment" class="selector-label"><span>01.</span> Equipment</label>
               <select id="sel-equipment" class="field selector-field">
-                <option value="">Not sure yet</option>
+                <option value="">Select equipment</option>
                 <option value="eot-crane">EOT crane</option>
                 <option value="gantry-crane">Gantry crane</option>
                 <option value="jib-crane">Jib crane</option>
@@ -383,9 +398,9 @@
               </select>
             </div>
             <div>
-              <label for="sel-capacity" class="selector-label"><span>02</span> Capacity</label>
+              <label for="sel-capacity" class="selector-label"><span>02.</span> Capacity</label>
               <select id="sel-capacity" class="field selector-field">
-                <option value="">Not sure yet</option>
+                <option value="">Select capacity</option>
                 <option value="Up to 5 t">Up to 5 t</option>
                 <option value="5–15 t">5–15 t</option>
                 <option value="15–50 t">15–50 t</option>
@@ -393,11 +408,11 @@
               </select>
             </div>
             <div>
-              <label for="sel-application" class="selector-label"><span>03</span> Application</label>
+              <label for="sel-application" class="selector-label"><span>03.</span> Application</label>
               <!-- Labels kept short so nothing truncates once the action sits
                    in the same row; the full sense carries into the prefill. -->
               <select id="sel-application" class="field selector-field">
-                <option value="">Not sure yet</option>
+                <option value="">Select application</option>
                 <option value="Workshop / warehouse">Workshop / warehouse</option>
                 <option value="Yard / laydown">Yard / laydown</option>
                 <option value="Workstation">Workstation</option>
@@ -406,18 +421,17 @@
               </select>
             </div>
             <div class="flex items-end md:col-span-2 lg:col-span-1">
-              <a id="selector-submit" href="#request-a-quote" class="btn btn-navy selector-action group w-full">
+              <a id="selector-submit" href="#request-a-quote" class="btn btn-primary selector-action group w-full">
                 Get My Specification
                 <svg class="icon icon-sm transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true"><use href="#i-arrow-right"/></svg>
               </a>
             </div>
           </div>
 
-          <!-- Lives inside the card: it aligns with the fields, sits on white
-               so contrast is guaranteed, and stops the link breaking mid-phrase. -->
-          <p class="mt-4 text-xs text-primary">
-            Not sure of the answers? Leave them and an engineer will work it out — or
-            <a href="#products" class="font-semibold text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary">browse the full equipment range</a>.
+          <p class="mt-4 flex items-center gap-2 text-xs text-white/85">
+            <svg class="icon icon-md shrink-0 text-white/70" aria-hidden="true"><use href="#i-headphones"/></svg>
+            <span>Not sure of the answers? Leave them and an engineer will work it out — or
+            <a href="#products" class="font-semibold text-accent underline decoration-accent/50 underline-offset-4 hover:decoration-accent">browse the full equipment range</a>.</span>
           </p>
         </div>
 
@@ -425,25 +439,36 @@
       </div>
     </div>
 
-    <!-- The strip runs the full width, past where the overlay has faded out,
-         so it carries its own near-solid band rather than relying on the
-         gradient for contrast. -->
-    <div class="hero-trust relative border-t border-white/15 bg-primary-dark/90">
-      <div class="container-x py-4 xl:py-5">
-        <ul class="grid gap-4 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-white/20">
-          <li class="flex items-center gap-3.5 sm:px-6 sm:first:pl-0 sm:last:pr-0">
-            <svg class="icon icon-2xl text-accent" aria-hidden="true"><use href="#i-shield-check"/></svg>
-            <span class="max-w-[13rem] text-sm font-semibold leading-snug text-white">Team with 20+ years of industrial experience</span>
-          </li>
-          <li class="flex items-center gap-3.5 sm:px-6 sm:first:pl-0 sm:last:pr-0">
-            <svg class="icon icon-2xl text-accent" aria-hidden="true"><use href="#i-247"/></svg>
-            <span class="max-w-[13rem] text-sm font-semibold leading-snug text-white">24/7 emergency breakdown response</span>
-          </li>
-          <li class="flex items-center gap-3.5 sm:px-6 sm:first:pl-0 sm:last:pr-0">
-            <svg class="icon icon-2xl text-accent" aria-hidden="true"><use href="#i-map-pin"/></svg>
-            <span class="max-w-[13rem] text-sm font-semibold leading-snug text-white">UAE-wide service coverage</span>
-          </li>
-        </ul>
+    <!-- Inset card rather than a full-bleed strip: it closes the hero frame
+         without severing the photograph, and carries its own near-solid
+         surface so contrast never depends on the overlay. -->
+    <div class="hero-trust relative pb-5 lg:pb-6">
+      <div class="container-x">
+        <div class="hero-trust-card rounded-xl border border-white/10 bg-primary-dark/85 px-5 py-5 md:px-6">
+          <ul class="grid gap-5 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-white/15">
+            <li class="flex items-center gap-4 sm:px-6 sm:first:pl-0 sm:last:pr-0">
+              <svg class="icon icon-2xl shrink-0 text-accent" aria-hidden="true"><use href="#i-shield-check"/></svg>
+              <div>
+                <p class="max-w-[14rem] text-base font-bold leading-snug text-white">Team with 20+ Years&rsquo; Experience</p>
+                <p class="hero-trust-sub mt-1 text-sm text-white/65">Proven reliability. Trusted expertise.</p>
+              </div>
+            </li>
+            <li class="flex items-center gap-4 sm:px-6 sm:first:pl-0 sm:last:pr-0">
+              <svg class="icon icon-2xl shrink-0 text-accent" aria-hidden="true"><use href="#i-247"/></svg>
+              <div>
+                <p class="max-w-[14rem] text-base font-bold leading-snug text-white">24/7 Emergency Breakdown Response</p>
+                <p class="hero-trust-sub mt-1 text-sm text-white/65">We&rsquo;re here when you need us most.</p>
+              </div>
+            </li>
+            <li class="flex items-center gap-4 sm:px-6 sm:first:pl-0 sm:last:pr-0">
+              <svg class="icon icon-2xl shrink-0 text-accent" aria-hidden="true"><use href="#i-map-pin"/></svg>
+              <div>
+                <p class="max-w-[14rem] text-base font-bold leading-snug text-white">UAE-wide Service Coverage</p>
+                <p class="hero-trust-sub mt-1 text-sm text-white/65">Rapid response. UAE-wide support.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -481,7 +506,10 @@
 
         <li class="reveal card group flex flex-col overflow-hidden" data-tags="workshop">
           <div class="overflow-hidden">
-            <img src="/assets/img/product-eot-crane.svg" alt="Double girder EOT overhead travelling crane running on elevated runway beams" width="800" height="600" loading="lazy" decoding="async" class="aspect-4/3 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]">
+            <picture>
+              <source type="image/webp" srcset="/assets/img/product-eot-crane.webp">
+              <img src="/assets/img/product-eot-crane.jpg" alt="Double girder EOT overhead travelling crane spanning a steel-framed warehouse bay" width="800" height="600" loading="lazy" decoding="async" class="aspect-4/3 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]">
+            </picture>
           </div>
           <div class="flex flex-1 flex-col p-6">
             <h3 class="text-lg text-primary">EOT Cranes</h3>
@@ -498,7 +526,10 @@
 
         <li class="reveal card group flex flex-col overflow-hidden" data-tags="yard">
           <div class="overflow-hidden">
-            <img src="/assets/img/product-gantry-crane.svg" alt="Double girder gantry crane on floor rails with A-frame legs" width="800" height="600" loading="lazy" decoding="async" class="aspect-4/3 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]">
+            <picture>
+              <source type="image/webp" srcset="/assets/img/product-gantry-crane.webp">
+              <img src="/assets/img/product-gantry-crane.jpg" alt="Aerolift double girder gantry crane travelling on outdoor yard rails" width="800" height="600" loading="lazy" decoding="async" class="aspect-4/3 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]">
+            </picture>
           </div>
           <div class="flex flex-1 flex-col p-6">
             <h3 class="text-lg text-primary">Gantry Cranes</h3>
@@ -515,7 +546,10 @@
 
         <li class="reveal card group flex flex-col overflow-hidden" data-tags="workstation">
           <div class="overflow-hidden">
-            <img src="/assets/img/product-jib-crane.svg" alt="Pillar-mounted jib crane with a trolley hoist and a 360 degree rotation arc" width="800" height="600" loading="lazy" decoding="async" class="aspect-4/3 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]">
+            <picture>
+              <source type="image/webp" srcset="/assets/img/product-jib-crane.webp">
+              <img src="/assets/img/product-jib-crane.jpg" alt="Operator working a pillar-mounted Aerolift jib crane with a chain hoist" width="800" height="600" loading="lazy" decoding="async" class="aspect-4/3 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]">
+            </picture>
           </div>
           <div class="flex flex-1 flex-col p-6">
             <h3 class="text-lg text-primary">Jib Cranes</h3>
