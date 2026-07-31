@@ -413,7 +413,7 @@
   /* Taller fields with our own chevron — the native one is inconsistent
      across platforms and undoes the rest of the styling. */
   .selector-field {
-    min-height: 3rem;
+    height: 3.25rem;
     font-size: var(--text-sm);
     font-weight: 500;
     border-width: 2px;
@@ -428,7 +428,7 @@
   .selector-field:hover { border-color: var(--color-primary-light); }
 
   .selector-action {
-    min-height: 3rem;
+    height: 3.25rem;   /* identical to .selector-field so the row is flush */
     font-size: var(--text-sm);
   }
 
