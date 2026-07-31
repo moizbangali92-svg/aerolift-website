@@ -62,17 +62,21 @@ for (const w of HERO_WIDTHS) {
    Cards render at 4:3 (800x600 attributes, object-cover). Emit exactly
    that crop so the browser never does the cropping itself. Sources that
    don't exist yet are skipped — cards fall back to their SVGs. */
+// Per-image crop position for sources whose subject is not centred —
+// the jib photo is portrait with the beam and branding in the upper half.
+const PRODUCT_CROP = { 'product-jib-crane': 'top' };
 const PRODUCTS = ['product-eot-crane', 'product-gantry-crane', 'product-jib-crane', 'product-wire-rope-hoist', 'product-crane-spare-parts'];
 for (const name of PRODUCTS) {
   const srcFile = resolve(src, `${name}.png`);
+  const position = PRODUCT_CROP[name] ?? 'centre';
   try {
     const webp = await sharp(srcFile)
-      .resize({ width: 800, height: 600, fit: 'cover' })
+      .resize({ width: 800, height: 600, fit: 'cover', position })
       .webp({ quality: 78, effort: 6 })
       .toFile(resolve(out, `${name}.webp`));
     report.push([`${name}.webp`, `${webp.width}x${webp.height}`, kb(webp.size)]);
     const jpg = await sharp(srcFile)
-      .resize({ width: 800, height: 600, fit: 'cover' })
+      .resize({ width: 800, height: 600, fit: 'cover', position })
       .jpeg({ quality: 80, progressive: true, mozjpeg: true })
       .toFile(resolve(out, `${name}.jpg`));
     report.push([`${name}.jpg`, `${jpg.width}x${jpg.height}`, kb(jpg.size)]);
