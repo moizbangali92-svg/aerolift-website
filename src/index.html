@@ -338,10 +338,11 @@
   <!-- ==========================================================
        3. HERO
        ========================================================== -->
-  <!-- Height scales with the viewport but is capped, and the copy block is
-       centred in whatever space is left over. Pinning the band to the bottom
-       instead pooled all the slack into one dead gap above it. -->
-  <section class="relative isolate flex min-h-[30rem] flex-col overflow-hidden bg-primary lg:min-h-[min(76vh,44rem)]">
+  <!-- Fills the viewport below the header (100svh minus topbar+header) up to
+       a 52rem cap, so the hero is imposing on big screens yet the trust band
+       always ends exactly at the fold on short ones. The copy block centres
+       in the leftover space, so extra height splits evenly around it. -->
+  <section class="relative isolate flex min-h-[30rem] flex-col overflow-hidden bg-primary lg:min-h-[min(calc(100svh-7.5rem),52rem)]">
     <picture>
       <source type="image/webp" sizes="100vw" srcset="/assets/img/hero-crane-bay-960.webp 960w, /assets/img/hero-crane-bay-1440.webp 1440w, /assets/img/hero-crane-bay-1672.webp 1672w">
       <img src="/assets/img/hero-crane-bay-1440.jpg" alt="A double girder overhead travelling crane spanning a steel fabrication bay, hook block lowered over the shop floor" width="1672" height="941" fetchpriority="high" decoding="async" class="absolute inset-0 -z-10 size-full object-cover">
@@ -361,7 +362,7 @@
         <div class="border-l-[3px] border-accent pl-5 md:pl-6">
         <h1 class="hero-step max-w-3xl text-balance text-2xl text-white md:text-3xl lg:text-4xl xl:max-w-4xl xl:text-5xl">Industrial Lifting Equipment Supplier in the UAE</h1>
 
-        <p class="hero-step mt-4 max-w-xl text-pretty text-base text-white md:text-lg">
+        <p class="hero-step mt-4 max-w-xl text-pretty text-base text-white md:text-lg xl:mt-5 xl:max-w-2xl xl:text-xl">
           Supply, installation, rental and 24/7 maintenance of overhead cranes, gantry cranes,
           jib cranes and wire rope hoists.
         </p>
@@ -370,7 +371,7 @@
         <!-- Equipment selector. Three <select>s and an anchor — no <form>, so
              without JS the button still jumps to the quote form; JS only adds
              the prefill on top. -->
-        <div class="hero-step selector-card selector-card--glass mt-8" role="group" aria-labelledby="selector-heading">
+        <div class="hero-step selector-card selector-card--glass mt-8 xl:mt-12" role="group" aria-labelledby="selector-heading">
           <h2 id="selector-heading" class="selector-kicker">Specify Your Lift</h2>
 
           <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-[repeat(3,minmax(0,1fr))_auto]">
@@ -432,7 +433,7 @@
          so it carries its own near-solid band rather than relying on the
          gradient for contrast. -->
     <div class="hero-trust relative border-t border-white/15 bg-primary-dark/90">
-      <div class="container-x py-4">
+      <div class="container-x py-4 xl:py-5">
         <ul class="grid gap-4 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-white/20">
           <li class="flex items-center gap-3.5 sm:px-6 sm:first:pl-0 sm:last:pr-0">
             <svg class="icon icon-2xl text-accent" aria-hidden="true"><use href="#i-shield-check"/></svg>
