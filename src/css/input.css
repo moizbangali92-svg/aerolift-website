@@ -359,7 +359,7 @@
     background-color: #fff;
     border-radius: var(--radius-md);
     box-shadow: 0 24px 48px -12px rgb(6 15 33 / 0.55), 0 2px 6px rgb(6 15 33 / 0.3);
-    padding: 1.5rem 1.25rem 1.25rem;
+    padding: 1.125rem 1.125rem 1.25rem;
     overflow: hidden;
   }
   /* Yellow cap rail across the top edge */
@@ -371,7 +371,7 @@
     background-color: var(--color-accent);
   }
   @media (min-width: 768px) {
-    .selector-card { padding: 1.75rem 1.75rem 1.5rem; }
+    .selector-card { padding: 1.25rem 1.5rem 1.375rem; }
   }
 
   .selector-title {
@@ -384,7 +384,7 @@
   .selector-rule {
     height: 1px;
     background-color: var(--color-line);
-    margin: 0.875rem 0 1.25rem;
+    margin: 0.625rem 0 0.875rem;
   }
 
   /* Numbered label: yellow step index, then the field name */
@@ -410,7 +410,7 @@
   /* Taller fields with our own chevron — the native one is inconsistent
      across platforms and undoes the rest of the styling. */
   .selector-field {
-    min-height: 3.5rem;
+    min-height: 3rem;
     font-size: var(--text-sm);
     font-weight: 500;
     border-width: 2px;
@@ -425,7 +425,7 @@
   .selector-field:hover { border-color: var(--color-primary-light); }
 
   .selector-action {
-    min-height: 3.5rem;
+    min-height: 3rem;
     font-size: var(--text-sm);
   }
 
@@ -577,6 +577,17 @@
   details[open] > .faq-answer {
     animation: hero-in 260ms var(--ease-out-industrial) both;
   }
+}
+
+/* Short desktop viewports (1366x700, 1280x720 and similar) get a tighter
+   hero so the trust strip still clears the fold. Taller screens keep the
+   generous spacing rather than everyone paying for the smallest laptop. */
+@media (min-width: 1024px) and (max-height: 820px) {
+  .hero-shell { padding-block: 2rem; }
+  .hero-shell h1 { font-size: var(--text-3xl); }
+  .hero-shell .selector-card { margin-top: 1rem; }
+  .hero-shell .hero-note { margin-top: 0.5rem; }
+  .hero-shell .hero-trust { margin-top: 1rem; padding-top: 0.875rem; }
 }
 
 @keyframes hero-in {

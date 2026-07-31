@@ -344,31 +344,30 @@
     <div class="absolute inset-0 -z-10 bg-gradient-to-r from-primary-dark via-primary-dark/85 to-primary-dark/15" aria-hidden="true"></div>
     <div class="absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-primary-dark/80 to-transparent" aria-hidden="true"></div>
 
-    <div class="container-x py-16 md:py-24">
+    <div class="container-x hero-shell py-12 md:py-14">
       <!-- Wider than the text measure so the selector's four columns breathe;
            the headline and subline keep their own max-widths. -->
       <div class="max-w-5xl">
         <p class="hero-step eyebrow eyebrow-light">Aerolift L.L.C. — United Arab Emirates</p>
 
-        <h1 class="hero-step mt-5 max-w-3xl text-2xl text-white md:text-3xl lg:text-4xl">Industrial Lifting Equipment Supplier in the UAE</h1>
+        <h1 class="hero-step mt-4 max-w-3xl text-2xl text-white md:text-3xl lg:text-4xl">Industrial Lifting Equipment Supplier in the UAE</h1>
 
-        <p class="hero-step prose-measure mt-5 text-base text-white/90 md:text-lg">
+        <p class="hero-step prose-measure mt-4 text-base text-white/90 md:text-lg">
           Supply, installation, rental and 24/7 maintenance of overhead cranes, gantry cranes,
-          jib cranes and wire rope hoists — for construction, manufacturing, logistics,
-          warehousing and infrastructure operations.
+          jib cranes and wire rope hoists.
         </p>
 
         <!-- Equipment selector. Three <select>s and an anchor — no <form>, so
              without JS the button still jumps to the quote form; JS only adds
              the prefill on top. -->
-        <div class="hero-step selector-card mt-8" role="group" aria-labelledby="selector-heading">
+        <div class="hero-step selector-card mt-6" role="group" aria-labelledby="selector-heading">
           <div class="flex items-center gap-3">
             <svg class="icon icon-lg text-accent-dark" aria-hidden="true"><use href="#i-layers"/></svg>
             <h2 id="selector-heading" class="selector-title">Specify Your Lift</h2>
           </div>
           <div class="selector-rule" aria-hidden="true"></div>
 
-          <div class="grid gap-5 md:grid-cols-3">
+          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-[repeat(3,minmax(0,1fr))_auto]">
             <div>
               <label for="sel-equipment" class="selector-label"><span>01</span> Equipment</label>
               <select id="sel-equipment" class="field selector-field">
@@ -392,33 +391,32 @@
             </div>
             <div>
               <label for="sel-application" class="selector-label"><span>03</span> Application</label>
+              <!-- Labels kept short so nothing truncates once the action sits
+                   in the same row; the full sense carries into the prefill. -->
               <select id="sel-application" class="field selector-field">
                 <option value="">Not sure yet</option>
-                <option value="Workshop or warehouse bay">Workshop or warehouse bay</option>
-                <option value="Yard or laydown area">Yard or laydown area</option>
-                <option value="Single workstation">Single workstation</option>
-                <option value="Upgrade to an existing crane">Upgrade to an existing crane</option>
-                <option value="Short-term rental">Short-term rental</option>
+                <option value="Workshop / warehouse">Workshop / warehouse</option>
+                <option value="Yard / laydown">Yard / laydown</option>
+                <option value="Workstation">Workstation</option>
+                <option value="Crane upgrade">Crane upgrade</option>
+                <option value="Rental">Rental</option>
               </select>
             </div>
-          </div>
-
-          <div class="mt-6 flex flex-col gap-4 border-t border-line pt-5 sm:flex-row sm:items-center sm:justify-between">
-            <p class="max-w-sm text-xs text-steel-strong">
-              Not sure of the answers? Leave them and an engineer will work it out with you.
-            </p>
-            <a id="selector-submit" href="#request-a-quote" class="btn btn-primary selector-action group w-full shrink-0 sm:w-auto">
-              Get My Specification
-              <svg class="icon icon-sm transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-            </a>
+            <div class="flex items-end md:col-span-2 lg:col-span-1">
+              <a id="selector-submit" href="#request-a-quote" class="btn btn-primary selector-action group w-full">
+                Get My Specification
+                <svg class="icon icon-sm transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+              </a>
+            </div>
           </div>
         </div>
 
-        <p class="hero-step mt-5 text-sm">
-          <a href="#products" class="hero-secondary-link">Browse the full equipment range instead</a>
+        <p class="hero-step hero-note mt-3 text-xs text-white/80">
+          Not sure of the answers? Leave them and an engineer will work it out — or
+          <a href="#products" class="hero-secondary-link">browse the full equipment range</a>.
         </p>
 
-        <ul class="hero-step mt-10 grid gap-3 border-t border-white/20 pt-6 text-sm font-medium text-white sm:grid-cols-3">
+        <ul class="hero-step hero-trust mt-6 grid gap-3 border-t border-white/20 pt-4 text-sm font-medium text-white sm:grid-cols-3">
           <li class="flex items-start gap-2.5">
             <svg class="icon icon-md mt-0.5 text-accent" aria-hidden="true"><use href="#i-check"/></svg>
             Team with 20+ years&rsquo; industrial experience
