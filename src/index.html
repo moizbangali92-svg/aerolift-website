@@ -362,13 +362,16 @@
              without JS the button still jumps to the quote form; JS only adds
              the prefill on top. -->
         <div class="hero-step selector-card mt-8" role="group" aria-labelledby="selector-heading">
-          <p id="selector-heading" class="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
-            Specify your lift
-          </p>
-          <div class="mt-4 grid gap-4 sm:grid-cols-3 lg:grid-cols-[repeat(3,minmax(0,1fr))_auto]">
+          <div class="flex items-center gap-3">
+            <svg class="icon icon-lg text-accent-dark" aria-hidden="true"><use href="#i-layers"/></svg>
+            <h2 id="selector-heading" class="selector-title">Specify Your Lift</h2>
+          </div>
+          <div class="selector-rule" aria-hidden="true"></div>
+
+          <div class="grid gap-5 md:grid-cols-3">
             <div>
-              <label for="sel-equipment" class="selector-label">Equipment</label>
-              <select id="sel-equipment" class="field">
+              <label for="sel-equipment" class="selector-label"><span>01</span> Equipment</label>
+              <select id="sel-equipment" class="field selector-field">
                 <option value="">Not sure yet</option>
                 <option value="eot-crane">EOT crane</option>
                 <option value="gantry-crane">Gantry crane</option>
@@ -378,8 +381,8 @@
               </select>
             </div>
             <div>
-              <label for="sel-capacity" class="selector-label">Capacity</label>
-              <select id="sel-capacity" class="field">
+              <label for="sel-capacity" class="selector-label"><span>02</span> Capacity</label>
+              <select id="sel-capacity" class="field selector-field">
                 <option value="">Not sure yet</option>
                 <option value="Up to 5 t">Up to 5 t</option>
                 <option value="5–15 t">5–15 t</option>
@@ -388,8 +391,8 @@
               </select>
             </div>
             <div>
-              <label for="sel-application" class="selector-label">Application</label>
-              <select id="sel-application" class="field">
+              <label for="sel-application" class="selector-label"><span>03</span> Application</label>
+              <select id="sel-application" class="field selector-field">
                 <option value="">Not sure yet</option>
                 <option value="Workshop or warehouse bay">Workshop or warehouse bay</option>
                 <option value="Yard or laydown area">Yard or laydown area</option>
@@ -398,17 +401,21 @@
                 <option value="Short-term rental">Short-term rental</option>
               </select>
             </div>
-            <div class="flex items-end">
-              <a id="selector-submit" href="#request-a-quote" class="btn btn-primary group w-full lg:w-auto">
-                Get My Specification
-                <svg class="icon icon-sm transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-              </a>
-            </div>
+          </div>
+
+          <div class="mt-6 flex flex-col gap-4 border-t border-line pt-5 sm:flex-row sm:items-center sm:justify-between">
+            <p class="max-w-sm text-xs text-steel-strong">
+              Not sure of the answers? Leave them and an engineer will work it out with you.
+            </p>
+            <a id="selector-submit" href="#request-a-quote" class="btn btn-primary selector-action group w-full shrink-0 sm:w-auto">
+              Get My Specification
+              <svg class="icon icon-sm transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+            </a>
           </div>
         </div>
 
-        <p class="hero-step mt-4 text-sm text-white/85">
-          Or <a href="#products" class="font-semibold text-accent underline underline-offset-4 hover:text-white">browse the full equipment range</a>.
+        <p class="hero-step mt-5 text-sm">
+          <a href="#products" class="hero-secondary-link">Browse the full equipment range instead</a>
         </p>
 
         <ul class="hero-step mt-10 grid gap-3 border-t border-white/20 pt-6 text-sm font-medium text-white sm:grid-cols-3">

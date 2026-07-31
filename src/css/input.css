@@ -351,26 +351,95 @@
   }
 
   /* ---- Hero equipment selector -------------------------------
-     A white working panel on the hero: three specifying questions
-     and one action, so the first screen asks for a decision rather
-     than a read. */
+     Modelled on a machine spec plate: a safety-yellow cap rail, a
+     titled header, then numbered inputs. Square-shouldered on
+     purpose — this should read as equipment, not as a web form. */
   .selector-card {
+    position: relative;
     background-color: #fff;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card-hover);
-    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    box-shadow: 0 24px 48px -12px rgb(6 15 33 / 0.55), 0 2px 6px rgb(6 15 33 / 0.3);
+    padding: 1.5rem 1.25rem 1.25rem;
+    overflow: hidden;
+  }
+  /* Yellow cap rail across the top edge */
+  .selector-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 5px;
+    background-color: var(--color-accent);
   }
   @media (min-width: 768px) {
-    .selector-card { padding: 1.5rem; }
+    .selector-card { padding: 1.75rem 1.75rem 1.5rem; }
   }
+
+  .selector-title {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--color-primary);
+  }
+  .selector-rule {
+    height: 1px;
+    background-color: var(--color-line);
+    margin: 0.875rem 0 1.25rem;
+  }
+
+  /* Numbered label: yellow step index, then the field name */
   .selector-label {
-    display: block;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
     font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-steel-strong);
-    margin-bottom: 0.375rem;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+  .selector-label > span {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: 0;
+    color: var(--color-accent-dark);
+  }
+
+  /* Taller fields with our own chevron — the native one is inconsistent
+     across platforms and undoes the rest of the styling. */
+  .selector-field {
+    min-height: 3.5rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    border-width: 2px;
+    border-color: #b8c2d0;
+    padding-right: 3rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2316305e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+    background-size: 1.25rem 1.25rem;
+  }
+  .selector-field:hover { border-color: var(--color-primary-light); }
+
+  .selector-action {
+    min-height: 3.5rem;
+    font-size: var(--text-sm);
+  }
+
+  /* Secondary route out of the hero — present, not competing. */
+  .hero-secondary-link {
+    color: rgb(255 255 255 / 0.85);
+    text-decoration: underline;
+    text-decoration-color: rgb(245 168 0 / 0.6);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+  .hero-secondary-link:hover {
+    color: #fff;
+    text-decoration-color: var(--color-accent);
   }
 
   /* ---- Filter chips ------------------------------------------ */
