@@ -193,6 +193,17 @@
     border-color: var(--color-accent-dark);
   }
 
+  /* Solid navy action — for surfaces where yellow is the background */
+  .btn-navy {
+    background-color: var(--color-primary);
+    color: #fff;                        /* 10.9:1 on primary */
+    border: 2px solid var(--color-primary);
+  }
+  .btn-navy:hover {
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary-light);
+  }
+
   .btn-secondary {
     background-color: transparent;
     color: var(--color-primary);        /* 12.97:1 on white */
@@ -421,21 +432,24 @@
     font-size: var(--text-sm);
   }
 
-  /* Dark variant: a control panel that belongs to the scene, not a white
-     sticker over it. Navy glass, white type, the fields stay white so the
-     interaction targets keep maximum affordance. Firm enough (0.85) that
-     the photo reads through without the panel going murky; no cap rail —
-     the button is the panel's one yellow moment. */
+  /* Safety-yellow control panel over the photo. Near-solid: a translucent
+     yellow over a navy photograph mixes toward olive, so only a hint of
+     the scene bleeds through. All type on it is navy; the one action on
+     the panel is the navy button. */
   .selector-card--glass {
-    background-color: rgb(10 22 48 / 0.85);
+    background-color: rgb(245 168 0 / 0.94);
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
-    border: 1px solid rgb(255 255 255 / 0.14);
+    border: 1px solid rgb(22 48 94 / 0.2);
     box-shadow: 0 12px 32px -12px rgb(6 15 33 / 0.5);
   }
   .selector-card--glass::before { content: none; }
-  .selector-card--glass .selector-label { color: #fff; }
-  .selector-card--glass .selector-label > span { color: rgb(255 255 255 / 0.6); }
+  .selector-card--glass .selector-label { color: var(--color-primary); }
+  .selector-card--glass .selector-label > span { color: rgb(22 48 94 / 0.9); }
+  .selector-card--glass .selector-field {
+    border-color: rgb(22 48 94 / 0.35);
+  }
+  .selector-card--glass .selector-field:hover { border-color: var(--color-primary); }
 
   /* Quiet kicker in place of the icon + display title + rule */
   .selector-kicker {
@@ -443,7 +457,7 @@
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgb(255 255 255 / 0.65);
+    color: var(--color-primary);
     margin-bottom: 1rem;
   }
 
