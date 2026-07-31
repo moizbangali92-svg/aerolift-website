@@ -338,9 +338,10 @@
   <!-- ==========================================================
        3. HERO
        ========================================================== -->
-  <!-- Height is content-driven. A min-height only bought a dead gap between
-       the copy and the trust band. -->
-  <section class="relative isolate flex flex-col overflow-hidden bg-primary">
+  <!-- Height scales with the viewport but is capped, and the copy block is
+       centred in whatever space is left over. Pinning the band to the bottom
+       instead pooled all the slack into one dead gap above it. -->
+  <section class="relative isolate flex min-h-[30rem] flex-col overflow-hidden bg-primary lg:min-h-[min(76vh,44rem)]">
     <picture>
       <source type="image/webp" sizes="100vw" srcset="/assets/img/hero-crane-bay-960.webp 960w, /assets/img/hero-crane-bay-1440.webp 1440w, /assets/img/hero-crane-bay-1672.webp 1672w">
       <img src="/assets/img/hero-crane-bay-1440.jpg" alt="A double girder overhead travelling crane spanning a steel fabrication bay, hook block lowered over the shop floor" width="1672" height="941" fetchpriority="high" decoding="async" class="absolute inset-0 -z-10 size-full object-cover">
@@ -350,11 +351,12 @@
          is tight and the text runs the full width; nearly clear from md up. -->
     <div class="absolute inset-0 -z-10 bg-gradient-to-r from-primary-dark/90 via-primary-dark/75 to-primary-dark/50 md:from-primary-dark/95 md:via-primary-dark/78 md:via-55% md:to-transparent md:to-90%" aria-hidden="true"></div>
 
-    <div class="container-x hero-shell py-12 md:py-14">
+    <div class="flex flex-1 items-center">
+      <div class="container-x hero-shell w-full py-12 md:py-14">
       <!-- Wider than the text measure so the selector's four columns breathe;
            the headline and subline keep their own max-widths. -->
       <div class="max-w-5xl">
-        <h1 class="hero-step max-w-3xl text-2xl text-white md:text-3xl lg:text-4xl">Industrial Lifting Equipment Supplier in the UAE</h1>
+        <h1 class="hero-step max-w-3xl text-2xl text-white md:text-3xl lg:text-4xl xl:max-w-4xl xl:text-5xl">Industrial Lifting Equipment Supplier in the UAE</h1>
 
         <p class="hero-step mt-4 max-w-xl text-base text-white md:text-lg">
           Supply, installation, rental and 24/7 maintenance of overhead cranes, gantry cranes,
@@ -422,6 +424,7 @@
           </p>
         </div>
 
+      </div>
       </div>
     </div>
 
