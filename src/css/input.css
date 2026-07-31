@@ -430,6 +430,20 @@
     font-size: var(--text-sm);
   }
 
+  /* Dark variant: a control panel that belongs to the scene, not a white
+     sticker over it. Navy glass, white type, the fields stay white so the
+     interaction targets keep maximum affordance. */
+  .selector-card--glass {
+    background-color: rgb(10 22 48 / 0.78);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgb(255 255 255 / 0.12);
+  }
+  .selector-card--glass .selector-title { color: #fff; }
+  .selector-card--glass .selector-rule { background-color: rgb(255 255 255 / 0.15); }
+  .selector-card--glass .selector-label { color: #fff; }
+  .selector-card--glass .selector-label > span { color: var(--color-accent); }
+
   /* Secondary route out of the hero — present, not competing. */
   .hero-secondary-link {
     color: rgb(255 255 255 / 0.85);

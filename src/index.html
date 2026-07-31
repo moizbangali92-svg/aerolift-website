@@ -349,26 +349,30 @@
     <!-- The photograph already carries a deep navy field on the left, so the
          overlay only has to insure the copy. Heavier on mobile, where the crop
          is tight and the text runs the full width; nearly clear from md up. -->
-    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-primary-dark/90 via-primary-dark/75 to-primary-dark/50 md:from-primary-dark/95 md:via-primary-dark/78 md:via-55% md:to-transparent md:to-90%" aria-hidden="true"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-primary-dark/90 via-primary-dark/75 to-primary-dark/50 md:from-primary-dark/95 md:via-primary-dark/78 md:via-62% md:to-transparent md:to-95%" aria-hidden="true"></div>
 
     <div class="flex flex-1 items-center">
       <div class="container-x hero-shell w-full py-12 md:py-14">
       <!-- Wider than the text measure so the selector's four columns breathe;
            the headline and subline keep their own max-widths. -->
       <div class="max-w-5xl">
-        <h1 class="hero-step max-w-3xl text-2xl text-white md:text-3xl lg:text-4xl xl:max-w-4xl xl:text-5xl">Industrial Lifting Equipment Supplier in the UAE</h1>
+        <!-- Drafting-margin rule: the safety-stripe motif carried into the
+             type lockup, so the headline block has structure of its own. -->
+        <div class="border-l-[3px] border-accent pl-5 md:pl-6">
+        <h1 class="hero-step max-w-3xl text-balance text-2xl text-white md:text-3xl lg:text-4xl xl:max-w-4xl xl:text-5xl">Industrial Lifting Equipment Supplier in the UAE</h1>
 
-        <p class="hero-step mt-4 max-w-xl text-base text-white md:text-lg">
+        <p class="hero-step mt-4 max-w-xl text-pretty text-base text-white md:text-lg">
           Supply, installation, rental and 24/7 maintenance of overhead cranes, gantry cranes,
           jib cranes and wire rope hoists.
         </p>
+        </div>
 
         <!-- Equipment selector. Three <select>s and an anchor — no <form>, so
              without JS the button still jumps to the quote form; JS only adds
              the prefill on top. -->
-        <div class="hero-step selector-card mt-6" role="group" aria-labelledby="selector-heading">
+        <div class="hero-step selector-card selector-card--glass mt-8" role="group" aria-labelledby="selector-heading">
           <div class="flex items-center gap-3">
-            <svg class="icon icon-lg text-accent-dark" aria-hidden="true"><use href="#i-layers"/></svg>
+            <svg class="icon icon-lg text-accent" aria-hidden="true"><use href="#i-layers"/></svg>
             <h2 id="selector-heading" class="selector-title">Specify Your Lift</h2>
           </div>
           <div class="selector-rule" aria-hidden="true"></div>
@@ -418,9 +422,9 @@
 
           <!-- Lives inside the card: it aligns with the fields, sits on white
                so contrast is guaranteed, and stops the link breaking mid-phrase. -->
-          <p class="mt-4 text-xs text-steel-strong">
+          <p class="mt-4 text-xs text-white/85">
             Not sure of the answers? Leave them and an engineer will work it out — or
-            <a href="#products" class="link-underline font-semibold">browse the full equipment range</a>.
+            <a href="#products" class="hero-secondary-link font-semibold">browse the full equipment range</a>.
           </p>
         </div>
 
