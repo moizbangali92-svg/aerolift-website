@@ -202,6 +202,16 @@
   <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
   <symbol id="i-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
   <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+  <!-- Authored, not Lucide: a round-the-clock ring with the claim set inside.
+       The text needs fill + no stroke, since the symbol defaults to the
+       opposite for line icons. -->
+  <symbol id="i-247" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3.54 8.92A9 9 0 0 1 20.46 8.92"/>
+    <path d="M17.36 6.85 20.46 8.92 21.50 5.35"/>
+    <path d="M20.46 15.08A9 9 0 0 1 3.54 15.08"/>
+    <path d="M6.64 17.15 3.54 15.08 2.50 18.65"/>
+    <text x="12" y="14.5" text-anchor="middle" font-size="7.5" font-weight="700" letter-spacing="-0.3" fill="currentColor" stroke="none" font-family="Barlow Condensed, Arial Narrow, sans-serif">24/7</text>
+  </symbol>
   <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
   <symbol id="i-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
 </svg>
@@ -328,7 +338,9 @@
   <!-- ==========================================================
        3. HERO
        ========================================================== -->
-  <section class="relative isolate flex min-h-[34rem] flex-col justify-center overflow-hidden bg-primary lg:min-h-[40rem]">
+  <!-- Height is content-driven. A min-height only bought a dead gap between
+       the copy and the trust band. -->
+  <section class="relative isolate flex flex-col overflow-hidden bg-primary">
     <picture>
       <source type="image/webp" sizes="100vw" srcset="/assets/img/hero-crane-bay-960.webp 960w, /assets/img/hero-crane-bay-1440.webp 1440w, /assets/img/hero-crane-bay-1672.webp 1672w">
       <img src="/assets/img/hero-crane-bay-1440.jpg" alt="A double girder overhead travelling crane spanning a steel fabrication bay, hook block lowered over the shop floor" width="1672" height="941" fetchpriority="high" decoding="async" class="absolute inset-0 -z-10 size-full object-cover">
@@ -342,9 +354,7 @@
       <!-- Wider than the text measure so the selector's four columns breathe;
            the headline and subline keep their own max-widths. -->
       <div class="max-w-5xl">
-        <p class="hero-step eyebrow eyebrow-light">Aerolift L.L.C. — United Arab Emirates</p>
-
-        <h1 class="hero-step mt-4 max-w-3xl text-2xl text-white md:text-3xl lg:text-4xl">Industrial Lifting Equipment Supplier in the UAE</h1>
+        <h1 class="hero-step max-w-3xl text-2xl text-white md:text-3xl lg:text-4xl">Industrial Lifting Equipment Supplier in the UAE</h1>
 
         <p class="hero-step mt-4 max-w-xl text-base text-white md:text-lg">
           Supply, installation, rental and 24/7 maintenance of overhead cranes, gantry cranes,
@@ -403,12 +413,14 @@
               </a>
             </div>
           </div>
-        </div>
 
-        <p class="hero-step hero-note mt-3 max-w-2xl text-xs text-white">
-          Not sure of the answers? Leave them and an engineer will work it out — or
-          <a href="#products" class="hero-secondary-link">browse the full equipment range</a>.
-        </p>
+          <!-- Lives inside the card: it aligns with the fields, sits on white
+               so contrast is guaranteed, and stops the link breaking mid-phrase. -->
+          <p class="mt-4 text-xs text-steel-strong">
+            Not sure of the answers? Leave them and an engineer will work it out — or
+            <a href="#products" class="link-underline font-semibold">browse the full equipment range</a>.
+          </p>
+        </div>
 
       </div>
     </div>
@@ -416,20 +428,20 @@
     <!-- The strip runs the full width, past where the overlay has faded out,
          so it carries its own near-solid band rather than relying on the
          gradient for contrast. -->
-    <div class="hero-trust relative mt-auto border-t border-white/15 bg-primary-dark/90">
+    <div class="hero-trust relative border-t border-white/15 bg-primary-dark/90">
       <div class="container-x py-4">
-        <ul class="grid gap-3 text-sm font-medium text-white sm:grid-cols-3">
-          <li class="flex items-start gap-2.5">
-            <svg class="icon icon-md mt-0.5 text-accent" aria-hidden="true"><use href="#i-check"/></svg>
-            Team with 20+ years&rsquo; industrial experience
+        <ul class="grid gap-4 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-white/20">
+          <li class="flex items-center gap-3.5 sm:px-6 sm:first:pl-0 sm:last:pr-0">
+            <svg class="icon icon-2xl text-accent" aria-hidden="true"><use href="#i-shield-check"/></svg>
+            <span class="max-w-[13rem] text-sm font-semibold leading-snug text-white">Team with 20+ years of industrial experience</span>
           </li>
-          <li class="flex items-start gap-2.5">
-            <svg class="icon icon-md mt-0.5 text-accent" aria-hidden="true"><use href="#i-check"/></svg>
-            24/7 emergency breakdown response
+          <li class="flex items-center gap-3.5 sm:px-6 sm:first:pl-0 sm:last:pr-0">
+            <svg class="icon icon-2xl text-accent" aria-hidden="true"><use href="#i-247"/></svg>
+            <span class="max-w-[13rem] text-sm font-semibold leading-snug text-white">24/7 emergency breakdown response</span>
           </li>
-          <li class="flex items-start gap-2.5">
-            <svg class="icon icon-md mt-0.5 text-accent" aria-hidden="true"><use href="#i-check"/></svg>
-            UAE-wide service coverage
+          <li class="flex items-center gap-3.5 sm:px-6 sm:first:pl-0 sm:last:pr-0">
+            <svg class="icon icon-2xl text-accent" aria-hidden="true"><use href="#i-map-pin"/></svg>
+            <span class="max-w-[13rem] text-sm font-semibold leading-snug text-white">UAE-wide service coverage</span>
           </li>
         </ul>
       </div>

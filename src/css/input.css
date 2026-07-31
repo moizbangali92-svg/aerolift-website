@@ -251,6 +251,7 @@
   .icon-md { --icon-size: 1.25rem; stroke-width: 2; }
   .icon-lg { --icon-size: 1.5rem;  stroke-width: 1.9; }
   .icon-xl { --icon-size: 2rem;    stroke-width: 1.6; }
+  .icon-2xl { --icon-size: 2.375rem; stroke-width: 1.5; }
 
   /* Icon tile used on service cards + industry chips */
   .icon-tile {
