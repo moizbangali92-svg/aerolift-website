@@ -587,7 +587,7 @@
   .hero-shell h1 { font-size: var(--text-3xl); }
   .hero-shell .selector-card { margin-top: 1rem; }
   .hero-shell .hero-note { margin-top: 0.5rem; }
-  .hero-shell .hero-trust { margin-top: 1rem; padding-top: 0.875rem; }
+  .hero-trust > .container-x { padding-block: 0.625rem; }
 }
 
 @keyframes hero-in {

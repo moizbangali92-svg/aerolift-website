@@ -30,7 +30,12 @@ await mkdir(p('dist/fonts'), { recursive: true });
 await cp(p('src/index.html'), p('dist/index.html'));
 
 await cp(p('src/js'), p('dist/js'), { recursive: true });
-await cp(p('src/assets'), p('dist/assets'), { recursive: true });
+// _source holds the full-resolution originals for `npm run images`.
+// They must never reach dist — the hero original alone is ~1.9MB.
+await cp(p('src/assets'), p('dist/assets'), {
+  recursive: true,
+  filter: (from) => !from.split(/[\\/]/).includes('_source'),
+});
 
 for (const f of ['robots.txt', 'sitemap.xml', 'favicon.svg', 'site.webmanifest']) {
   if (await exists(p(f))) await cp(p(f), p('dist', f));

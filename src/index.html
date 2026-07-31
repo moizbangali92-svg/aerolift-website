@@ -34,7 +34,7 @@
 <!-- Only the two weights above the fold are preloaded. -->
 <link rel="preload" href="/fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/img/hero-overhead-crane-warehouse.svg" as="image" fetchpriority="high">
+<link rel="preload" as="image" href="/assets/img/hero-crane-bay-1440.webp" imagesrcset="/assets/img/hero-crane-bay-960.webp 960w, /assets/img/hero-crane-bay-1440.webp 1440w, /assets/img/hero-crane-bay-1672.webp 1672w" imagesizes="100vw" fetchpriority="high">
 
 <link rel="stylesheet" href="/css/style.css">
 <script src="/js/main.js" defer></script>
@@ -239,21 +239,12 @@
 <header id="site-header" class="sticky top-0 z-50 bg-white transition-shadow duration-200 [&.is-scrolled]:shadow-header">
   <div class="container-x flex items-center justify-between gap-6 py-3">
 
-    <!-- PLACEHOLDER: Aerolift logo SVG — drop the real mark in at 168x44, keep the box so nothing shifts -->
-    <a href="/" class="flex shrink-0 items-center gap-3" aria-label="Aerolift L.L.C. — home">
-      <svg viewBox="0 0 64 64" width="44" height="44" class="size-11 shrink-0" aria-hidden="true">
-        <rect width="64" height="64" rx="6" fill="#16305e"/>
-        <rect x="8" y="16" width="48" height="7" fill="#f5a800"/>
-        <rect x="28" y="23" width="8" height="12" fill="#f5a800"/>
-        <rect x="24" y="35" width="16" height="8" rx="1" fill="#ffffff"/>
-        <path d="M32 43 v6 a5 5 0 1 1 -4 -2" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
-        <rect x="8" y="10" width="8" height="6" fill="#ffffff"/>
-        <rect x="48" y="10" width="8" height="6" fill="#ffffff"/>
-      </svg>
-      <span class="leading-none">
-        <span class="block font-display text-xl font-bold tracking-wide text-primary">AEROLIFT</span>
-        <span class="block text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-steel-strong">Your Load, Our Lift</span>
-      </span>
+    <!-- The wordmark already contains the tagline, so no separate lockup here. -->
+    <a href="/" class="flex shrink-0 items-center">
+      <picture>
+        <source type="image/webp" srcset="/assets/img/aerolift-logo.webp">
+        <img src="/assets/img/aerolift-logo.png" alt="Aerolift L.L.C. — Your Load, Our Lift" width="480" height="154" class="h-10 w-auto md:h-12">
+      </picture>
     </a>
 
     <!-- Desktop nav -->
@@ -337,12 +328,15 @@
   <!-- ==========================================================
        3. HERO
        ========================================================== -->
-  <section class="relative isolate flex min-h-[34rem] items-center overflow-hidden bg-primary lg:min-h-[40rem]">
-    <!-- REPLACE: real Aerolift photo. When it lands, wrap in <picture> with a WebP source and a JPG fallback. -->
-    <img src="/assets/img/hero-overhead-crane-warehouse.svg" alt="A double girder overhead travelling crane spanning a warehouse bay, hook block lowered over stacked steel plate" width="1600" height="900" fetchpriority="high" decoding="async" class="absolute inset-0 -z-10 size-full object-cover">
-    <!-- Overlay is heavy behind the copy and clears to almost nothing on the right so the bay reads. -->
-    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-primary-dark via-primary-dark/85 to-primary-dark/15" aria-hidden="true"></div>
-    <div class="absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-primary-dark/80 to-transparent" aria-hidden="true"></div>
+  <section class="relative isolate flex min-h-[34rem] flex-col justify-center overflow-hidden bg-primary lg:min-h-[40rem]">
+    <picture>
+      <source type="image/webp" sizes="100vw" srcset="/assets/img/hero-crane-bay-960.webp 960w, /assets/img/hero-crane-bay-1440.webp 1440w, /assets/img/hero-crane-bay-1672.webp 1672w">
+      <img src="/assets/img/hero-crane-bay-1440.jpg" alt="A double girder overhead travelling crane spanning a steel fabrication bay, hook block lowered over the shop floor" width="1672" height="941" fetchpriority="high" decoding="async" class="absolute inset-0 -z-10 size-full object-cover">
+    </picture>
+    <!-- The photograph already carries a deep navy field on the left, so the
+         overlay only has to insure the copy. Heavier on mobile, where the crop
+         is tight and the text runs the full width; nearly clear from md up. -->
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-primary-dark/90 via-primary-dark/75 to-primary-dark/50 md:from-primary-dark/95 md:via-primary-dark/78 md:via-55% md:to-transparent md:to-90%" aria-hidden="true"></div>
 
     <div class="container-x hero-shell py-12 md:py-14">
       <!-- Wider than the text measure so the selector's four columns breathe;
@@ -352,7 +346,7 @@
 
         <h1 class="hero-step mt-4 max-w-3xl text-2xl text-white md:text-3xl lg:text-4xl">Industrial Lifting Equipment Supplier in the UAE</h1>
 
-        <p class="hero-step prose-measure mt-4 text-base text-white/90 md:text-lg">
+        <p class="hero-step mt-4 max-w-xl text-base text-white md:text-lg">
           Supply, installation, rental and 24/7 maintenance of overhead cranes, gantry cranes,
           jib cranes and wire rope hoists.
         </p>
@@ -411,12 +405,20 @@
           </div>
         </div>
 
-        <p class="hero-step hero-note mt-3 text-xs text-white/80">
+        <p class="hero-step hero-note mt-3 max-w-2xl text-xs text-white">
           Not sure of the answers? Leave them and an engineer will work it out — or
           <a href="#products" class="hero-secondary-link">browse the full equipment range</a>.
         </p>
 
-        <ul class="hero-step hero-trust mt-6 grid gap-3 border-t border-white/20 pt-4 text-sm font-medium text-white sm:grid-cols-3">
+      </div>
+    </div>
+
+    <!-- The strip runs the full width, past where the overlay has faded out,
+         so it carries its own near-solid band rather than relying on the
+         gradient for contrast. -->
+    <div class="hero-trust relative mt-auto border-t border-white/15 bg-primary-dark/90">
+      <div class="container-x py-4">
+        <ul class="grid gap-3 text-sm font-medium text-white sm:grid-cols-3">
           <li class="flex items-start gap-2.5">
             <svg class="icon icon-md mt-0.5 text-accent" aria-hidden="true"><use href="#i-check"/></svg>
             Team with 20+ years&rsquo; industrial experience
@@ -1041,21 +1043,13 @@
     <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))]">
 
       <div>
-        <!-- PLACEHOLDER: Aerolift logo SVG (white / knockout version) -->
-        <div class="flex items-center gap-3">
-          <svg viewBox="0 0 64 64" width="44" height="44" class="size-11 shrink-0" aria-hidden="true">
-            <rect width="64" height="64" rx="6" fill="#ffffff"/>
-            <rect x="8" y="16" width="48" height="7" fill="#f5a800"/>
-            <rect x="28" y="23" width="8" height="12" fill="#f5a800"/>
-            <rect x="24" y="35" width="16" height="8" rx="1" fill="#16305e"/>
-            <path d="M32 43 v6 a5 5 0 1 1 -4 -2" fill="none" stroke="#16305e" stroke-width="3" stroke-linecap="round"/>
-            <rect x="8" y="10" width="8" height="6" fill="#16305e"/>
-            <rect x="48" y="10" width="8" height="6" fill="#16305e"/>
-          </svg>
-          <span class="font-display text-xl font-bold tracking-wide text-white">AEROLIFT L.L.C.</span>
-        </div>
-        <p class="mt-4 font-display text-lg text-accent">Your Load, Our Lift</p>
-        <p class="prose-measure mt-3 text-sm">
+        <!-- The wordmark is navy on white, so on navy it sits on a white plate.
+             REPLACE: swap for a white/knockout logo and drop the plate. -->
+        <picture>
+          <source type="image/webp" srcset="/assets/img/aerolift-logo.webp">
+          <img src="/assets/img/aerolift-logo.png" alt="Aerolift L.L.C. — Your Load, Our Lift" width="480" height="154" loading="lazy" decoding="async" class="h-14 w-auto rounded-md bg-white px-3 py-2">
+        </picture>
+        <p class="prose-measure mt-5 text-sm">
           Industrial lifting solutions, equipment rental and material-handling systems for
           operations across the United Arab Emirates.
         </p>
