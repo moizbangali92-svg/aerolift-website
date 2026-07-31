@@ -334,21 +334,12 @@
     border-color: #cbd5e1;
   }
 
-  /* Repeating safety-stripe motif — used sparingly as a section divider */
+  /* Brand accent rule. Was a repeating diagonal hazard stripe (animated on
+     the header) — literal caution-tape in six places read as decoration,
+     not engineering. A solid line carries the motif with restraint. */
   .stripe-rule {
-    height: 4px;
-    background-image: repeating-linear-gradient(
-      -45deg,
-      var(--color-accent) 0 10px,
-      var(--color-primary) 10px 20px
-    );
-    /* -45deg bands of 20px repeat every 20/sin(45°) ≈ 28.284px along x */
-    background-size: 28.284px 100%;
-  }
-  /* The one continuously moving element on the page: the header stripe.
-     Slow enough to read as machinery running, not as a loading bar. */
-  .stripe-rule-live {
-    animation: stripe-march 3.2s linear infinite;
+    height: 3px;
+    background-color: var(--color-accent);
   }
 
   /* ---- Hero equipment selector -------------------------------
@@ -432,17 +423,29 @@
 
   /* Dark variant: a control panel that belongs to the scene, not a white
      sticker over it. Navy glass, white type, the fields stay white so the
-     interaction targets keep maximum affordance. */
+     interaction targets keep maximum affordance. Firm enough (0.85) that
+     the photo reads through without the panel going murky; no cap rail —
+     the button is the panel's one yellow moment. */
   .selector-card--glass {
-    background-color: rgb(10 22 48 / 0.78);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgb(255 255 255 / 0.12);
+    background-color: rgb(10 22 48 / 0.85);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgb(255 255 255 / 0.14);
+    box-shadow: 0 12px 32px -12px rgb(6 15 33 / 0.5);
   }
-  .selector-card--glass .selector-title { color: #fff; }
-  .selector-card--glass .selector-rule { background-color: rgb(255 255 255 / 0.15); }
+  .selector-card--glass::before { content: none; }
   .selector-card--glass .selector-label { color: #fff; }
-  .selector-card--glass .selector-label > span { color: var(--color-accent); }
+  .selector-card--glass .selector-label > span { color: rgb(255 255 255 / 0.6); }
+
+  /* Quiet kicker in place of the icon + display title + rule */
+  .selector-kicker {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.65);
+    margin-bottom: 1rem;
+  }
 
   /* Secondary route out of the hero — present, not competing. */
   .hero-secondary-link {
@@ -610,11 +613,7 @@
   to   { opacity: 1; transform: none; }
 }
 
-@keyframes stripe-march {
-  to { background-position: 28.284px 0; }
-}
-
-/* Motion off — hard stop, including the smooth scroll and the marching stripe. */
+/* Motion off — hard stop, including the smooth scroll. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
