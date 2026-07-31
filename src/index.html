@@ -202,6 +202,7 @@
   <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
   <symbol id="i-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
   <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
   <symbol id="i-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
 </svg>
 
@@ -344,10 +345,12 @@
     <div class="absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-primary-dark/80 to-transparent" aria-hidden="true"></div>
 
     <div class="container-x py-16 md:py-24">
-      <div class="max-w-3xl">
+      <!-- Wider than the text measure so the selector's four columns breathe;
+           the headline and subline keep their own max-widths. -->
+      <div class="max-w-5xl">
         <p class="hero-step eyebrow eyebrow-light">Aerolift L.L.C. — United Arab Emirates</p>
 
-        <h1 class="hero-step mt-5 text-2xl text-white md:text-3xl lg:text-4xl">Industrial Lifting Equipment Supplier in the UAE</h1>
+        <h1 class="hero-step mt-5 max-w-3xl text-2xl text-white md:text-3xl lg:text-4xl">Industrial Lifting Equipment Supplier in the UAE</h1>
 
         <p class="hero-step prose-measure mt-5 text-base text-white/90 md:text-lg">
           Supply, installation, rental and 24/7 maintenance of overhead cranes, gantry cranes,
@@ -355,10 +358,58 @@
           warehousing and infrastructure operations.
         </p>
 
-        <div class="hero-step mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a href="#request-a-quote" class="btn btn-primary">Request a Quote</a>
-          <a href="#products" class="btn btn-ghost-light">Explore Products</a>
+        <!-- Equipment selector. Three <select>s and an anchor — no <form>, so
+             without JS the button still jumps to the quote form; JS only adds
+             the prefill on top. -->
+        <div class="hero-step selector-card mt-8" role="group" aria-labelledby="selector-heading">
+          <p id="selector-heading" class="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
+            Specify your lift
+          </p>
+          <div class="mt-4 grid gap-4 sm:grid-cols-3 lg:grid-cols-[repeat(3,minmax(0,1fr))_auto]">
+            <div>
+              <label for="sel-equipment" class="selector-label">Equipment</label>
+              <select id="sel-equipment" class="field">
+                <option value="">Not sure yet</option>
+                <option value="eot-crane">EOT crane</option>
+                <option value="gantry-crane">Gantry crane</option>
+                <option value="jib-crane">Jib crane</option>
+                <option value="hoist">Wire rope hoist</option>
+                <option value="spare-parts">Spare parts</option>
+              </select>
+            </div>
+            <div>
+              <label for="sel-capacity" class="selector-label">Capacity</label>
+              <select id="sel-capacity" class="field">
+                <option value="">Not sure yet</option>
+                <option value="Up to 5 t">Up to 5 t</option>
+                <option value="5–15 t">5–15 t</option>
+                <option value="15–50 t">15–50 t</option>
+                <option value="Over 50 t">Over 50 t</option>
+              </select>
+            </div>
+            <div>
+              <label for="sel-application" class="selector-label">Application</label>
+              <select id="sel-application" class="field">
+                <option value="">Not sure yet</option>
+                <option value="Workshop or warehouse bay">Workshop or warehouse bay</option>
+                <option value="Yard or laydown area">Yard or laydown area</option>
+                <option value="Single workstation">Single workstation</option>
+                <option value="Upgrade to an existing crane">Upgrade to an existing crane</option>
+                <option value="Short-term rental">Short-term rental</option>
+              </select>
+            </div>
+            <div class="flex items-end">
+              <a id="selector-submit" href="#request-a-quote" class="btn btn-primary group w-full lg:w-auto">
+                Get My Specification
+                <svg class="icon icon-sm transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+              </a>
+            </div>
+          </div>
         </div>
+
+        <p class="hero-step mt-4 text-sm text-white/85">
+          Or <a href="#products" class="font-semibold text-accent underline underline-offset-4 hover:text-white">browse the full equipment range</a>.
+        </p>
 
         <ul class="hero-step mt-10 grid gap-3 border-t border-white/20 pt-6 text-sm font-medium text-white sm:grid-cols-3">
           <li class="flex items-start gap-2.5">
@@ -393,9 +444,23 @@
         </p>
       </div>
 
-      <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <!-- Filter by application rather than by product name: the card titles
+           already say the product name, so filtering on it would be circular.
+           Hidden without JS, since the chips would do nothing. -->
+      <div class="js-only mt-8">
+        <div id="product-filters" role="group" aria-label="Filter equipment by application" class="flex flex-wrap gap-2">
+          <button type="button" class="chip" data-filter="all" aria-pressed="true">All equipment</button>
+          <button type="button" class="chip" data-filter="workshop" aria-pressed="false">Workshop &amp; warehouse</button>
+          <button type="button" class="chip" data-filter="yard" aria-pressed="false">Yard &amp; laydown</button>
+          <button type="button" class="chip" data-filter="workstation" aria-pressed="false">Single workstation</button>
+          <button type="button" class="chip" data-filter="maintenance" aria-pressed="false">Maintenance &amp; parts</button>
+        </div>
+        <p id="filter-status" role="status" class="mt-3 text-xs text-steel-strong">Showing all 5 equipment ranges.</p>
+      </div>
 
-        <li class="reveal card group flex flex-col overflow-hidden">
+      <ul id="product-grid" class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+        <li class="reveal card group flex flex-col overflow-hidden" data-tags="workshop">
           <div class="overflow-hidden">
             <img src="/assets/img/product-eot-crane.svg" alt="Double girder EOT overhead travelling crane running on elevated runway beams" width="800" height="600" loading="lazy" decoding="async" class="aspect-4/3 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]">
           </div>
@@ -412,7 +477,7 @@
           </div>
         </li>
 
-        <li class="reveal card group flex flex-col overflow-hidden">
+        <li class="reveal card group flex flex-col overflow-hidden" data-tags="yard">
           <div class="overflow-hidden">
             <img src="/assets/img/product-gantry-crane.svg" alt="Double girder gantry crane on floor rails with A-frame legs" width="800" height="600" loading="lazy" decoding="async" class="aspect-4/3 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]">
           </div>
@@ -429,7 +494,7 @@
           </div>
         </li>
 
-        <li class="reveal card group flex flex-col overflow-hidden">
+        <li class="reveal card group flex flex-col overflow-hidden" data-tags="workstation">
           <div class="overflow-hidden">
             <img src="/assets/img/product-jib-crane.svg" alt="Pillar-mounted jib crane with a trolley hoist and a 360 degree rotation arc" width="800" height="600" loading="lazy" decoding="async" class="aspect-4/3 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]">
           </div>
@@ -446,7 +511,7 @@
           </div>
         </li>
 
-        <li class="reveal card group flex flex-col overflow-hidden">
+        <li class="reveal card group flex flex-col overflow-hidden" data-tags="workshop workstation">
           <div class="overflow-hidden">
             <img src="/assets/img/product-wire-rope-hoist.svg" alt="MT-series monorail wire rope hoist on a beam, showing the rope drum and hook block" width="800" height="600" loading="lazy" decoding="async" class="aspect-4/3 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]">
           </div>
@@ -463,7 +528,7 @@
           </div>
         </li>
 
-        <li class="reveal card group flex flex-col overflow-hidden">
+        <li class="reveal card group flex flex-col overflow-hidden" data-tags="maintenance">
           <div class="overflow-hidden">
             <img src="/assets/img/product-crane-spare-parts.svg" alt="Crane spare parts: an electro-magnetic brake disc, a festoon cable system and a limit switch" width="800" height="600" loading="lazy" decoding="async" class="aspect-4/3 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]">
           </div>
@@ -938,6 +1003,12 @@
             </div>
             <div>
               <dt class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+                <svg class="icon icon-sm" aria-hidden="true"><use href="#i-message"/></svg> WhatsApp
+              </dt>
+              <dd class="mt-1"><a href="https://wa.me/971528651180" class="inline-flex min-h-11 items-center text-base font-semibold text-white hover:text-accent">Message us on WhatsApp</a></dd>
+            </div>
+            <div>
+              <dt class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-accent">
                 <svg class="icon icon-sm" aria-hidden="true"><use href="#i-map-pin"/></svg> Service area
               </dt>
               <dd class="mt-1 text-base text-on-navy">United Arab Emirates — nationwide</dd>
@@ -1014,6 +1085,7 @@
           <li><a href="#request-a-quote" class="inline-flex min-h-11 items-center text-sm hover:text-accent">Request a Quote</a></li>
           <li><a href="tel:+971528651180" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-white hover:text-accent"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-phone"/></svg>+971 52 865 1180</a></li>
           <li><a href="mailto:sales@aerolift-cranes.com" class="inline-flex min-h-11 items-center gap-2 break-all text-sm hover:text-accent"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-mail"/></svg>sales@aerolift-cranes.com</a></li>
+          <li><a href="https://wa.me/971528651180" class="inline-flex min-h-11 items-center gap-2 text-sm hover:text-accent"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-message"/></svg>WhatsApp</a></li>
         </ul>
       </nav>
 

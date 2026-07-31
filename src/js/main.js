@@ -212,7 +212,78 @@
   });
 
   /* ---------------------------------------------------------------
-   * 6. Quote form — validate on blur, announce errors, success state.
+   * 6. Hero equipment selector.
+   *    The button is a plain anchor to #request-a-quote, so without JS
+   *    it still lands the visitor on the quote form. This only carries
+   *    their answers across so nothing is typed twice.
+   * ------------------------------------------------------------- */
+  var selectorSubmit = document.getElementById('selector-submit');
+  if (selectorSubmit) {
+    selectorSubmit.addEventListener('click', function () {
+      var equipment = document.getElementById('sel-equipment');
+      var capacity = document.getElementById('sel-capacity').value;
+      var application = document.getElementById('sel-application').value;
+
+      var requirement = document.getElementById('requirement');
+      if (requirement && equipment.value) requirement.value = equipment.value;
+
+      var message = document.getElementById('message');
+      if (message && !message.value) {
+        var lines = [];
+        if (equipment.value) {
+          lines.push('Equipment: ' + equipment.options[equipment.selectedIndex].text);
+        }
+        if (capacity) lines.push('Capacity: ' + capacity);
+        if (application) lines.push('Application: ' + application);
+        if (lines.length) message.value = lines.join('\n') + '\n\n';
+      }
+
+      // Let the anchor do the scrolling, then put the cursor on the first
+      // field we still need. preventScroll so focus does not fight the jump.
+      var name = document.getElementById('name');
+      if (name) {
+        window.setTimeout(function () {
+          try { name.focus({ preventScroll: true }); } catch (e) { name.focus(); }
+        }, 500);
+      }
+    });
+  }
+
+  /* ---------------------------------------------------------------
+   * 7. Product filter chips.
+   * ------------------------------------------------------------- */
+  var filterBar = document.getElementById('product-filters');
+  if (filterBar) {
+    var chips = filterBar.querySelectorAll('[data-filter]');
+    var cards = document.querySelectorAll('#product-grid [data-tags]');
+    var status = document.getElementById('filter-status');
+
+    filterBar.addEventListener('click', function (e) {
+      var chip = e.target.closest('[data-filter]');
+      if (!chip) return;
+      var value = chip.getAttribute('data-filter');
+
+      Array.prototype.forEach.call(chips, function (c) {
+        c.setAttribute('aria-pressed', String(c === chip));
+      });
+
+      var shown = 0;
+      Array.prototype.forEach.call(cards, function (card) {
+        var match = value === 'all' ||
+          card.getAttribute('data-tags').split(' ').indexOf(value) > -1;
+        card.hidden = !match;
+        if (match) shown++;
+      });
+
+      status.textContent = value === 'all'
+        ? 'Showing all ' + cards.length + ' equipment ranges.'
+        : 'Showing ' + shown + ' of ' + cards.length + ' equipment ranges for ' +
+          chip.textContent.trim().toLowerCase() + '.';
+    });
+  }
+
+  /* ---------------------------------------------------------------
+   * 8. Quote form — validate on blur, announce errors, success state.
    *    Native `required` still guards the form if JS fails.
    * ------------------------------------------------------------- */
   var form = document.getElementById('quote-form');

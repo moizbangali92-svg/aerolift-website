@@ -350,6 +350,57 @@
     animation: stripe-march 3.2s linear infinite;
   }
 
+  /* ---- Hero equipment selector -------------------------------
+     A white working panel on the hero: three specifying questions
+     and one action, so the first screen asks for a decision rather
+     than a read. */
+  .selector-card {
+    background-color: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card-hover);
+    padding: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .selector-card { padding: 1.5rem; }
+  }
+  .selector-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-steel-strong);
+    margin-bottom: 0.375rem;
+  }
+
+  /* ---- Filter chips ------------------------------------------ */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    border: 1.5px solid #cbd5e1;
+    border-radius: var(--radius-md);
+    background-color: #fff;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-steel-strong);
+    cursor: pointer;
+    transition: background-color 160ms var(--ease-out-industrial),
+                border-color 160ms var(--ease-out-industrial),
+                color 160ms var(--ease-out-industrial);
+  }
+  .chip:hover {
+    border-color: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+  /* Active state carries fill AND weight AND aria-pressed — not colour alone. */
+  .chip[aria-pressed="true"] {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+  }
+
   .field-label {
     display: block;
     font-size: var(--text-xs);
@@ -411,6 +462,12 @@
 @layer utilities {
   .prose-measure { max-width: 68ch; }
 
+  /* [hidden] must beat the display utilities on filtered cards. */
+  [hidden] { display: none !important; }
+
+  /* Controls that only work with JS are not shown without it. */
+  .no-js .js-only { display: none !important; }
+
   /* Scroll reveal — transform/opacity only. JS adds .is-in and,
      for grid children, a --reveal-delay so a row lands in sequence. */
   .reveal {
@@ -444,6 +501,8 @@
   .hero-step:nth-child(3) { animation-delay: 200ms; }
   .hero-step:nth-child(4) { animation-delay: 290ms; }
   .hero-step:nth-child(5) { animation-delay: 380ms; }
+  .hero-step:nth-child(6) { animation-delay: 450ms; }
+  .hero-step:nth-child(7) { animation-delay: 520ms; }
 
   /* FAQ answer fades up as the panel opens. */
   details[open] > .faq-answer {
