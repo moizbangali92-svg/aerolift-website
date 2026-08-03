@@ -403,6 +403,7 @@
     margin-bottom: 0.5rem;
   }
   .selector-label > span {
+    font-variant-numeric: tabular-nums;
     font-family: var(--font-display);
     font-size: var(--text-sm);
     font-weight: 700;
@@ -562,6 +563,9 @@
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
   }
+  /* Visited state stays in the brand family but reads visibly different.
+     Deep navy: 7.8:1 on white, AA on the surface tint too. */
+  .link-underline:visited { color: var(--color-primary); }
   .link-underline:hover {
     color: var(--color-primary);
     text-decoration-thickness: 2px;
