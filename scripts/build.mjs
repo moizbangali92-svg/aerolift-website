@@ -11,9 +11,9 @@ const p = (...s) => resolve(root, ...s);
 // Self-hosted fonts pulled from the @fontsource packages so the woff2 files are
 // versioned by npm rather than committed by hand.
 const FONTS = [
-  ['@fontsource/inter/files/inter-latin-400-normal.woff2', 'inter-400.woff2'],
-  ['@fontsource/inter/files/inter-latin-500-normal.woff2', 'inter-500.woff2'],
-  ['@fontsource/inter/files/inter-latin-600-normal.woff2', 'inter-600.woff2'],
+  ['@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2', 'ibm-plex-sans-400.woff2'],
+  ['@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-500-normal.woff2', 'ibm-plex-sans-500.woff2'],
+  ['@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2', 'ibm-plex-sans-600.woff2'],
   ['@fontsource/barlow-condensed/files/barlow-condensed-latin-600-normal.woff2', 'barlow-condensed-600.woff2'],
   ['@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2', 'barlow-condensed-700.woff2'],
 ];

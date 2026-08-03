@@ -9,25 +9,25 @@
  * font-display: swap so text paints immediately — protects LCP.
  * ------------------------------------------------------------------ */
 @font-face {
-  font-family: "Inter";
+  font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/inter-400.woff2") format("woff2");
+  src: url("/fonts/ibm-plex-sans-400.woff2") format("woff2");
 }
 @font-face {
-  font-family: "Inter";
+  font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("/fonts/inter-500.woff2") format("woff2");
+  src: url("/fonts/ibm-plex-sans-500.woff2") format("woff2");
 }
 @font-face {
-  font-family: "Inter";
+  font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("/fonts/inter-600.woff2") format("woff2");
+  src: url("/fonts/ibm-plex-sans-600.woff2") format("woff2");
 }
 @font-face {
   font-family: "Barlow Condensed";
@@ -67,7 +67,7 @@
 
   /* Type -------------------------------------------------------- */
   --font-display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   --text-xs: 0.875rem;   /* 14 */
   --text-sm: 1rem;       /* 16 */
