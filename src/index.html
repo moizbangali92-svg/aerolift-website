@@ -383,7 +383,9 @@
              without JS the button still jumps to the quote form; JS only adds
              the prefill on top. -->
         <div class="hero-step selector-card selector-card--glass mt-7 max-w-4xl" role="group" aria-labelledby="selector-heading">
-          <h2 id="selector-heading" class="selector-kicker">Get Your Specification</h2>
+          <!-- Not a heading: 11px kicker text has no place in the document
+               outline. The group's accessible name still comes from it. -->
+          <p id="selector-heading" class="selector-kicker">Get Your Specification</p>
 
           <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-[repeat(3,minmax(0,1fr))_auto]">
             <div>
