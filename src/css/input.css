@@ -652,6 +652,13 @@
 }
 
 /* Motion off — hard stop, including the smooth scroll. */
+/* Print (and print-based capture tools) never fire scroll or
+   IntersectionObserver, so unrevealed elements would print as blank
+   regions. On paper everything is simply visible. */
+@media print {
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
