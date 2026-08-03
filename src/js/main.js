@@ -217,6 +217,44 @@
    *    it still lands the visitor on the quote form. This only carries
    *    their answers across so nothing is typed twice.
    * ------------------------------------------------------------- */
+  /*
+   * Live spec label. As the visitor narrows the spec, the action button
+   * starts speaking their language: "Get My Specification" becomes
+   * "Spec My 15–50 t Gantry Crane". Falls back silently if the label
+   * span is missing.
+   */
+  var specLabel = document.getElementById('selector-submit-label');
+  if (specLabel) {
+    var EQUIPMENT_NAMES = {
+      'eot-crane': 'EOT Crane',
+      'gantry-crane': 'Gantry Crane',
+      'jib-crane': 'Jib Crane',
+      'hoist': 'Hoist',
+      'spare-parts': 'Spare Parts'
+    };
+    var updateSpecLabel = function () {
+      var eq = document.getElementById('sel-equipment').value;
+      var cap = document.getElementById('sel-capacity').value;
+      var label;
+      if (eq === 'spare-parts') {
+        label = 'Spec My Spare Parts';
+      } else if (eq && cap) {
+        label = 'Spec My ' + cap + ' ' + EQUIPMENT_NAMES[eq];
+      } else if (eq) {
+        label = 'Spec My ' + EQUIPMENT_NAMES[eq];
+      } else if (cap) {
+        label = 'Spec My ' + cap + ' Lift';
+      } else {
+        label = 'Get My Specification';
+      }
+      specLabel.textContent = label;
+    };
+    ['sel-equipment', 'sel-capacity', 'sel-application'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('change', updateSpecLabel);
+    });
+  }
+
   var selectorSubmit = document.getElementById('selector-submit');
   if (selectorSubmit) {
     selectorSubmit.addEventListener('click', function () {
