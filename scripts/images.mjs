@@ -2,7 +2,7 @@
 // Run with `npm run images` after replacing anything in _source.
 // Outputs are committed, so a normal build does not need sharp.
 import sharp from 'sharp';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, stat } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -83,6 +83,27 @@ for (const name of PRODUCTS) {
   } catch {
     report.push([`${name}`, '(no source — SVG placeholder stays)', '']);
   }
+}
+
+/* ---- Services band ----------------------------------------------
+   Portrait crop of the jib/operator photo for the services section.
+   Interim asset: same source as the jib product card but a taller,
+   operator-centred crop, so the two uses read differently.
+   REPLACE the source with a dedicated Aerolift technician/service
+   photo when one exists (drop as _source/service-technician.png). */
+{
+  let svc = resolve(src, 'service-technician.png');
+  try { await stat(svc); } catch { svc = resolve(src, 'product-jib-crane.png'); }
+  const webp = await sharp(svc)
+    .resize({ width: 840, height: 1050, fit: 'cover' })
+    .webp({ quality: 78, effort: 6 })
+    .toFile(resolve(out, 'service-technician.webp'));
+  report.push(['service-technician.webp', `${webp.width}x${webp.height}`, kb(webp.size)]);
+  const jpg = await sharp(svc)
+    .resize({ width: 840, height: 1050, fit: 'cover' })
+    .jpeg({ quality: 80, progressive: true, mozjpeg: true })
+    .toFile(resolve(out, 'service-technician.jpg'));
+  report.push(['service-technician.jpg', `${jpg.width}x${jpg.height}`, kb(jpg.size)]);
 }
 
 /* ---- Open Graph card -------------------------------------------- */

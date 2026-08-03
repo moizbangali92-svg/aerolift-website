@@ -639,45 +639,67 @@
         </p>
       </div>
 
-      <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Photo replaces the icon-card grid: evidence over decoration.
+           REPLACE: dedicated Aerolift technician/service photo — drop it at
+           src/assets/img/_source/service-technician.png and run npm run images.
+           Until then this is a taller crop of the jib/operator shot. -->
+      <div class="mt-10 grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-12">
 
-        <li class="reveal card group flex flex-col p-6">
-          <span class="icon-tile" aria-hidden="true"><svg class="icon icon-lg"><use href="#i-wrench"/></svg></span>
-          <h3 class="mt-5 text-lg text-primary">Installation &amp; Refurbishment</h3>
-          <p class="mt-2 text-sm text-steel-strong">
-            New overhead crane installation, structural upgrades and modernisation to
-            international standards — so an ageing crane goes back to work instead of being replaced.
-          </p>
-        </li>
+        <div class="reveal overflow-hidden rounded-xl">
+          <picture>
+            <source type="image/webp" srcset="/assets/img/service-technician.webp">
+            <img src="/assets/img/service-technician.jpg" alt="Aerolift technician operating a pillar-mounted jib crane by pendant control during a service visit" width="840" height="1050" loading="lazy" decoding="async" class="size-full object-cover">
+          </picture>
+        </div>
 
-        <li class="reveal card group flex flex-col p-6">
-          <span class="icon-tile" aria-hidden="true"><svg class="icon icon-lg"><use href="#i-calendar-check"/></svg></span>
-          <h3 class="mt-5 text-lg text-primary">Annual Maintenance Contracts</h3>
-          <p class="mt-2 text-sm text-steel-strong">
-            Scheduled inspections, preventive maintenance and priority support on a fixed annual
-            plan. Faults surface during planned downtime, not halfway through a shift.
-          </p>
-        </li>
+        <ul class="flex flex-col justify-center gap-7">
 
-        <li class="reveal card group flex flex-col p-6">
-          <span class="icon-tile icon-tile-accent" aria-hidden="true"><svg class="icon icon-lg"><use href="#i-siren"/></svg></span>
-          <h3 class="mt-5 text-lg text-primary">Emergency Breakdown — 24/7</h3>
-          <p class="mt-2 text-sm text-steel-strong">
-            A rapid-response team on call around the clock, with on-site diagnostics and repair.
-            When a crane stops, the bay stops — response time is the real cost.
-          </p>
-        </li>
+          <li class="reveal flex items-start gap-5">
+            <span class="icon-tile shrink-0" aria-hidden="true"><svg class="icon icon-lg"><use href="#i-wrench"/></svg></span>
+            <div>
+              <h3 class="text-lg text-primary">Installation &amp; Refurbishment</h3>
+              <p class="prose-measure mt-1.5 text-sm text-steel-strong">
+                New overhead crane installation, structural upgrades and modernisation to
+                international standards — so an ageing crane goes back to work instead of being replaced.
+              </p>
+            </div>
+          </li>
 
-        <li class="reveal card group flex flex-col p-6">
-          <span class="icon-tile" aria-hidden="true"><svg class="icon icon-lg"><use href="#i-headphones"/></svg></span>
-          <h3 class="mt-5 text-lg text-primary">After-Sales Support</h3>
-          <p class="mt-2 text-sm text-steel-strong">
-            Servicing, parts supply and technical support for the equipment we deliver, from
-            commissioning onward. The people who installed it are the people who maintain it.
-          </p>
-        </li>
+          <li class="reveal flex items-start gap-5">
+            <span class="icon-tile shrink-0" aria-hidden="true"><svg class="icon icon-lg"><use href="#i-calendar-check"/></svg></span>
+            <div>
+              <h3 class="text-lg text-primary">Annual Maintenance Contracts</h3>
+              <p class="prose-measure mt-1.5 text-sm text-steel-strong">
+                Scheduled inspections, preventive maintenance and priority support on a fixed annual
+                plan. Faults surface during planned downtime, not halfway through a shift.
+              </p>
+            </div>
+          </li>
 
-      </ul>
+          <li class="reveal flex items-start gap-5">
+            <span class="icon-tile icon-tile-accent shrink-0" aria-hidden="true"><svg class="icon icon-lg"><use href="#i-siren"/></svg></span>
+            <div>
+              <h3 class="text-lg text-primary">Emergency Breakdown — 24/7</h3>
+              <p class="prose-measure mt-1.5 text-sm text-steel-strong">
+                A rapid-response team on call around the clock, with on-site diagnostics and repair.
+                When a crane stops, the bay stops — response time is the real cost.
+              </p>
+            </div>
+          </li>
+
+          <li class="reveal flex items-start gap-5">
+            <span class="icon-tile shrink-0" aria-hidden="true"><svg class="icon icon-lg"><use href="#i-headphones"/></svg></span>
+            <div>
+              <h3 class="text-lg text-primary">After-Sales Support</h3>
+              <p class="prose-measure mt-1.5 text-sm text-steel-strong">
+                Servicing, parts supply and technical support for the equipment we deliver, from
+                commissioning onward. The people who installed it are the people who maintain it.
+              </p>
+            </div>
+          </li>
+
+        </ul>
+      </div>
     </div>
   </section>
 
