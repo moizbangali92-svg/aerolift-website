@@ -106,6 +106,26 @@ for (const name of PRODUCTS) {
   report.push(['service-technician.jpg', `${jpg.width}x${jpg.height}`, kb(jpg.size)]);
 }
 
+/* ---- About page: who-we-are photo -------------------------------
+   16:9 content crop of the clean EOT bay shot (the hero source has a
+   baked-in navy gradient that reads as a blank half in a content card).
+   REPLACE the source with a real workshop/team photo when one exists
+   (drop as _source/about-team.png). */
+{
+  let about = resolve(src, 'about-team.png');
+  try { await stat(about); } catch { about = resolve(src, 'product-eot-crane.png'); }
+  const webp = await sharp(about)
+    .resize({ width: 960, height: 540, fit: 'cover' })
+    .webp({ quality: 78, effort: 6 })
+    .toFile(resolve(out, 'about-who-we-are.webp'));
+  report.push(['about-who-we-are.webp', `${webp.width}x${webp.height}`, kb(webp.size)]);
+  const jpg = await sharp(about)
+    .resize({ width: 960, height: 540, fit: 'cover' })
+    .jpeg({ quality: 80, progressive: true, mozjpeg: true })
+    .toFile(resolve(out, 'about-who-we-are.jpg'));
+  report.push(['about-who-we-are.jpg', `${jpg.width}x${jpg.height}`, kb(jpg.size)]);
+}
+
 /* ---- Open Graph card -------------------------------------------- */
 {
   const info = await sharp(resolve(src, 'hero-crane-bay.png'))
