@@ -345,30 +345,6 @@
     border-color: #cbd5e1;
   }
 
-  /* Oversized ghost numeral pinned to a section's top-right — the
-     spec-plate numbering (01., 02.) carried up to page structure.
-     Decorative only: aria-hidden in markup, invisible to selection,
-     hidden below md where it would collide with the heading. */
-  .section-num {
-    display: none;
-  }
-  @media (min-width: 768px) {
-    .section-num {
-      display: block;
-      position: absolute;
-      top: -1rem;
-      right: 0;
-      font-family: var(--font-display);
-      font-size: clamp(5rem, 9vw, 8rem);
-      font-weight: 700;
-      line-height: 1;
-      color: rgb(22 48 94 / 0.07);
-      pointer-events: none;
-      user-select: none;
-    }
-    .section-num-light { color: rgb(255 255 255 / 0.08); }
-  }
-
   /* Brand accent rule. Was a repeating diagonal hazard stripe (animated on
      the header) — literal caution-tape in six places read as decoration,
      not engineering. A solid line carries the motif with restraint. */
