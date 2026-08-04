@@ -329,6 +329,8 @@
   .nav-link[aria-expanded="true"]::after { transform: scaleX(1); }
   .nav-link[aria-current="page"] { color: var(--color-primary); }
   .nav-link[aria-current="page"]::after { transform: scaleX(1); }
+  /* Mobile panel active item — the build stamps aria-current, CSS colours it */
+  #mobile-menu a[aria-current="page"] { color: var(--color-primary); }
 
   .card {
     background-color: #fff;

@@ -26,8 +26,42 @@ if (process.argv.includes('--clean')) process.exit(0);
 await mkdir(p('dist/css'), { recursive: true });
 await mkdir(p('dist/fonts'), { recursive: true });
 
-// HTML: src/index.html -> dist/index.html (future pages map to dist/<slug>/index.html)
-await cp(p('src/index.html'), p('dist/index.html'));
+// HTML pages: src/index.html and src/<slug>/index.html, with build-time
+// partial expansion. `<!-- @include name -->` splices src/partials/name.html;
+// `<!-- @nav key -->` marks the active nav item — the matching
+// data-nav="key" anchors get aria-current="page".
+import { readdir } from 'node:fs/promises';
+const partialCache = {};
+const partial = async (name) => {
+  if (!(name in partialCache)) {
+    partialCache[name] = await readFile(p('src/partials', `${name}.html`), 'utf8');
+  }
+  return partialCache[name];
+};
+const buildPage = async (srcFile, outFile) => {
+  let html = await readFile(srcFile, 'utf8');
+  const missing = [];
+  for (const m of [...html.matchAll(/<!-- @include ([\w-]+) -->/g)]) {
+    const body = await partial(m[1]).catch(() => null);
+    if (body === null) { missing.push(m[1]); continue; }
+    html = html.replace(m[0], body.trimEnd());
+  }
+  if (missing.length) throw new Error(`${srcFile}: unknown partial(s): ${missing.join(', ')}`);
+  const nav = html.match(/<!-- @nav (\w+) -->\r?\n?/);
+  if (nav) {
+    html = html.replace(nav[0], '');
+    html = html.replaceAll(`data-nav="${nav[1]}"`, `data-nav="${nav[1]}" aria-current="page"`);
+  }
+  await mkdir(dirname(outFile), { recursive: true });
+  await writeFile(outFile, html);
+};
+await buildPage(p('src/index.html'), p('dist/index.html'));
+for (const entry of await readdir(p('src'), { withFileTypes: true })) {
+  if (!entry.isDirectory() || ['partials', 'css', 'js', 'assets'].includes(entry.name)) continue;
+  if (await exists(p('src', entry.name, 'index.html'))) {
+    await buildPage(p('src', entry.name, 'index.html'), p('dist', entry.name, 'index.html'));
+  }
+}
 
 await cp(p('src/js'), p('dist/js'), { recursive: true });
 // _source holds the full-resolution originals for `npm run images`.
@@ -44,9 +78,5 @@ for (const f of ['robots.txt', 'sitemap.xml', 'favicon.svg', 'site.webmanifest']
 for (const [from, to] of FONTS) {
   await cp(p('node_modules', from), p('dist/fonts', to));
 }
-
-// Strip build-only comments (REPLACE / PLACEHOLDER notes stay — they are for the client).
-const html = await readFile(p('dist/index.html'), 'utf8');
-await writeFile(p('dist/index.html'), html);
 
 console.log('copied static assets -> dist/');

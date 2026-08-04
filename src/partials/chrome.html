@@ -1,0 +1,116 @@
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-accent focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-ink">Skip to main content</a>
+
+<!-- ============================================================
+     1. TOP BAR
+     ============================================================ -->
+<div class="bg-primary-dark text-on-navy">
+  <div class="container-x flex flex-col gap-1 py-2 text-xs sm:flex-row sm:items-center sm:justify-between">
+    <p class="flex items-center gap-2 font-medium">
+      <svg class="icon icon-sm text-accent" aria-hidden="true"><use href="#i-siren"/></svg>
+      24/7 emergency breakdown response across the UAE
+    </p>
+    <!-- Tap targets: 44px on mobile where these are the primary contact actions.
+         Email drops below sm — it is still in the quote block and the footer,
+         and the header keeps a dedicated 44px call button. -->
+    <div class="flex flex-wrap items-center gap-x-5">
+      <a href="tel:+971528651180" class="flex min-h-11 items-center gap-2 font-semibold text-white hover:text-accent sm:min-h-0 sm:py-1">
+        <svg class="icon icon-sm" aria-hidden="true"><use href="#i-phone"/></svg>
+        <span class="sr-only">Call Aerolift on </span>+971 52 865 1180
+      </a>
+      <a href="mailto:sales@aerolift-cranes.com" class="hidden min-h-11 items-center gap-2 hover:text-accent sm:flex sm:min-h-0 sm:py-1">
+        <svg class="icon icon-sm" aria-hidden="true"><use href="#i-mail"/></svg>
+        sales@aerolift-cranes.com
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     2. HEADER / NAV
+     ============================================================ -->
+<header id="site-header" class="sticky top-0 z-50 bg-white transition-shadow duration-200 [&.is-scrolled]:shadow-header">
+  <div class="container-x flex items-center justify-between gap-6 py-3">
+
+    <!-- The wordmark already contains the tagline, so no separate lockup here. -->
+    <a href="/" class="flex shrink-0 items-center">
+      <picture>
+        <source type="image/webp" srcset="/assets/img/aerolift-logo.webp">
+        <img src="/assets/img/aerolift-logo.png" alt="Aerolift L.L.C. — Your Load, Our Lift" width="480" height="154" class="h-10 w-auto md:h-12">
+      </picture>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden lg:block" aria-label="Main">
+      <ul class="flex items-center gap-1">
+        <li><a href="/" data-nav="home" class="nav-link">Home</a></li>
+        <li><a href="/about/" data-nav="about" class="nav-link">About</a></li>
+        <li><a href="/services/" data-nav="services" class="nav-link">Services</a></li>
+
+        <li id="products-dropdown" class="relative">
+          <button type="button" aria-expanded="false" aria-controls="products-menu" class="nav-link cursor-pointer gap-1.5">
+            Products
+            <svg class="icon icon-sm icon-chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+          </button>
+          <div id="products-menu" data-dropdown-list class="invisible absolute left-0 top-full z-50 w-72 -translate-y-1 rounded-lg border border-line bg-white p-2 opacity-0 shadow-card-hover transition duration-150">
+            <ul>
+              <li><a href="/products/eot-cranes/" class="block rounded-md px-3 py-2.5 text-sm font-medium text-ink hover:bg-surface hover:text-primary">EOT Cranes<span class="block text-xs font-normal text-steel-strong">Single &amp; double girder</span></a></li>
+              <li><a href="/products/gantry-cranes/" class="block rounded-md px-3 py-2.5 text-sm font-medium text-ink hover:bg-surface hover:text-primary">Gantry Cranes<span class="block text-xs font-normal text-steel-strong">Full &amp; semi-gantry</span></a></li>
+              <li><a href="/products/jib-cranes/" class="block rounded-md px-3 py-2.5 text-sm font-medium text-ink hover:bg-surface hover:text-primary">Jib Cranes<span class="block text-xs font-normal text-steel-strong">Wall &amp; pillar mounted</span></a></li>
+              <li><a href="/products/hoists/" class="block rounded-md px-3 py-2.5 text-sm font-medium text-ink hover:bg-surface hover:text-primary">Hoists<span class="block text-xs font-normal text-steel-strong">MT-series wire rope, 1–50 t</span></a></li>
+              <li><a href="/products/spare-parts/" class="block rounded-md px-3 py-2.5 text-sm font-medium text-ink hover:bg-surface hover:text-primary">Spare Parts<span class="block text-xs font-normal text-steel-strong">Brakes, busbar, festoon, switches</span></a></li>
+            </ul>
+          </div>
+        </li>
+
+        <li><a href="/contact/" data-nav="contact" class="nav-link">Contact</a></li>
+        <li class="ml-2"><a href="/#request-a-quote" class="btn btn-primary">Request a Quote</a></li>
+      </ul>
+    </nav>
+
+    <!-- Mobile controls -->
+    <div class="flex items-center gap-2 lg:hidden">
+      <a href="tel:+971528651180" class="inline-flex size-11 items-center justify-center rounded-md border-2 border-primary text-primary hover:bg-primary hover:text-white" aria-label="Call Aerolift on +971 52 865 1180">
+        <svg class="icon icon-lg" aria-hidden="true"><use href="#i-phone"/></svg>
+      </a>
+      <button id="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" class="inline-flex size-11 cursor-pointer items-center justify-center rounded-md bg-primary text-white hover:bg-primary-light">
+        <span class="sr-only">Open main menu</span>
+        <svg class="icon icon-lg" aria-hidden="true"><use href="#i-menu"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="stripe-rule" aria-hidden="true"></div>
+</header>
+
+<!-- Mobile slide-in panel -->
+<div id="menu-overlay" class="fixed inset-0 z-[60] hidden bg-ink/60 lg:hidden" aria-hidden="true"></div>
+<div id="mobile-menu" class="fixed right-0 top-0 z-[70] flex h-dvh w-[min(88vw,22rem)] translate-x-full flex-col bg-white shadow-card-hover transition-transform duration-300 ease-out lg:hidden" aria-label="Mobile">
+  <div class="flex items-center justify-between border-b border-line px-5 py-4">
+    <span class="font-display text-xl font-bold text-primary">MENU</span>
+    <button id="menu-close" type="button" class="inline-flex size-11 cursor-pointer items-center justify-center rounded-md border border-line text-ink hover:bg-surface">
+      <span class="sr-only">Close menu</span>
+      <svg class="icon icon-lg" aria-hidden="true"><use href="#i-x"/></svg>
+    </button>
+  </div>
+  <nav class="flex-1 overflow-y-auto px-3 py-4">
+    <ul class="space-y-0.5">
+      <li><a href="/" data-nav="home" class="block rounded-md px-4 py-3 text-base font-semibold text-ink hover:bg-surface">Home</a></li>
+      <li><a href="/about/" data-nav="about" class="block rounded-md px-4 py-3 text-base font-semibold text-ink hover:bg-surface">About</a></li>
+      <li><a href="/services/" data-nav="services" class="block rounded-md px-4 py-3 text-base font-semibold text-ink hover:bg-surface">Services</a></li>
+      <li class="pt-2">
+        <p class="px-4 pb-1 text-xs font-semibold uppercase tracking-[0.14em] text-steel-strong">Products</p>
+        <ul>
+          <li><a href="/products/eot-cranes/" class="block rounded-md px-4 py-3 text-sm font-medium text-ink hover:bg-surface">EOT Cranes</a></li>
+          <li><a href="/products/gantry-cranes/" class="block rounded-md px-4 py-3 text-sm font-medium text-ink hover:bg-surface">Gantry Cranes</a></li>
+          <li><a href="/products/jib-cranes/" class="block rounded-md px-4 py-3 text-sm font-medium text-ink hover:bg-surface">Jib Cranes</a></li>
+          <li><a href="/products/hoists/" class="block rounded-md px-4 py-3 text-sm font-medium text-ink hover:bg-surface">Hoists</a></li>
+          <li><a href="/products/spare-parts/" class="block rounded-md px-4 py-3 text-sm font-medium text-ink hover:bg-surface">Spare Parts</a></li>
+        </ul>
+      </li>
+      <li class="pt-2"><a href="/contact/" data-nav="contact" class="block rounded-md px-4 py-3 text-base font-semibold text-ink hover:bg-surface">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="border-t border-line p-4">
+    <a href="/#request-a-quote" class="btn btn-primary w-full">Request a Quote</a>
+    <a href="tel:+971528651180" class="mt-2 flex min-h-11 items-center justify-center gap-2 text-sm font-semibold text-primary">+971 52 865 1180</a>
+  </div>
+</div>
