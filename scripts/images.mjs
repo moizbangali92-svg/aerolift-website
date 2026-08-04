@@ -106,6 +106,25 @@ for (const name of PRODUCTS) {
   report.push(['service-technician.jpg', `${jpg.width}x${jpg.height}`, kb(jpg.size)]);
 }
 
+/* ---- Services page: installation photo --------------------------
+   Portrait crop of the outdoor gantry shot for the installation block.
+   REPLACE with a real installation photo when one exists
+   (drop as _source/service-installation.png). */
+{
+  let inst = resolve(src, 'service-installation.png');
+  try { await stat(inst); } catch { inst = resolve(src, 'product-gantry-crane.png'); }
+  const webp = await sharp(inst)
+    .resize({ width: 840, height: 1050, fit: 'cover' })
+    .webp({ quality: 78, effort: 6 })
+    .toFile(resolve(out, 'service-installation.webp'));
+  report.push(['service-installation.webp', `${webp.width}x${webp.height}`, kb(webp.size)]);
+  const jpg = await sharp(inst)
+    .resize({ width: 840, height: 1050, fit: 'cover' })
+    .jpeg({ quality: 80, progressive: true, mozjpeg: true })
+    .toFile(resolve(out, 'service-installation.jpg'));
+  report.push(['service-installation.jpg', `${jpg.width}x${jpg.height}`, kb(jpg.size)]);
+}
+
 /* ---- About page: who-we-are photo -------------------------------
    16:9 content crop of the clean EOT bay shot (the hero source has a
    baked-in navy gradient that reads as a blank half in a content card).
