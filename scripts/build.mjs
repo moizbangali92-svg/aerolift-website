@@ -56,11 +56,19 @@ const buildPage = async (srcFile, outFile) => {
   await writeFile(outFile, html);
 };
 await buildPage(p('src/index.html'), p('dist/index.html'));
-for (const entry of await readdir(p('src'), { withFileTypes: true })) {
-  if (!entry.isDirectory() || ['partials', 'css', 'js', 'assets'].includes(entry.name)) continue;
-  if (await exists(p('src', entry.name, 'index.html'))) {
-    await buildPage(p('src', entry.name, 'index.html'), p('dist', entry.name, 'index.html'));
+// Page directories can nest (e.g. services/annual-maintenance-contract/).
+const findPages = async (dir, rel = '') => {
+  const pages = [];
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    if (!entry.isDirectory() || ['partials', 'css', 'js', 'assets'].includes(entry.name)) continue;
+    const childRel = rel ? `${rel}/${entry.name}` : entry.name;
+    if (await exists(p('src', childRel, 'index.html'))) pages.push(childRel);
+    pages.push(...await findPages(p('src', childRel), childRel));
   }
+  return pages;
+};
+for (const page of await findPages(p('src'))) {
+  await buildPage(p('src', page, 'index.html'), p('dist', page, 'index.html'));
 }
 
 await cp(p('src/js'), p('dist/js'), { recursive: true });
