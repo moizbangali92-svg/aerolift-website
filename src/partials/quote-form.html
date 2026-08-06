@@ -1,4 +1,12 @@
-<form id="quote-form" action="[PLACEHOLDER: form endpoint]" method="post" novalidate class="mt-8">
+<!-- Formspree: replace FORMSPREE_ID with the real form id (e.g. xwpejyqe)
+     from formspree.io — one string, this line only. -->
+<form id="quote-form" action="https://formspree.io/f/FORMSPREE_ID" method="post" novalidate class="mt-8">
+
+          <input type="hidden" name="_subject" value="New quote request — aerolift-cranes.com">
+          <input type="hidden" name="page" value="">
+          <!-- Honeypot: bots fill it, humans never see it. Formspree drops
+               submissions where _gotcha is non-empty. -->
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;overflow:hidden">
 
           <p id="form-summary" role="alert" class="mb-6 hidden rounded-md border-l-4 border-[#b42318] bg-[#fef3f2] px-4 py-3 text-sm font-medium text-[#912018]"></p>
 
@@ -21,7 +29,7 @@
 
             <div>
               <label for="phone" class="field-label">Phone <span class="text-[#b42318]" aria-hidden="true">*</span></label>
-              <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required pattern="[0-9+()\s-]{7,}" class="field" aria-describedby="phone-hint">
+              <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required pattern="[0-9+\(\)\s\-]{7,}" class="field" aria-describedby="phone-hint">
               <p id="phone-hint" class="mt-1 text-xs text-steel-strong">Include the country code, e.g. +971</p>
               <p id="phone-error" class="field-error" role="alert">
                 <svg class="icon icon-sm" aria-hidden="true"><use href="#i-alert"/></svg><span data-error-text></span>
@@ -65,9 +73,19 @@
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary group mt-7 w-full sm:w-auto">
-            Send Quote Request
+          <button id="quote-submit" type="submit" class="btn btn-primary group mt-7 w-full sm:w-auto">
+            <span id="quote-submit-label">Send Quote Request</span>
             <svg class="icon icon-sm transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true"><use href="#i-arrow-right"/></svg>
           </button>
           <p class="mt-3 text-xs text-steel-strong">We use your details to answer this enquiry. Fields marked * are required.</p>
         </form>
+
+        <div id="form-success" tabindex="-1" class="mt-8 hidden rounded-lg border-l-4 border-accent bg-surface p-6" role="status">
+          <h3 class="text-lg text-primary">Request received</h3>
+          <p class="mt-2 text-sm text-steel-strong">
+            Thank you. Our team will review the details and come back to you by email. If this is an
+            equipment breakdown, call
+            <a href="tel:+971528651180" class="link-underline font-semibold">+971 52 865 1180</a>
+            for the 24/7 response team.
+          </p>
+        </div>

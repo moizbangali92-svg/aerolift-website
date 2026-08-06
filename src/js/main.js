@@ -382,16 +382,63 @@
     }
     if (summary) summary.classList.add('hidden');
 
-    // No endpoint wired yet — show the success state instead of a dead POST.
-    // REPLACE: delete this block once the real form action is in place.
-    if (!form.getAttribute('action') || form.getAttribute('action').indexOf('PLACEHOLDER') > -1) {
-      e.preventDefault();
+    var action = form.getAttribute('action') || '';
+    var configured = action.indexOf('formspree.io') > -1 && action.indexOf('FORMSPREE_ID') === -1;
+
+    var showSuccess = function () {
       var success = document.getElementById('form-success');
       if (success) {
         success.classList.remove('hidden');
         success.focus();
         form.classList.add('hidden');
       }
+    };
+
+    // Endpoint not configured yet (FORMSPREE_ID still a placeholder):
+    // show the success state so previews behave, send nothing.
+    if (!configured) {
+      e.preventDefault();
+      showSuccess();
+      return;
     }
+
+    // Configured: submit over fetch so the inline success/error states are
+    // used. Without JS the form still POSTs natively to Formspree, which
+    // renders its own confirmation page — nothing is lost, only polish.
+    e.preventDefault();
+
+    var pageField = form.querySelector('input[name="page"]');
+    if (pageField) pageField.value = window.location.pathname;
+
+    var button = document.getElementById('quote-submit');
+    var label = document.getElementById('quote-submit-label');
+    if (button) button.disabled = true;
+    if (label) label.textContent = 'Sending…';
+
+    var restore = function () {
+      if (button) button.disabled = false;
+      if (label) label.textContent = 'Send Quote Request';
+    };
+
+    fetch(action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' }
+    }).then(function (res) {
+      if (res.ok) { showSuccess(); return; }
+      restore();
+      if (summary) {
+        summary.textContent =
+          'Your request could not be sent just now. Try again in a moment, or call +971 52 865 1180.';
+        summary.classList.remove('hidden');
+      }
+    }).catch(function () {
+      restore();
+      if (summary) {
+        summary.textContent =
+          'Your request could not be sent — check your connection and try again, or call +971 52 865 1180.';
+        summary.classList.remove('hidden');
+      }
+    });
   });
 })();
