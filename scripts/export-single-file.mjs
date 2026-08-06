@@ -58,6 +58,8 @@ for (const m of [...html.matchAll(/href="(\/(?:favicon|apple-touch|assets\/)[^"]
 /* 6. Nav links to pages that don't exist yet would 404 from file:// —
       point them at the top of this preview instead */
 html = html.replace(/href="\/((?:about|services|products|contact)[^"]*)"/g, 'href="#" data-future-page="/$1"');
+/* Root-anchored in-page links (/#request-a-quote) become plain anchors */
+html = html.replace(/href="\/#([^"]+)"/g, 'href="#$1"');
 html = html.replace(/href="\/"/g, 'href="#"');
 
 /* 7. Preview banner so the client knows what they are looking at */
