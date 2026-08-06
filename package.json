@@ -12,7 +12,8 @@
     "dev": "npm run copy && npm run css -- --watch",
     "serve": "node scripts/serve.mjs",
     "images": "node scripts/images.mjs",
-    "export": "node scripts/export-single-file.mjs"
+    "export": "node scripts/export-single-file.mjs",
+    "export:zip": "node scripts/export-portable.mjs"
   },
   "devDependencies": {
     "@fontsource/barlow-condensed": "^5.1.0",
