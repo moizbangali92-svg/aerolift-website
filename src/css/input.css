@@ -661,8 +661,82 @@
 /* Print (and print-based capture tools) never fire scroll or
    IntersectionObserver, so unrevealed elements would print as blank
    regions. On paper everything is simply visible. */
+/* ---------------------------------------------------------------
+   FLOATING WHATSAPP BUTTON
+   Collapsed to a circle by default; the label slides out on hover and
+   focus so the control is self-describing without occupying the corner
+   permanently. WhatsApp green (#25D366) is deliberate — see chrome.html.
+   --------------------------------------------------------------- */
+.wa-fab {
+  position: fixed;
+  /* Above page content, below the sticky header (z-50), the mobile-menu
+     overlay (z-60) and the menu panel (z-70) — so it dims with the rest of
+     the page when the menu is open instead of floating over the scrim. */
+  z-index: 40;
+  right: 1rem;
+  /* Clears the iOS home indicator and Android gesture bar. */
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  height: 3.5rem;                    /* 56px — comfortably above the 44px minimum */
+  min-width: 3.5rem;
+  padding: 0 1rem;
+  border-radius: 999px;
+  background-color: #25d366;
+  color: #08331a;                    /* 7.4:1 on the green — AA at this size and above */
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.18), 0 10px 24px -6px rgb(0 0 0 / 0.28);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease,
+              opacity 0.2s ease, visibility 0.2s;
+}
+.wa-fab:hover {
+  background-color: #1fb855;
+  box-shadow: 0 6px 10px -2px rgb(0 0 0 / 0.22), 0 14px 30px -8px rgb(0 0 0 / 0.34);
+}
+.wa-fab:active { transform: scale(0.96); }
+.wa-fab:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* The label is width-animated rather than display-toggled so it can
+   transition, and it stays in the accessibility tree either way. */
+.wa-fab-label {
+  overflow: hidden;
+  max-width: 0;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: max-width 0.25s ease, opacity 0.2s ease, margin-left 0.25s ease;
+}
+.wa-fab:hover .wa-fab-label,
+.wa-fab:focus-visible .wa-fab-label {
+  max-width: 7rem;
+  margin-left: 0.5rem;
+  opacity: 1;
+}
+
+/* Stood down while the quote form is on screen — see main.js §7. Kept out of
+   the tab order and off the hit-testing map, not just faded. */
+.wa-fab--stood-down {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.75rem);
+  pointer-events: none;
+}
+
+/* Coarse pointers cannot hover, so the label would never appear and the
+   extra padding would only make the circle lopsided. */
+@media (hover: none) {
+  .wa-fab { padding: 0; width: 3.5rem; justify-content: center; }
+  .wa-fab-label { display: none; }
+}
+
 @media print {
   .reveal { opacity: 1 !important; transform: none !important; }
+  /* A floating action button is meaningless on paper. */
+  .wa-fab { display: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -680,4 +754,5 @@
   .eyebrow::before { transform: none !important; }
   .card:hover { transform: none !important; }
   .icon-tile, .group:hover .icon-tile { transform: none !important; }
+  .wa-fab:active { transform: none !important; }
 }

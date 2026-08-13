@@ -441,4 +441,45 @@
       }
     });
   });
+
+})();
+
+/* =================================================================
+ * 9. Floating WhatsApp button: stand down over the quote form.
+ *
+ * The button is fixed bottom-right, which puts it on top of the right
+ * edge of the form's inputs and textarea — on a phone that means it
+ * floats over the words being typed. It is also redundant there:
+ * someone already filling the form does not need a shortcut to start
+ * a conversation.
+ *
+ * A position check on scroll rather than IntersectionObserver. Same
+ * reasoning as the scroll reveal above: IO is not dependable in every
+ * context, and here a missed callback leaves the button sitting on
+ * the form. A rect comparison is cheap and always right.
+ *
+ * Deliberately its own IIFE — the block above returns early on pages
+ * with no quote form, and the button exists on every page.
+ * ================================================================= */
+(function () {
+  var waFab = document.querySelector('.wa-fab');
+  var quoteSection = document.getElementById('request-a-quote');
+  if (!waFab || !quoteSection) return;
+
+  // Runs straight off the scroll event rather than through a
+  // requestAnimationFrame throttle. rAF does not fire while a page is not
+  // compositing (backgrounded tab, hidden pane), which would leave a
+  // "already queued" latch stuck on and the button pinned to whatever state
+  // it was last in. One rect read and a class toggle is cheap enough that
+  // the throttle bought nothing worth that failure mode.
+  var sync = function () {
+    var r = quoteSection.getBoundingClientRect();
+    // Any sliver on screen counts: the overlap starts the moment the
+    // section's top edge reaches the button, not when it is half in view.
+    waFab.classList.toggle('wa-fab--stood-down', r.top < window.innerHeight && r.bottom > 0);
+  };
+
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();   // correct on load, including a restored scroll position
 })();
