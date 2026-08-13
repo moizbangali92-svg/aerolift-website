@@ -38,10 +38,12 @@ URL structure is planned as: `/`, `/about/`, `/services/`,
 `/products/gantry-cranes/`, `/products/jib-cranes/`, `/products/hoists/`,
 `/products/spare-parts/`, `/contact/`.
 
-1. Add `src/<slug>/index.html`.
-2. Add a copy line for it in `scripts/build.mjs`.
-3. Add a `<url>` entry to `sitemap.xml`.
-4. Reuse the icon sprite, header, footer and section patterns from `index.html`.
+1. Add `src/<slug>/index.html` — the build discovers page directories
+   recursively, so no script change is needed.
+2. Add a `<url>` entry to `sitemap.xml`.
+3. Reuse the icon sprite, header, footer and section patterns from `index.html`.
+
+Deployment is documented separately in [DEPLOY.md](DEPLOY.md).
 
 ## Conventions worth keeping
 

@@ -25,14 +25,17 @@ const TYPES = {
 createServer(async (req, res) => {
   const url = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
   let file = join(dist, normalize(url).replace(/^(\.\.[/\\])+/, ''));
+  // Mirror the hosts: an unmatched path serves 404.html with a real 404 status.
+  let status = 200;
   try {
     if ((await stat(file)).isDirectory()) file = join(file, 'index.html');
   } catch {
     file = join(dist, '404.html');
+    status = 404;
   }
   try {
     const body = await readFile(file);
-    res.writeHead(200, {
+    res.writeHead(status, {
       'Content-Type': TYPES[extname(file)] || 'application/octet-stream',
       'Cache-Control': 'no-cache',
     });

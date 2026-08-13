@@ -1,0 +1,9 @@
+# Send the apex domain to www, which is what every canonical tag declares.
+#
+# NETLIFY reads these host-qualified rules directly.
+# CLOUDFLARE PAGES only matches on path, so these two lines are ignored there —
+# set the apex redirect with a Cloudflare Bulk Redirect or a Redirect Rule instead.
+# VERCEL ignores this file entirely — add the redirect in the project's Domains tab.
+
+http://aerolift-cranes.com/*   https://www.aerolift-cranes.com/:splat  301!
+https://aerolift-cranes.com/*  https://www.aerolift-cranes.com/:splat  301!
