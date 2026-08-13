@@ -3,17 +3,31 @@
 The site is fully static. `dist/` is the only artifact — no server, no database,
 no build step at request time.
 
+## Where it is hosted
+
+A **Cloudflare Worker with static assets** (`aerolift-website`), built from the
+`main` branch of `moizbangali92-svg/aerolift-website` by Workers Builds. The
+domain's nameservers were already on Cloudflare, so DNS and hosting live in one
+dashboard.
+
+There is no Worker script — `wrangler.jsonc` declares assets only, so every
+response is served straight from `dist/`.
+
 ## Build settings
 
 | Setting | Value |
 |---|---|
-| Install command | `npm ci` |
 | Build command | `npm run build` |
-| Publish directory | `dist` |
+| Deploy command | `npx wrangler deploy` |
+| Assets directory | `dist` (set in `wrangler.jsonc`, not the dashboard) |
 | Node version | pinned to 22 by `.nvmrc` |
 
 `dist/` is gitignored on purpose, so the host must run the build. `npm run build`
 wipes and regenerates `dist/` every time — it is never incrementally patched.
+
+**The `name` in `wrangler.jsonc` must match the Worker in the dashboard.** If it
+drifts, `wrangler deploy` creates a second Worker and the custom domain stays
+pointed at the old one — a silent failure, not an error.
 
 The image pipeline (`npm run images`, which needs `sharp`) is **not** part of the
 build. Optimised images are committed under `src/assets/img/`, so a deploy never
@@ -21,43 +35,45 @@ has to compile sharp.
 
 ## Files the host reads
 
-Both are copied to the publish root by `scripts/build.mjs`:
+Both are copied to the publish root by `scripts/build.mjs`, and Workers static
+assets honours both:
 
-- **`_headers`** — security headers, CSP, and cache policy. Read by Netlify and
-  Cloudflare Pages. Ignored by Vercel (see below).
-- **`_redirects`** — apex → www. Netlify applies it directly; Cloudflare Pages
-  only matches on path, so the apex redirect has to be a Redirect Rule there.
+- **`_headers`** — security headers, CSP, and cache policy. Applies to static
+  asset responses, which here is all of them (there is no Worker script).
+- **`_redirects`** — apex → www. Path-matching only, so on Cloudflare these
+  host-qualified rules are inert; the apex redirect is a dashboard Redirect Rule
+  instead. The file is kept because it is what Netlify would need if the site
+  ever moves.
 
-`dist/404.html` is picked up automatically by all three hosts for unmatched paths.
+Unmatched paths serve `dist/404.html` with a real 404 status, via
+`not_found_handling: "404-page"` in `wrangler.jsonc`. The default (`"none"`)
+would return a bare Cloudflare error page.
 
-## Per-host notes
+## Domain
 
-**Netlify** — everything above works as-is. Set `www.aerolift-cranes.com` as the
-primary domain; Netlify then handles the apex redirect itself and `_redirects`
-is belt-and-braces.
+Both `aerolift-cranes.com` and `www.aerolift-cranes.com` are attached to the
+Worker; a Redirect Rule sends the apex to www, which is what every canonical tag
+on the site declares.
 
-**Cloudflare Pages** — this is where the site is hosted, and where the domain's
-nameservers already point. `_headers` works. Add **both** `aerolift-cranes.com`
-and `www.aerolift-cranes.com` as custom domains, then send the apex to www with
-a Redirect Rule — `_redirects` cannot match on hostname, so the file's apex
-rules are inert here.
+Repointing the site touched only the apex `A` record and the `www` `CNAME` (both
+previously Wix). SSL/TLS mode must stay on **Full (strict)** — on Flexible, a
+proxied record plus the site's HTTPS redirect produces an infinite loop.
 
-Repointing the site touches only the apex `A` record and the `www` `CNAME`.
-The `MX`, SPF/`TXT` and verification records are independent: mail is on
-Microsoft 365 and is not affected by any website change.
+## If the site ever moves off Cloudflare
 
-**Vercel** — reads neither file. Add a `vercel.json` with the equivalent
-`headers` and `redirects` blocks, or set the redirect in Project → Domains.
+**Netlify** — works as-is: `_headers` and `_redirects` are both native, and the
+apex rules in `_redirects` start applying. Set www as the primary domain.
 
-## DNS
+**Vercel** — reads neither file. Port them to `vercel.json` as `headers` and
+`redirects` blocks.
 
-Every `<link rel="canonical">` and `og:url` on the site declares the **www**
-host. Keep it that way:
+## Email is not part of this
 
-- `www.aerolift-cranes.com` → CNAME to the host
-- `aerolift-cranes.com` → 301 to `https://www.aerolift-cranes.com/`
-
-Serving the same pages on both hosts without a redirect splits the SEO signal.
+The `MX`, SPF/`TXT` and verification records are independent of the website.
+Mail runs on Microsoft 365 (`aeroliftcranes-com02b.mail.protection.outlook.com`)
+and no website change can affect it — but note the domain currently publishes
+**two** SPF records, which is a permanent error under RFC 7208, and one of them
+includes a hostname that no longer resolves. That needs fixing on its own.
 
 ## Before the first public deploy
 

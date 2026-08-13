@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+
+  // NOTE: `name` must match the Worker this repo is connected to in the
+  // Cloudflare dashboard. If it does not, `wrangler deploy` silently creates a
+  // SECOND Worker and the custom domain stays on the old one.
+  "name": "aerolift-website",
+  "compatibility_date": "2026-08-13",
+
+  // Assets-only Worker: there is no script, so `main` is intentionally absent.
+  // Everything is served straight from dist/, which `npm run build` produces.
+  "assets": {
+    "directory": "./dist",
+
+    // Unmatched paths serve dist/404.html with a real 404 status, which is
+    // what the branded 404 page is for. The default ("none") would return a
+    // bare Cloudflare error page instead.
+    "not_found_handling": "404-page",
+
+    // Pages live at /about/index.html and are requested as /about/ — the
+    // default handling already maps that correctly. Stated explicitly so a
+    // future change to it is a deliberate decision, not a surprise.
+    "html_handling": "auto-trailing-slash"
+  }
+}
