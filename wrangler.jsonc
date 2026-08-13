@@ -5,7 +5,12 @@
   // Cloudflare dashboard. If it does not, `wrangler deploy` silently creates a
   // SECOND Worker and the custom domain stays on the old one.
   "name": "aerolift-website",
-  "compatibility_date": "2026-08-13",
+
+  // There is no Worker script, so this date gates nothing at runtime. It is
+  // held a little behind today's date on purpose: a build environment whose
+  // runtime is older than the compatibility date can refuse the deploy, and
+  // there is nothing to gain here by sitting on the newest one.
+  "compatibility_date": "2026-08-01",
 
   // Assets-only Worker: there is no script, so `main` is intentionally absent.
   // Everything is served straight from dist/, which `npm run build` produces.
