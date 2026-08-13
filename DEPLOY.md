@@ -35,15 +35,23 @@ has to compile sharp.
 
 ## Files the host reads
 
-Both are copied to the publish root by `scripts/build.mjs`, and Workers static
-assets honours both:
+**`_headers`** is copied to the publish root by `scripts/build.mjs` and carries
+the security headers, CSP and cache policy. It applies to static asset
+responses, which here is all of them — there is no Worker script.
 
-- **`_headers`** — security headers, CSP, and cache policy. Applies to static
-  asset responses, which here is all of them (there is no Worker script).
-- **`_redirects`** — apex → www. Path-matching only, so on Cloudflare these
-  host-qualified rules are inert; the apex redirect is a dashboard Redirect Rule
-  instead. The file is kept because it is what Netlify would need if the site
-  ever moves.
+**There is deliberately no `_redirects` file.** The apex → www redirect is a
+dashboard Redirect Rule, because Cloudflare matches `_redirects` on path only
+and cannot express a hostname rule.
+
+If one is ever added, it must be Cloudflare-valid: this file is **validated
+server-side at deploy time and a bad line fails the whole deploy**, not just
+that rule. Two Netlify idioms are rejected outright:
+
+- `301!` — the `!` force suffix parses as status `0`
+- `https://example.com/*` as a source — only relative paths are accepted
+
+`wrangler deploy --dry-run` does **not** catch either; the check happens in the
+API call, so the first sign is a failed build.
 
 Unmatched paths serve `dist/404.html` with a real 404 status, via
 `not_found_handling: "404-page"` in `wrangler.jsonc`. The default (`"none"`)
