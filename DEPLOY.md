@@ -10,7 +10,7 @@ no build step at request time.
 | Install command | `npm ci` |
 | Build command | `npm run build` |
 | Publish directory | `dist` |
-| Node version | 20 or newer |
+| Node version | pinned to 22 by `.nvmrc` |
 
 `dist/` is gitignored on purpose, so the host must run the build. `npm run build`
 wipes and regenerates `dist/` every time — it is never incrementally patched.
@@ -36,8 +36,15 @@ Both are copied to the publish root by `scripts/build.mjs`:
 primary domain; Netlify then handles the apex redirect itself and `_redirects`
 is belt-and-braces.
 
-**Cloudflare Pages** — `_headers` works. Add the apex → www redirect as a
-Redirect Rule in the dashboard, since `_redirects` cannot match on hostname.
+**Cloudflare Pages** — this is where the site is hosted, and where the domain's
+nameservers already point. `_headers` works. Add **both** `aerolift-cranes.com`
+and `www.aerolift-cranes.com` as custom domains, then send the apex to www with
+a Redirect Rule — `_redirects` cannot match on hostname, so the file's apex
+rules are inert here.
+
+Repointing the site touches only the apex `A` record and the `www` `CNAME`.
+The `MX`, SPF/`TXT` and verification records are independent: mail is on
+Microsoft 365 and is not affected by any website change.
 
 **Vercel** — reads neither file. Add a `vercel.json` with the equivalent
 `headers` and `redirects` blocks, or set the redirect in Project → Domains.
