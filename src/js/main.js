@@ -429,14 +429,14 @@
       restore();
       if (summary) {
         summary.textContent =
-          'Your request could not be sent just now. Try again in a moment, or call +971 52 865 1180.';
+          'Your request could not be sent just now. Try again in a moment, or call +971 55 702 9550.';
         summary.classList.remove('hidden');
       }
     }).catch(function () {
       restore();
       if (summary) {
         summary.textContent =
-          'Your request could not be sent — check your connection and try again, or call +971 52 865 1180.';
+          'Your request could not be sent — check your connection and try again, or call +971 55 702 9550.';
         summary.classList.remove('hidden');
       }
     });
