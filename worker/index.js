@@ -44,6 +44,16 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
 
+    // The quote form has no backend by design (see quote-form.html), so with
+    // JavaScript enabled it never POSTs anywhere. Without JavaScript the browser
+    // does submit natively, and a POST to a static asset returns 405 — a dead
+    // end for someone who just typed out an enquiry. Send them back to the page
+    // as a GET so they at least land on the phone number and email address.
+    // 303 rather than 301/302: it is defined to convert the follow-up to GET.
+    if (request.method === 'POST') {
+      return new Response(null, { status: 303, headers: { Location: url.pathname } });
+    }
+
     const response = await env.ASSETS.fetch(request);
 
     // `html_handling: "auto-trailing-slash"` sends /about -> /about/ as a 307

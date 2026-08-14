@@ -5,6 +5,12 @@
 # replaced under the same filename is revalidated rather than pinned. Only the
 # fonts are safe to freeze — a different weight is a different filename.
 
+# The CSP still allows formspree.io in connect-src and form-action even though
+# the quote form no longer posts there. That is deliberate: re-adding a working
+# Formspree id is the documented way to restore a real backend, and a CSP that
+# silently blocked it would look exactly like the endpoint being broken again.
+# Nothing initiates a request to that host today, so permitting it costs nothing.
+
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY

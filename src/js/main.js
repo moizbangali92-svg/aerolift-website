@@ -384,6 +384,9 @@
 
     var action = form.getAttribute('action') || '';
     var configured = action.indexOf('formspree.io') > -1 && action.indexOf('FORMSPREE_ID') === -1;
+    // Set on the form when there is deliberately no backend: the enquiry goes
+    // out through the visitor's own mail client instead. See quote-form.html.
+    var mailtoOnly = form.getAttribute('data-transport') === 'mailto';
 
     var showSuccess = function () {
       var success = document.getElementById('form-success');
@@ -394,42 +397,9 @@
       }
     };
 
-    // Endpoint not configured yet (FORMSPREE_ID still a placeholder):
-    // show the success state so previews behave, send nothing.
-    if (!configured) {
-      e.preventDefault();
-      showSuccess();
-      return;
-    }
-
-    // Configured: submit over fetch so the inline success/error states are
-    // used. Without JS the form still POSTs natively to Formspree, which
-    // renders its own confirmation page — nothing is lost, only polish.
-    e.preventDefault();
-
-    var pageField = form.querySelector('input[name="page"]');
-    if (pageField) pageField.value = window.location.pathname;
-
-    var button = document.getElementById('quote-submit');
-    var label = document.getElementById('quote-submit-label');
-    if (button) button.disabled = true;
-    if (label) label.textContent = 'Sending…';
-
-    var restore = function () {
-      if (button) button.disabled = false;
-      if (label) label.textContent = 'Send Quote Request';
-    };
-
-    // If the POST fails, the visitor has already typed out a full enquiry —
-    // span, capacity, lifting height, the lot. Losing that to an error message
-    // is the most expensive failure on the site, so the fallback hands them a
-    // pre-filled email containing everything they entered. It needs no backend,
-    // so it keeps working when the form endpoint does not: a dead form id, an
-    // outage at the provider, a blocked request.
-    var offerEmailFallback = function (message) {
-      restore();
-      if (!summary) return;
-
+    // Builds a mailto: carrying everything the visitor typed, so nothing they
+    // wrote is lost whichever path we end up on.
+    var buildMailto = function () {
       var get = function (name) {
         var el = form.querySelector('[name="' + name + '"]');
         return el ? el.value.trim() : '';
@@ -450,22 +420,58 @@
         get('message')
       ].join('\n');
 
-      var href = 'mailto:sales@aerolift-cranes.com'
+      return 'mailto:sales@aerolift-cranes.com'
         + '?subject=' + encodeURIComponent('Quote request from the website')
         + '&body=' + encodeURIComponent(body);
+    };
 
+    var say = function (text, linkText) {
+      if (!summary) return;
       summary.textContent = '';
-      summary.appendChild(document.createTextNode(message + ' '));
-
-      var link = document.createElement('a');
-      link.href = href;
-      link.className = 'link-underline font-semibold';
-      link.textContent = 'Send it as an email instead';
-      summary.appendChild(link);
-      summary.appendChild(document.createTextNode(' — your details are already filled in. Or call +971 55 702 9550.'));
-
+      summary.appendChild(document.createTextNode(text + ' '));
+      if (linkText) {
+        var link = document.createElement('a');
+        link.href = buildMailto();
+        link.className = 'link-underline font-semibold';
+        link.textContent = linkText;
+        summary.appendChild(link);
+        summary.appendChild(document.createTextNode(' — your details are already filled in.'));
+      }
+      summary.appendChild(document.createTextNode(' Or call +971 55 702 9550.'));
       summary.classList.remove('hidden');
-      summary.focus && summary.focus();
+      if (summary.focus) summary.focus();
+    };
+
+    e.preventDefault();
+
+    var pageField = form.querySelector('input[name="page"]');
+    if (pageField) pageField.value = window.location.pathname;
+
+    // No backend by design: hand the enquiry straight to the mail client. No
+    // failed request first, because announcing an error for the expected path
+    // reads as a broken site.
+    if (mailtoOnly || !configured) {
+      window.location.href = buildMailto();
+      say('Opening your email app with these details ready to send. If nothing happens,', 'open it here');
+      return;
+    }
+
+    var button = document.getElementById('quote-submit');
+    var label = document.getElementById('quote-submit-label');
+    if (button) button.disabled = true;
+    if (label) label.textContent = 'Sending…';
+
+    var restore = function () {
+      if (button) button.disabled = false;
+      if (label) label.textContent = 'Send Quote Request';
+    };
+
+    // A configured endpoint can still fail — an outage, a blocked request, an
+    // id that stops resolving. The visitor has already typed out span, capacity
+    // and duty cycle by this point, so the fallback keeps their work.
+    var offerEmailFallback = function (message) {
+      restore();
+      say(message, 'Send it as an email instead');
     };
 
     fetch(action, {
