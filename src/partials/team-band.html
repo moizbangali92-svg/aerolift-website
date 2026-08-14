@@ -1,0 +1,27 @@
+<!-- =================================================================
+     TEAM BAND — NOT INCLUDED IN ANY PAGE.
+
+     Parked here rather than deleted, for the same reason as
+     clients-trust-band.html: it previously shipped bracketed placeholder
+     text inside a `hidden` section, so unfinished markup sat in the
+     production HTML. Nothing references it, so the build emits nothing.
+     Add an `<!-- @include team-band -->` marker to bring it back.
+
+     BEFORE RESTORING, for each person:
+       - a real photo, cleared for publication
+       - their real name and real job title
+
+     Insert point: src/about/index.html, between the standards section
+     and the CTA band.
+     ================================================================= -->
+<section id="team" class="bg-white py-16 md:py-20" aria-labelledby="team-heading">
+  <div class="container-x">
+    <div class="max-w-3xl">
+      <p class="eyebrow">Team</p>
+      <h2 id="team-heading" class="mt-4 text-xl md:text-2xl">The Engineers Behind the Equipment</h2>
+    </div>
+    <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <!-- One <li> per person: square photo, name in <h3>, role beneath. -->
+    </ul>
+  </div>
+</section>

@@ -70,7 +70,8 @@ const findPages = async (dir, rel = '') => {
   }
   return pages;
 };
-for (const page of await findPages(p('src'))) {
+const pages = await findPages(p('src'));
+for (const page of pages) {
   await buildPage(p('src', page, 'index.html'), p('dist', page, 'index.html'));
 }
 
@@ -90,6 +91,33 @@ for (const f of ['robots.txt', 'sitemap.xml', 'favicon.svg', 'site.webmanifest',
 
 for (const [from, to] of FONTS) {
   await cp(p('node_modules', from), p('dist/fonts', to));
+}
+
+// The sitemap is maintained by hand, so it can drift from reality silently —
+// a page gets added and never listed, or a page is removed and the sitemap
+// keeps advertising a URL that now 404s. Both are invisible until a crawler
+// finds them. Compare the two sets here and fail the build instead.
+{
+  const ORIGIN = 'https://www.aerolift-cranes.com';
+  const sitemap = await readFile(p('sitemap.xml'), 'utf8');
+  const listed = new Set(
+    [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim())
+  );
+  // findPages returns 'about', 'products/eot-cranes', … ; the home page is
+  // built separately and is always the origin root.
+  const built = new Set([`${ORIGIN}/`, ...pages.map((s) => `${ORIGIN}/${s}/`)]);
+
+  const missing = [...built].filter((u) => !listed.has(u));
+  const stale = [...listed].filter((u) => !built.has(u));
+  if (missing.length || stale.length) {
+    throw new Error(
+      'sitemap.xml disagrees with the built routes.\n' +
+      (missing.length ? `  built but NOT in sitemap: ${missing.join(', ')}\n` : '') +
+      (stale.length ? `  in sitemap but NOT built: ${stale.join(', ')}\n` : '') +
+      '  Fix sitemap.xml (remember lastmod) or the page, then rebuild.'
+    );
+  }
+  console.log(`sitemap.xml checked: ${listed.size} URLs match the built routes`);
 }
 
 console.log('copied static assets -> dist/');

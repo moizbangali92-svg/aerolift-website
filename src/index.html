@@ -654,38 +654,9 @@
     </div>
   </section>
 
-  <!-- ==========================================================
-       8. SOCIAL PROOF
-       SHIPS HIDDEN. Remove the `hidden` class ONLY once real client
-       logos and a signed-off testimonial are in place. Do not
-       publish this section with placeholder content.
-       ========================================================== -->
-  <section id="clients" class="hidden bg-white py-16 md:py-20" aria-labelledby="clients-heading">
-    <div class="container-x">
-      <div class="max-w-3xl">
-        <p class="eyebrow">Clients</p>
-        <h2 id="clients-heading" class="mt-4 text-xl md:text-2xl">Trusted by Operations Teams Across the UAE</h2>
-      </div>
-
-      <ul class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-        <li class="flex h-24 items-center justify-center rounded-md border border-dashed border-line bg-surface text-xs text-steel-strong">[PLACEHOLDER: client logo 1]</li>
-        <li class="flex h-24 items-center justify-center rounded-md border border-dashed border-line bg-surface text-xs text-steel-strong">[PLACEHOLDER: client logo 2]</li>
-        <li class="flex h-24 items-center justify-center rounded-md border border-dashed border-line bg-surface text-xs text-steel-strong">[PLACEHOLDER: client logo 3]</li>
-        <li class="flex h-24 items-center justify-center rounded-md border border-dashed border-line bg-surface text-xs text-steel-strong">[PLACEHOLDER: client logo 4]</li>
-        <li class="flex h-24 items-center justify-center rounded-md border border-dashed border-line bg-surface text-xs text-steel-strong">[PLACEHOLDER: client logo 5]</li>
-        <li class="flex h-24 items-center justify-center rounded-md border border-dashed border-line bg-surface text-xs text-steel-strong">[PLACEHOLDER: client logo 6]</li>
-      </ul>
-
-      <figure class="mt-10 rounded-lg border border-dashed border-line bg-surface p-8">
-        <blockquote class="prose-measure font-display text-lg text-primary">
-          [PLACEHOLDER: testimonial — replace before launch. Use the client's own words, signed off in writing.]
-        </blockquote>
-        <figcaption class="mt-4 text-sm text-steel-strong">
-          [PLACEHOLDER: name], [PLACEHOLDER: job title] — [PLACEHOLDER: company]
-        </figcaption>
-      </figure>
-    </div>
-  </section>
+  <!-- 8. SOCIAL PROOF — removed from the build. The markup is parked in
+       src/partials/clients-trust-band.html with the conditions for bringing
+       it back. It is not included from anywhere, so nothing is emitted. -->
 
   <!-- ==========================================================
        9. CATALOGUE CTA BAND
@@ -865,8 +836,6 @@
           </p>
         </div>
 
-        <!-- PLACEHOLDER: form endpoint — Formspree, Netlify Forms or the client's mail handler.
-             Until a real endpoint is set, main.js intercepts submit and shows the success state. -->
         <!-- @include quote-form -->
 
               </div>
@@ -900,7 +869,10 @@
               </dt>
               <dd class="mt-1 text-base text-on-navy">United Arab Emirates — nationwide</dd>
             </div>
-            <!-- PLACEHOLDER: office address + Google Maps embed — add once the address is confirmed -->
+            <!-- The locality (Al Quoz, Dubai) is confirmed and already in the
+                 LocalBusiness schema. Still missing for a full address block and
+                 a map embed: building, unit and street. Do not guess them —
+                 a wrong address is worse than no address for local search. -->
           </dl>
           <div class="stripe-rule mt-8" aria-hidden="true"></div>
           <p class="mt-6 text-sm text-on-navy">

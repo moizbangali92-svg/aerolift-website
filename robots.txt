@@ -1,4 +1,14 @@
 User-agent: *
 Allow: /
 
+# Unused Wix template leftovers (a non-profit theme that shipped with the old
+# site). They never related to cranes and now return 404. Disallowed so the
+# 404s are not recrawled indefinitely — this file cannot express a 410, and
+# neither can Cloudflare's _redirects.
+Disallow: /items
+Disallow: /event-list
+Disallow: /event-details/
+Disallow: /donation-thank-you-page
+
+# Absolute URL on purpose: a relative Sitemap path is silently ignored.
 Sitemap: https://www.aerolift-cranes.com/sitemap.xml

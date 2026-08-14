@@ -1,0 +1,50 @@
+# Old Wix URLs -> current structure. Copied to the publish root by
+# scripts/build.mjs and read by Cloudflare's asset server.
+#
+# CONSTRAINTS OF THIS FILE — it is validated server-side at DEPLOY time, and a
+# single bad line fails the whole deploy, not just that rule.
+#   - Only 301, 302, 303, 307 and 308 are accepted. 410 is NOT supported.
+#   - The source must be a path. Hostname sources are NOT supported, which is
+#     why apex -> www lives in worker/index.js instead.
+#   - Netlify's `301!` force suffix parses as status 0 here. Do not use it.
+# `wrangler deploy --dry-run` does NOT catch violations; the first sign is a
+# failed build.
+#
+# These URLs carry no link equity — every measured backlink points at the root,
+# none at any inner page. They are mapped for index-transition hygiene and for
+# anyone following an old bookmark, not to recover authority.
+#
+# Deliberately absent: /items, /event-list, /event-details/*,
+# /donation-thank-you-page, /blog and /rental. Those are unused Wix template
+# leftovers that never had anything to do with cranes. They 404 today and stay
+# that way, with matching Disallow lines in robots.txt. A 410 would be more
+# precise but this file cannot express one.
+
+# --- Top-level pages -------------------------------------------------------
+/about-us                                            /about/                   301
+/contact-us                                          /contact/                 301
+/spare-parts                                         /products/spare-parts/    301
+
+# --- Product hub -----------------------------------------------------------
+/overhead-cranes                                     /products/                301
+/overhead-cranes-1                                   /products/                301
+
+# --- Jib --------------------------------------------------------------------
+/overhead-cranes-1/jib-cranes                        /products/jib-cranes/     301
+
+# --- EOT: single girder, double girder, and the aircraft hangar variant ------
+/overhead-cranes-1/single-girder-overhead-crane      /products/eot-cranes/     301
+/overhead-cranes-1/double-girder-cranes              /products/eot-cranes/     301
+/overhead-cranes-1/hangar-crane-for-aircraft         /products/eot-cranes/     301
+
+# --- Gantry: full, semi and portable ---------------------------------------
+/overhead-cranes-1/single-girder-gantry-crane        /products/gantry-cranes/  301
+/overhead-cranes-1/double-girder-gantry-crane        /products/gantry-cranes/  301
+/overhead-cranes-1/portable-gantry-crane             /products/gantry-cranes/  301
+/overhead-cranes-1/semi-gantry-single-girder-crane   /products/gantry-cranes/  301
+/overhead-cranes-1/semi-gantry-double-girder-crane   /products/gantry-cranes/  301
+
+# --- Wix "copy of" duplicate set -------------------------------------------
+# Splat rather than an entry each: the duplicates mirror the set above, and any
+# member of it is served by the product hub.
+/copy-of-overhead-cranes-1/*                         /products/                301

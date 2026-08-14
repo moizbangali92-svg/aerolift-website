@@ -1,0 +1,44 @@
+<!-- =================================================================
+     SOCIAL PROOF BAND — NOT INCLUDED IN ANY PAGE.
+
+     This markup is parked here, not deleted, so it can be restored when
+     real assets exist. It is intentionally NOT referenced by any
+     `<!-- @include clients-trust-band -->` marker, so the build never
+     emits it. Adding that marker is the only step needed to bring it back.
+
+     BEFORE RESTORING, all of the following must be real:
+       - client logo files, with written permission to display each one
+       - a testimonial in the client's own words, signed off in writing
+       - the author's real name, job title and company
+
+     Do NOT restore it with stock logos, invented company names, a
+     composed quote, or dashes where a fact should be. It previously
+     shipped with bracketed placeholder text inside a `hidden` section,
+     which meant unfinished markup sat in the production HTML for every
+     crawler to read. That is the reason it now lives here instead.
+
+     Insert point: src/index.html, between the industries section and the
+     catalogue CTA band.
+     ================================================================= -->
+<section id="clients" class="bg-white py-16 md:py-20" aria-labelledby="clients-heading">
+  <div class="container-x">
+    <div class="max-w-3xl">
+      <p class="eyebrow">Clients</p>
+      <h2 id="clients-heading" class="mt-4 text-xl md:text-2xl">Trusted by Operations Teams Across the UAE</h2>
+    </div>
+
+    <ul class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      <!-- One <li> per client logo. Use <img> with real width/height and an
+           alt of the client's name. -->
+    </ul>
+
+    <figure class="mt-10 rounded-lg border border-line bg-surface p-8">
+      <blockquote class="prose-measure font-display text-lg text-primary">
+        <!-- Verbatim testimonial. -->
+      </blockquote>
+      <figcaption class="mt-4 text-sm text-steel-strong">
+        <!-- Name, job title — company. -->
+      </figcaption>
+    </figure>
+  </div>
+</section>

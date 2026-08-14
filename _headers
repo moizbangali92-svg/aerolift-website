@@ -29,6 +29,14 @@
 /assets/*
   Cache-Control: public, max-age=604800
 
+# The catalogue must not be indexed: a PDF full of capacity tables competes
+# with the product pages for the same specification queries, and it cannot
+# carry a canonical tag or convert a visitor. Matched by full path rather than
+# a `*.pdf` glob — these patterns match the request path, and a mid-path glob
+# is exactly the kind of rule that silently matches nothing.
+/assets/aerolift-catalogue-2026.pdf
+  X-Robots-Tag: noindex
+
 # Font filenames carry the family and weight, so they are safe to freeze.
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
