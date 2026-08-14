@@ -110,7 +110,7 @@ checking a compliance obligation can see where it came from.
 | Item | Status |
 |---|---|
 | **Quote form endpoint** | `formspree.io/f/xkgqvbwz` returns 404. Every web enquiry is currently lost. |
-| **SPF records** | Two published, one pointing at a hostname that no longer resolves. Affects mail delivery today. |
+| **SPF records** | Broken three ways, and the surviving record hard-fails your own mail. Full diagnosis and the exact replacement record are in `DEPLOY.md`. DKIM and DMARC are absent too. |
 | **Catalogue PDF** | Still prints the old phone number `+971 52 865 1180`. Needs reissuing. |
 | **Full street address** | Blocks completing `LocalBusiness` schema, a map embed, and the Google Business Profile. |
 | **Client logos + signed-off testimonial** | Blocks restoring `src/partials/clients-trust-band.html`. |

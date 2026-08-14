@@ -75,13 +75,66 @@ apex rules in `_redirects` start applying. Set www as the primary domain.
 **Vercel** — reads neither file. Port them to `vercel.json` as `headers` and
 `redirects` blocks.
 
-## Email is not part of this
+## Email is not part of this — but it is broken
 
-The `MX`, SPF/`TXT` and verification records are independent of the website.
-Mail runs on Microsoft 365 (`aeroliftcranes-com02b.mail.protection.outlook.com`)
-and no website change can affect it — but note the domain currently publishes
-**two** SPF records, which is a permanent error under RFC 7208, and one of them
-includes a hostname that no longer resolves. That needs fixing on its own.
+The `MX`, SPF/`TXT` and verification records are independent of the website, and
+no website change can affect them. Recording the diagnosis here because it is
+the same DNS zone and the same dashboard.
+
+Mail runs on **Microsoft 365** (`aeroliftcranes-com02b.mail.protection.outlook.com`).
+
+### What is published today
+
+```
+v=spf1 include:dc-8e814c8572._spfm.aerolift-cranes.com ~all
+v=spf1 include:secureserver.net -all
+```
+
+Three separate faults, in increasing order of severity:
+
+1. **Two SPF records.** RFC 7208 §4.5 requires receivers to treat that as a
+   permerror. A domain may publish exactly one.
+2. **The first record's include does not resolve.** `dc-8e814c8572._spfm…`
+   returns NXDOMAIN — it is GoDaddy's SPF-merge helper and it is gone. A
+   dangling include is a permerror on its own.
+3. **Neither record authorises the mail platform.** `secureserver.net` expands
+   to GoDaddy's servers. The mail comes from Microsoft 365. So deleting the
+   broken record and keeping the "valid" one would leave `-all` hard-failing
+   Aerolift's own mail — worse than the current state, not better.
+
+There is also **no DMARC record** and **no DKIM** on the standard M365 selectors
+(`selector1`/`selector2._domainkey`). SPF and DKIM are both absent as passing
+signals, which explains spam placement better than the SPF fault alone.
+
+### The replacement
+
+Delete **both** TXT records above and publish exactly one:
+
+```
+v=spf1 include:spf.protection.outlook.com ~all
+```
+
+`spf.protection.outlook.com` resolves to Microsoft's ip4/ip6 ranges with no
+nested includes — one DNS lookup, against a limit of ten.
+
+**`~all` (softfail), not `-all`, to begin with.** SPF has been failing for long
+enough that a forgotten legitimate sender is likely; softfail marks those rather
+than rejecting them. Tighten to `-all` once a couple of weeks of DMARC reports
+show nothing unexpected sending.
+
+Add `include:secureserver.net` **only** if something genuinely still sends from
+GoDaddy infrastructure. It costs two more lookups and authorises a large shared
+range, so it should not be kept out of caution.
+
+### Then, in order
+
+1. **DKIM** — enable it for the domain in the Microsoft 365 admin centre and
+   publish the two `selector1`/`selector2` CNAMEs it gives you. This is the
+   bigger deliverability lever of the two.
+2. **DMARC** — start at `v=DMARC1; p=none; rua=mailto:…` to collect reports
+   without affecting delivery. Only move to `p=quarantine` or `p=reject` once
+   the reports are clean. Publishing an enforcing policy while SPF and DKIM are
+   in this state would actively bounce real mail.
 
 ## Before the first public deploy
 
