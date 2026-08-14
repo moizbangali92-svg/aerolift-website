@@ -109,7 +109,7 @@ checking a compliance obligation can see where it came from.
 
 | Item | Status |
 |---|---|
-| **Quote form endpoint** | `formspree.io/f/xkgqvbwz` returns 404. Every web enquiry is currently lost. |
+| **Quote form endpoint** | No backend by decision. The dead Formspree id is removed; the form now opens a pre-filled email in the visitor's own mail client. Enquiries are no longer lost, but anyone without a configured mail client cannot submit. A working Formspree id restores a real backend in two minutes — see `src/partials/quote-form.html`. |
 | **SPF records** | Broken three ways, and the surviving record hard-fails your own mail. Full diagnosis and the exact replacement record are in `DEPLOY.md`. DKIM and DMARC are absent too. |
 | **Catalogue PDF** | Still prints the old phone number `+971 52 865 1180`. Needs reissuing. |
 | **Full street address** | Blocks completing `LocalBusiness` schema, a map embed, and the Google Business Profile. |
