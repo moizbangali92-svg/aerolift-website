@@ -12,10 +12,21 @@
   // there is nothing to gain here by sitting on the newest one.
   "compatibility_date": "2026-08-01",
 
-  // Assets-only Worker: there is no script, so `main` is intentionally absent.
-  // Everything is served straight from dist/, which `npm run build` produces.
+  // A one-job Worker script: redirect the apex to www, and hand every other
+  // request straight to the asset server. See worker/index.js for why this is
+  // not a dashboard rule and why it does not cost the _headers rules.
+  "main": "./worker/index.js",
+
   "assets": {
     "directory": "./dist",
+
+    // The script reaches the built site through this binding.
+    "binding": "ASSETS",
+
+    // Without this, assets are served FIRST and the script only runs when no
+    // asset matches — so the redirect would never fire for "/" or any real
+    // page. It has to see every request to be able to check the hostname.
+    "run_worker_first": true,
 
     // Unmatched paths serve dist/404.html with a real 404 status, which is
     // what the branded 404 page is for. The default ("none") would return a
