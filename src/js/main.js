@@ -420,25 +420,63 @@
       if (label) label.textContent = 'Send Quote Request';
     };
 
+    // If the POST fails, the visitor has already typed out a full enquiry —
+    // span, capacity, lifting height, the lot. Losing that to an error message
+    // is the most expensive failure on the site, so the fallback hands them a
+    // pre-filled email containing everything they entered. It needs no backend,
+    // so it keeps working when the form endpoint does not: a dead form id, an
+    // outage at the provider, a blocked request.
+    var offerEmailFallback = function (message) {
+      restore();
+      if (!summary) return;
+
+      var get = function (name) {
+        var el = form.querySelector('[name="' + name + '"]');
+        return el ? el.value.trim() : '';
+      };
+      var requirementEl = form.querySelector('[name="requirement"]');
+      var requirement = requirementEl && requirementEl.selectedIndex > 0
+        ? requirementEl.options[requirementEl.selectedIndex].text
+        : '';
+
+      var body = [
+        'Name: ' + get('name'),
+        'Company: ' + get('company'),
+        'Phone: ' + get('phone'),
+        'Email: ' + get('email'),
+        'Requirement: ' + requirement,
+        '',
+        'Details:',
+        get('message')
+      ].join('\n');
+
+      var href = 'mailto:sales@aerolift-cranes.com'
+        + '?subject=' + encodeURIComponent('Quote request from the website')
+        + '&body=' + encodeURIComponent(body);
+
+      summary.textContent = '';
+      summary.appendChild(document.createTextNode(message + ' '));
+
+      var link = document.createElement('a');
+      link.href = href;
+      link.className = 'link-underline font-semibold';
+      link.textContent = 'Send it as an email instead';
+      summary.appendChild(link);
+      summary.appendChild(document.createTextNode(' — your details are already filled in. Or call +971 55 702 9550.'));
+
+      summary.classList.remove('hidden');
+      summary.focus && summary.focus();
+    };
+
     fetch(action, {
       method: 'POST',
       body: new FormData(form),
       headers: { Accept: 'application/json' }
     }).then(function (res) {
       if (res.ok) { showSuccess(); return; }
-      restore();
-      if (summary) {
-        summary.textContent =
-          'Your request could not be sent just now. Try again in a moment, or call +971 55 702 9550.';
-        summary.classList.remove('hidden');
-      }
+      offerEmailFallback('Your request could not be sent just now.');
     }).catch(function () {
-      restore();
-      if (summary) {
-        summary.textContent =
-          'Your request could not be sent — check your connection and try again, or call +971 55 702 9550.';
-        summary.classList.remove('hidden');
-      }
+      offerEmailFallback('Your request could not be sent — check your connection.');
     });
   });
 
