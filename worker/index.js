@@ -44,7 +44,31 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
 
-    // Everything else: hand straight back to the asset server, untouched.
-    return env.ASSETS.fetch(request);
+    const response = await env.ASSETS.fetch(request);
+
+    // `html_handling: "auto-trailing-slash"` sends /about -> /about/ as a 307
+    // Temporary. Every canonical tag, internal link and sitemap entry on this
+    // site uses the trailing-slash form, so that move is permanent and should
+    // say so: a 301 consolidates the two URLs, a 307 asks crawlers to keep
+    // checking the old one forever.
+    //
+    // Re-emitting the status is safe to construct by hand — a redirect carries
+    // no body for the CSP to protect, and Location is the only header that
+    // matters. Guarded to GET/HEAD so a 307's method-preserving guarantee is
+    // never traded away on a request that has a body.
+    if (
+      (response.status === 307 || response.status === 308) &&
+      response.headers.has('location') &&
+      (request.method === 'GET' || request.method === 'HEAD')
+    ) {
+      return new Response(null, {
+        status: 301,
+        headers: { Location: response.headers.get('location') },
+      });
+    }
+
+    // Everything else: hand straight back to the asset server, untouched, so
+    // the _headers rules survive. See the note above about proxying vs building.
+    return response;
   },
 };
