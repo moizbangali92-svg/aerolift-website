@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en-AE" class="no-js">
+<!--
+  MT-SERIES MODEL PAGE TEMPLATE — NOT BUILT. See src/_drafts/README.md.
+
+  Target routes: /products/hoists/mt305/ … mt308, mt312, mt316, mt525
+
+  WHY THIS IS A TEMPLATE AND NOT FIVE FINISHED PAGES
+  --------------------------------------------------
+  The work order assumed the hoists page already carries enough per-model detail
+  to build from. It does not. /products/hoists/ has two separate things:
+
+    - a CONFIGURATION table with capacities (foot-mounted 1–5 t, monorail
+      low-headroom 1–15 t, monorail normal-headroom 1–15 t, double-rail trolley
+      5–50 t, foot-mounted true vertical lift 1.5 t with 4/2 reeving)
+    - a row of bare MODEL chips: MT305, MT308, MT312, MT316, MT525
+
+  Nothing on the site maps a model number to a configuration or a capacity.
+  Writing "MT305 — foot-mounted, 1–5 t" would be a guess dressed as a
+  specification. On lifting equipment that is a safety claim, so every one of
+  these pages is blocked on the manufacturer datasheet, not merely thin.
+
+  Required per model — see CONTENT-BRIEF.md.
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.remove('no-js');</script>
+
+<title>{{MODEL}} Wire Rope Hoist — {{CAPACITY}} | Aerolift UAE</title>
+<meta name="description" content="{{SLOT: capacity, configuration and duty class, from the datasheet.}}">
+<link rel="canonical" href="https://www.aerolift-cranes.com/products/hoists/{{SLUG}}/">
+<meta name="theme-color" content="#16305e">
+<meta name="robots" content="index, follow, max-image-preview:large">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aerolift L.L.C.">
+<meta property="og:locale" content="en_AE">
+<meta property="og:url" content="https://www.aerolift-cranes.com/products/hoists/{{SLUG}}/">
+<meta property="og:title" content="{{MODEL}} Wire Rope Hoist — Aerolift UAE">
+<meta property="og:description" content="{{SLOT}}">
+<meta property="og:image" content="https://www.aerolift-cranes.com/assets/img/og-aerolift-lifting-equipment-uae.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Aerolift wire rope hoist">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/style.css">
+<script src="/js/main.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Product",
+      "name": "{{MODEL}} Wire Rope Hoist",
+      "description": "{{SLOT: from the datasheet}}",
+      "brand": { "@type": "Brand", "name": "Aerolift" },
+      "category": "Wire rope hoist",
+      "additionalProperty": [
+        { "@type": "PropertyValue", "name": "Capacity", "value": "{{SLOT}}" },
+        { "@type": "PropertyValue", "name": "Configuration", "value": "{{SLOT}}" },
+        { "@type": "PropertyValue", "name": "Duty class (FEM)", "value": "{{SLOT}}" }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.aerolift-cranes.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Products", "item": "https://www.aerolift-cranes.com/products/" },
+        { "@type": "ListItem", "position": 3, "name": "Hoists", "item": "https://www.aerolift-cranes.com/products/hoists/" },
+        { "@type": "ListItem", "position": 4, "name": "{{MODEL}}", "item": "https://www.aerolift-cranes.com/products/hoists/{{SLUG}}/" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+
+<body class="bg-white text-ink antialiased">
+
+<!-- @include sprite -->
+<!-- @nav products -->
+<!-- @include chrome -->
+
+<main id="main">
+
+  <section class="bg-primary text-white">
+    <div class="container-x py-14 md:py-16 lg:py-20">
+      <nav aria-label="Breadcrumb" class="text-xs">
+        <ol class="flex items-center gap-2">
+          <li><a href="/" class="text-on-navy underline decoration-white/30 underline-offset-4 hover:text-white hover:decoration-accent">Home</a></li>
+          <li aria-hidden="true" class="text-white/40">/</li>
+          <li><a href="/products/" class="text-on-navy underline decoration-white/30 underline-offset-4 hover:text-white hover:decoration-accent">Products</a></li>
+          <li aria-hidden="true" class="text-white/40">/</li>
+          <li><a href="/products/hoists/" class="text-on-navy underline decoration-white/30 underline-offset-4 hover:text-white hover:decoration-accent">Hoists</a></li>
+          <li aria-hidden="true" class="text-white/40">/</li>
+          <li><span aria-current="page" class="font-semibold text-white">{{MODEL}}</span></li>
+        </ol>
+      </nav>
+      <p class="eyebrow eyebrow-light mt-8">MT-Series</p>
+      <h1 class="mt-4 max-w-3xl text-balance text-2xl text-white md:text-3xl lg:text-4xl">{{MODEL}} Wire Rope Hoist</h1>
+      <p class="prose-measure mt-5 text-pretty text-base leading-relaxed text-white md:text-lg">
+        <!-- SLOT: what this model is for, in terms of the bay it belongs in —
+             not a spec dump. What job does it do that the neighbouring model
+             does not? If that cannot be answered, the five pages should stay
+             one page. -->
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 md:py-20" aria-labelledby="spec-heading">
+    <div class="container-x">
+      <h2 id="spec-heading" class="text-xl text-primary md:text-2xl">{{MODEL}} Specifications</h2>
+      <table class="mt-8 w-full text-left text-sm">
+        <tbody>
+          <!-- SLOT: every row below comes from the manufacturer datasheet.
+               NONE of it is derivable from the current site.
+                 - rated capacity
+                 - configuration (foot-mounted / monorail / double-rail trolley)
+                 - headroom class
+                 - reeving
+                 - lifting speeds (main and creep)
+                 - FEM duty classification
+                 - motor ratings
+                 - hook path / lifting height
+                 - dimensions and dead weight
+               Leave a row out rather than estimating it. -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-surface py-16 md:py-20">
+    <div class="container-x">
+      <p class="prose-measure text-base text-steel-strong">
+        Not sure which model the bay needs? Send the span, capacity, lifting
+        height and how often you lift, and an engineer will specify it —
+        <a href="/#request-a-quote" class="link-underline font-semibold">request a quote</a>
+        or see the full
+        <a href="/products/hoists/" class="link-underline font-semibold">MT-series range</a>.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- @include footer -->
+
+</body>
+</html>

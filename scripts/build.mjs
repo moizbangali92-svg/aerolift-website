@@ -63,7 +63,12 @@ await buildPage(p('src/404.html'), p('dist/404.html'));
 const findPages = async (dir, rel = '') => {
   const pages = [];
   for (const entry of await readdir(dir, { withFileTypes: true })) {
-    if (!entry.isDirectory() || ['partials', 'css', 'js', 'assets'].includes(entry.name)) continue;
+    // A leading underscore marks a directory the build must never emit —
+    // src/_drafts/ holds page templates that are queued but must not publish
+    // (unverified specs, empty locale pages). Keeping them out of dist/ is the
+    // enforcement: there is no way to accidentally ship one.
+    if (!entry.isDirectory() || entry.name.startsWith('_') ||
+        ['partials', 'css', 'js', 'assets'].includes(entry.name)) continue;
     const childRel = rel ? `${rel}/${entry.name}` : entry.name;
     if (await exists(p('src', childRel, 'index.html'))) pages.push(childRel);
     pages.push(...await findPages(p('src', childRel), childRel));

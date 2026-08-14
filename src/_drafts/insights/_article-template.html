@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en-AE" class="no-js">
+<!--
+  INSIGHTS ARTICLE TEMPLATE — NOT BUILT. See src/_drafts/README.md.
+
+  Target routes (the aftermarket cluster):
+    /insights/crane-load-testing-uae/
+    /insights/third-party-crane-inspection-uae/
+    /insights/overhead-crane-inspection-checklist/
+    /insights/fem-duty-classification-explained/
+    /insights/what-an-amc-should-cover/
+    /insights/crane-spare-parts-lead-times-uae/
+
+  PURPOSE: this cluster exists to funnel into the AMC and spare parts pages,
+  not to sit as standalone traffic. Every article must link to
+  /services/annual-maintenance-contract/ and /products/spare-parts/ with
+  descriptive anchor text — never "click here" or "learn more".
+
+  THE RISK THAT MAKES THESE DRAFTS
+  --------------------------------
+  Four of the six make regulatory claims. Load testing intervals, third-party
+  certification requirements and approving authorities differ by emirate and
+  change over time. A wrong interval on a crane safety page is not an SEO
+  problem — a reader can act on it, skip an inspection, and be harmed.
+
+  Rule: every sentence asserting a legal requirement, an interval, an authority
+  or a standard reference carries a source. If it has no source, it does not
+  ship. Two of the six (FEM duty classification, what an AMC should cover) are
+  explainer content Aerolift's own engineers can write and verify without an
+  external authority — those are the ones to start with.
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.remove('no-js');</script>
+
+<title>{{TITLE}} — Aerolift</title>
+<meta name="description" content="{{SLOT: 150-160 chars}}">
+<link rel="canonical" href="https://www.aerolift-cranes.com/insights/{{SLUG}}/">
+<meta name="theme-color" content="#16305e">
+<meta name="robots" content="index, follow, max-image-preview:large">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Aerolift L.L.C.">
+<meta property="og:locale" content="en_AE">
+<meta property="og:url" content="https://www.aerolift-cranes.com/insights/{{SLUG}}/">
+<meta property="og:title" content="{{TITLE}} — Aerolift">
+<meta property="og:description" content="{{SLOT}}">
+<meta property="og:image" content="https://www.aerolift-cranes.com/assets/img/og-aerolift-lifting-equipment-uae.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Aerolift overhead crane installed in a UAE facility">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/ibm-plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/style.css">
+<script src="/js/main.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "{{TITLE}}",
+      "description": "{{SLOT}}",
+      "author": { "@id": "https://www.aerolift-cranes.com/#organization" },
+      "publisher": { "@id": "https://www.aerolift-cranes.com/#organization" },
+      "datePublished": "{{SLOT: YYYY-MM-DD}}",
+      "dateModified": "{{SLOT: YYYY-MM-DD}}",
+      "inLanguage": "en-AE",
+      "mainEntityOfPage": "https://www.aerolift-cranes.com/insights/{{SLUG}}/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.aerolift-cranes.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Insights", "item": "https://www.aerolift-cranes.com/insights/" },
+        { "@type": "ListItem", "position": 3, "name": "{{TITLE}}", "item": "https://www.aerolift-cranes.com/insights/{{SLUG}}/" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+
+<body class="bg-white text-ink antialiased">
+
+<!-- @include sprite -->
+<!-- @include chrome -->
+
+<main id="main">
+
+  <section class="bg-primary text-white">
+    <div class="container-x py-14 md:py-16 lg:py-20">
+      <nav aria-label="Breadcrumb" class="text-xs">
+        <ol class="flex items-center gap-2">
+          <li><a href="/" class="text-on-navy underline decoration-white/30 underline-offset-4 hover:text-white hover:decoration-accent">Home</a></li>
+          <li aria-hidden="true" class="text-white/40">/</li>
+          <li><a href="/insights/" class="text-on-navy underline decoration-white/30 underline-offset-4 hover:text-white hover:decoration-accent">Insights</a></li>
+          <li aria-hidden="true" class="text-white/40">/</li>
+          <li><span aria-current="page" class="font-semibold text-white">{{SHORT_TITLE}}</span></li>
+        </ol>
+      </nav>
+      <h1 class="mt-8 max-w-3xl text-balance text-2xl text-white md:text-3xl lg:text-4xl">{{TITLE}}</h1>
+      <p class="prose-measure mt-5 text-pretty text-base leading-relaxed text-white md:text-lg">
+        <!-- SLOT: answer the question in the title in the first two sentences.
+             Someone searching this has a specific problem, not an interest in
+             the subject. -->
+      </p>
+    </div>
+  </section>
+
+  <article class="bg-white py-16 md:py-20">
+    <div class="container-x">
+      <div class="prose-measure space-y-6 text-base text-steel-strong">
+        <!-- SLOT: body.
+
+             EVERY regulatory claim needs a citation next to it:
+               - the authority (Dubai Municipality, ADCD, MOHRE, …)
+               - the standard (BS EN / FEM / LOLER-equivalent) with its number
+               - the interval, and what it applies to
+             Cite the source in the visible text, not just a comment. A reader
+             checking a compliance obligation needs to see where it comes from.
+
+             Do not generalise one emirate's rule to "the UAE". -->
+      </div>
+
+      <!-- SLOT: the funnel. Required, not optional — this cluster exists to
+           feed the aftermarket pages. Use descriptive anchor text, e.g.
+           "what an Annual Maintenance Contract covers" rather than "read more".
+           Both links must appear:
+             /services/annual-maintenance-contract/
+             /products/spare-parts/ -->
+    </div>
+  </article>
+
+  <!-- @include lifecycle-band -->
+
+</main>
+
+<!-- @include footer -->
+
+</body>
+</html>
