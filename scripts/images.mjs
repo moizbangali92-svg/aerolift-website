@@ -25,6 +25,15 @@ for (const w of HERO_WIDTHS) {
     .webp({ quality: 72, effort: 6 })
     .toFile(resolve(out, `hero-crane-bay-${w}.webp`));
   report.push([`hero-crane-bay-${w}.webp`, `${info.width}x${info.height}`, kb(info.size)]);
+
+  // AVIF is offered ahead of WebP in the <picture> source order. Quality is
+  // set lower than the WebP figure on purpose: AVIF holds detail at numbers
+  // that would visibly fall apart in WebP, so matching them would waste bytes.
+  const av = await sharp(resolve(src, 'hero-crane-bay.png'))
+    .resize({ width: w, withoutEnlargement: true })
+    .avif({ quality: 55, effort: 5 })
+    .toFile(resolve(out, `hero-crane-bay-${w}.avif`));
+  report.push([`hero-crane-bay-${w}.avif`, `${av.width}x${av.height}`, kb(av.size)]);
 }
 {
   const info = await sharp(resolve(src, 'hero-crane-bay.png'))
@@ -75,6 +84,11 @@ for (const name of PRODUCTS) {
       .webp({ quality: 78, effort: 6 })
       .toFile(resolve(out, `${name}.webp`));
     report.push([`${name}.webp`, `${webp.width}x${webp.height}`, kb(webp.size)]);
+    const avif = await sharp(srcFile)
+      .resize({ width: 800, height: 600, fit: 'cover', position })
+      .avif({ quality: 55, effort: 5 })
+      .toFile(resolve(out, `${name}.avif`));
+    report.push([`${name}.avif`, `${avif.width}x${avif.height}`, kb(avif.size)]);
     const jpg = await sharp(srcFile)
       .resize({ width: 800, height: 600, fit: 'cover', position })
       .jpeg({ quality: 80, progressive: true, mozjpeg: true })
@@ -99,6 +113,11 @@ for (const name of PRODUCTS) {
     .webp({ quality: 78, effort: 6 })
     .toFile(resolve(out, 'service-technician.webp'));
   report.push(['service-technician.webp', `${webp.width}x${webp.height}`, kb(webp.size)]);
+  const avif = await sharp(svc)
+    .resize({ width: 840, height: 1050, fit: 'cover' })
+    .avif({ quality: 55, effort: 5 })
+    .toFile(resolve(out, 'service-technician.avif'));
+  report.push(['service-technician.avif', `${avif.width}x${avif.height}`, kb(avif.size)]);
   const jpg = await sharp(svc)
     .resize({ width: 840, height: 1050, fit: 'cover' })
     .jpeg({ quality: 80, progressive: true, mozjpeg: true })
@@ -118,6 +137,11 @@ for (const name of PRODUCTS) {
     .webp({ quality: 78, effort: 6 })
     .toFile(resolve(out, 'service-installation.webp'));
   report.push(['service-installation.webp', `${webp.width}x${webp.height}`, kb(webp.size)]);
+  const avif = await sharp(inst)
+    .resize({ width: 840, height: 1050, fit: 'cover' })
+    .avif({ quality: 55, effort: 5 })
+    .toFile(resolve(out, 'service-installation.avif'));
+  report.push(['service-installation.avif', `${avif.width}x${avif.height}`, kb(avif.size)]);
   const jpg = await sharp(inst)
     .resize({ width: 840, height: 1050, fit: 'cover' })
     .jpeg({ quality: 80, progressive: true, mozjpeg: true })
@@ -138,6 +162,11 @@ for (const name of PRODUCTS) {
     .webp({ quality: 78, effort: 6 })
     .toFile(resolve(out, 'about-who-we-are.webp'));
   report.push(['about-who-we-are.webp', `${webp.width}x${webp.height}`, kb(webp.size)]);
+  const avif = await sharp(about)
+    .resize({ width: 960, height: 540, fit: 'cover' })
+    .avif({ quality: 55, effort: 5 })
+    .toFile(resolve(out, 'about-who-we-are.avif'));
+  report.push(['about-who-we-are.avif', `${avif.width}x${avif.height}`, kb(avif.size)]);
   const jpg = await sharp(about)
     .resize({ width: 960, height: 540, fit: 'cover' })
     .jpeg({ quality: 80, progressive: true, mozjpeg: true })
