@@ -37,73 +37,93 @@ one page — five pages that differ only by a number rank worse than one good on
 
 ---
 
-## 2. Emirate landing pages — BLOCKED ON LOCAL FACTS
+## 2. Emirate landing pages — CANCELLED
 
-**Routes:** `/lifting-equipment/dubai/`, `sharjah/`, `abu-dhabi/`, `ajman/`,
-`ras-al-khaimah/`
+Not being built. UAE keyword data shows roughly 20 searches a month for
+geo-modified crane terms, which does not justify five pages that would each need
+genuinely distinct local facts to avoid being doorway pages.
 
-**These fail if they are one template with the place name swapped.** That is the
-doorway-page pattern; it costs site-wide quality signals rather than simply not
-ranking. Each page must contain something true of that emirate and false of the
-other four.
-
-Per emirate:
-
-1. **Industrial zones actually served** — Al Quoz, JAFZA, DIP, Mussafah,
-   Hamriyah, SAIF Zone, etc. Only ones genuinely covered. Do not pad with every
-   zone in the emirate.
-2. **Realistic call-out response time to that emirate.** This is a commitment
-   customers will hold you to at 3 a.m. It must come from whoever dispatches
-   the team. If no number can be committed to, that section gets deleted rather
-   than softened into something meaningless.
-3. **Installed base or reference sites that can be named** — with written
-   permission from the client named. If none, the section is omitted; it is not
-   replaced with "leading manufacturers in the region".
-4. **The local authority and inspection context** for that emirate — see §3,
-   same sourcing rule.
-
-Publishing three good emirate pages beats five thin ones. Start with the
-emirates where the answers are real.
+The template that existed for them has been deleted. If this is ever revived,
+the requirements are in the git history of this file.
 
 ---
 
 ## 3. Aftermarket insights cluster — BLOCKED ON REGULATORY SOURCES
 
-**Routes:** `/insights/crane-load-testing-uae/`,
-`third-party-crane-inspection-uae/`, `overhead-crane-inspection-checklist/`,
-`fem-duty-classification-explained/`, `what-an-amc-should-cover/`,
-`crane-spare-parts-lead-times-uae/`
+Two of the six are **published**: `/insights/fem-duty-classification-explained/`
+and `/insights/what-an-amc-should-cover/`. Neither depends on an external
+authority.
 
-This is the highest-value content on the list — load testing and third-party
-certification are regulatory obligations in the UAE, so the demand is recurring
-and the intent is non-discretionary. It is also the easiest to get badly wrong.
+Two more have **scaffolding built** and are blocked on the questions below:
+`src/_drafts/insights/crane-load-testing-uae/` and
+`.../third-party-crane-inspection-uae/`. The remaining two
+(`overhead-crane-inspection-checklist`, `crane-spare-parts-lead-times-uae`) are
+not started.
 
-**Two of the six can be written now.** `fem-duty-classification-explained` and
-`what-an-amc-should-cover` are explainer content your own engineers can write
-and verify with no external authority. The AMC terms are already established and
-on the site (12-month term, quarterly inspections, parts charged separately).
-**Start there** — the cluster gets a foundation while the regulatory sourcing
-happens.
+> These two pages state legal obligations, published by the company the reader
+> would pay to satisfy them. A wrong interval or a wrong authority can cause a
+> real operator to skip a real test. **Answers must come from Aerolift's
+> engineers.** Do not source them from competitor sites or general web search —
+> the point is not to find *an* answer, it is to publish one Aerolift will stand
+> behind. Where an answer is "it depends", that is a publishable answer; where it
+> is "I think so", it is not.
 
-**The other four need, per claim:**
+### 3a. Questions for the engineers — crane load testing
 
-- **which authority governs** crane load testing and third-party certification,
-  per emirate — Dubai Municipality, ADCD/Abu Dhabi, MOHRE or another
-- **at what interval**, and what the interval applies to (capacity? duty class?
-  crane type?)
-- **the standard reference** with its number — BS EN, FEM, or the applicable
-  LOLER-equivalent
-- **whether it differs by emirate.** It very likely does. Do not let one
-  emirate's rule be published as "the UAE".
+1. **Which authority requires load testing of overhead cranes, and does it
+   differ by emirate?** Name each one that applies to customers Aerolift serves.
+   1a. Do free zones (JAFZA, DIP, Hamriyah, SAIF, KIZAD) fall under their own
+       authority rather than the municipality? Which ones differ?
+   1b. Is there a federal requirement (MOHRE or other) that applies regardless
+       of emirate?
+2. **How often must a load test be carried out?** State the interval.
+   2a. What is the interval keyed to — crane capacity, duty class, crane type,
+       age, or industry?
+   2b. What events reset or trigger it outside the normal cycle — installation,
+       relocation, major repair, change of ownership?
+3. **What does the test physically involve?**
+   3a. What proof load is applied, as a percentage of SWL, and does that figure
+       differ between a commissioning test and a periodic one?
+4. **What does the customer receive afterwards?**
+   4a. How long is the certificate valid, and does validity differ from the test
+       interval?
+   4b. Who accepts it — the municipality, the insurer, the customer's own
+       auditor, all three?
+5. **Who is legally permitted to carry out the test?**
+   5a. What competency or accreditation must the tester hold, and who issues it?
+6. **What are the consequences of not testing?** Only answer if it can be stated
+   factually — enforcement action, insurance invalidation, liability. If this
+   cannot be sourced precisely, the section will be cut rather than softened.
 
-Every such statement carries its source in the visible text, so a reader
-checking a compliance obligation can see where it came from.
+### 3b. Questions for the engineers — third-party inspection
 
-> Aerolift's engineers know this material. It must not be assembled from the
-> open web — a plausible-looking inspection interval on a crane safety page is
-> the single most harmful thing this site could publish.
+7. **What does "third party" mean in this context?**
+   7a. **The crux:** may the company that installed or currently maintains a
+       crane also perform its statutory inspection? This defines both the
+       reader's obligation and what Aerolift is permitted to do for an existing
+       AMC customer.
+8. **Who must be accredited, and by whom?**
+   8a. Is accreditation recognised across all emirates, or must it be held per
+       emirate or per free zone?
+9. **How does a statutory third-party inspection differ from a scheduled
+   maintenance inspection?** Customers routinely assume a quarterly AMC visit
+   satisfies the statutory requirement. Does it? If not, saying so plainly is
+   the most valuable sentence on the page.
+10. **What must the inspection report contain?**
+    10a. How long must it be retained, and who has to produce it on demand?
+11. **How often is third-party inspection required, and is it the same event as
+    the load test** or a separate one?
+12. **Given the answer to 7a — what can Aerolift do for a customer whose crane
+    it already maintains, and what must be referred elsewhere?** If there are
+    cranes Aerolift cannot independently inspect, the page will say so.
 
----
+### 3c. Standing rules for both pages
+
+- Every claim carries its source **in the visible text**, not a code comment. A
+  reader checking a compliance obligation needs to see where it came from.
+- Never publish one emirate's rule as "the UAE".
+- Where the honest answer is that it varies, publish the variation rather than
+  the simplification.
 
 ## 4. Not blocked on facts — outstanding from earlier phases
 
