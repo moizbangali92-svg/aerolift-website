@@ -662,6 +662,27 @@
    IntersectionObserver, so unrevealed elements would print as blank
    regions. On paper everything is simply visible. */
 /* ---------------------------------------------------------------
+   GALLERY MASONRY
+   Real site photographs come in whatever shape the phone was held.
+   A fixed-ratio grid would crop the crane out of the tall ones, so the
+   gallery uses CSS columns and lets every photo keep its own aspect
+   ratio. No JavaScript, no layout library.
+   --------------------------------------------------------------- */
+.gallery-masonry {
+  column-count: 1;
+  column-gap: 1.5rem;
+}
+@media (min-width: 640px)  { .gallery-masonry { column-count: 2; } }
+@media (min-width: 1024px) { .gallery-masonry { column-count: 3; } }
+
+.gallery-masonry > li {
+  /* Columns will otherwise slice a figure across a column boundary. */
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 1.5rem;
+}
+
+/* ---------------------------------------------------------------
    FLOATING WHATSAPP BUTTON
    Collapsed to a circle by default; the label slides out on hover and
    focus so the control is self-describing without occupying the corner

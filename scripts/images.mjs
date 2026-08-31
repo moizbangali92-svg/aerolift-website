@@ -174,6 +174,52 @@ for (const name of PRODUCTS) {
   report.push(['about-who-we-are.jpg', `${jpg.width}x${jpg.height}`, kb(jpg.size)]);
 }
 
+/* ---- Gallery: real site and equipment photographs ----------------
+   Client-supplied photographs of Aerolift equipment and Aerolift crews at
+   work. Unlike every other image here these are NOT cropped to a fixed
+   ratio: they are a mix of portrait and landscape, and the gallery lays
+   them out in a masonry column so each keeps its own shape. Cropping a
+   real site photo to fit a grid is how you cut the crane out of it.
+
+   Two outputs per photo: a display size for the grid, and a larger JPEG
+   for the click-through. Widths are capped at the source width, so a
+   720px-wide phone photo is never upscaled into a soft mess. */
+const GALLERY = [
+  'gallery-portable-gantry-2-5t-twin-hoist',
+  'gallery-portable-gantry-5t-workshop',
+  'gallery-technicians-on-site',
+  'gallery-end-carriage-rigging',
+  'gallery-gantry-erection-site',
+  'gallery-gantry-erection-assembly',
+  'gallery-gantry-frame-lift',
+];
+for (const name of GALLERY) {
+  const srcFile = resolve(src, `${name}.jpg`);
+  try {
+    const meta = await sharp(srcFile).metadata();
+    const displayW = Math.min(900, meta.width);
+    const fullW = Math.min(1600, meta.width);
+
+    const avif = await sharp(srcFile).resize({ width: displayW, withoutEnlargement: true })
+      .avif({ quality: 55, effort: 5 }).toFile(resolve(out, `${name}.avif`));
+    report.push([`${name}.avif`, `${avif.width}x${avif.height}`, kb(avif.size)]);
+
+    const webp = await sharp(srcFile).resize({ width: displayW, withoutEnlargement: true })
+      .webp({ quality: 78, effort: 6 }).toFile(resolve(out, `${name}.webp`));
+    report.push([`${name}.webp`, `${webp.width}x${webp.height}`, kb(webp.size)]);
+
+    const jpg = await sharp(srcFile).resize({ width: displayW, withoutEnlargement: true })
+      .jpeg({ quality: 80, progressive: true, mozjpeg: true }).toFile(resolve(out, `${name}.jpg`));
+    report.push([`${name}.jpg`, `${jpg.width}x${jpg.height}`, kb(jpg.size)]);
+
+    const full = await sharp(srcFile).resize({ width: fullW, withoutEnlargement: true })
+      .jpeg({ quality: 82, progressive: true, mozjpeg: true }).toFile(resolve(out, `${name}-full.jpg`));
+    report.push([`${name}-full.jpg`, `${full.width}x${full.height}`, kb(full.size)]);
+  } catch {
+    report.push([name, '(no source — skipped)', '']);
+  }
+}
+
 /* ---- Open Graph card -------------------------------------------- */
 {
   const info = await sharp(resolve(src, 'hero-crane-bay.png'))
