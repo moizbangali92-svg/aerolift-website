@@ -662,24 +662,166 @@
    IntersectionObserver, so unrevealed elements would print as blank
    regions. On paper everything is simply visible. */
 /* ---------------------------------------------------------------
-   GALLERY MASONRY
-   Real site photographs come in whatever shape the phone was held.
-   A fixed-ratio grid would crop the crane out of the tall ones, so the
-   gallery uses CSS columns and lets every photo keep its own aspect
-   ratio. No JavaScript, no layout library.
-   --------------------------------------------------------------- */
-.gallery-masonry {
-  column-count: 1;
-  column-gap: 1.5rem;
-}
-@media (min-width: 640px)  { .gallery-masonry { column-count: 2; } }
-@media (min-width: 1024px) { .gallery-masonry { column-count: 3; } }
+   GALLERY
+   The first attempt used CSS columns so every photo kept its exact
+   aspect ratio. Honest, but it measured 362px of ragged column height
+   and seven white caption blocks of different sizes — it read as a
+   folder of photos, not a designed page.
 
-.gallery-masonry > li {
-  /* Columns will otherwise slice a figure across a column boundary. */
-  break-inside: avoid;
-  page-break-inside: avoid;
-  margin-bottom: 1.5rem;
+   This is an aligned grid instead. Row height is fixed; tiles claim
+   one or two rows depending on whether the photo is landscape or
+   portrait, so the grid stays flush while each photo still gets a box
+   close to its own shape. The small crop that remains is a thumbnail
+   crop: the full uncropped photograph is one click away in the
+   lightbox.
+   --------------------------------------------------------------- */
+.gallery-feature {
+  display: block;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 1rem;
+}
+@media (min-width: 1024px) {
+  .gallery-feature { aspect-ratio: 21 / 8; margin-bottom: 1.25rem; }
+}
+
+/* Six tiles into 1, 2 or 3 columns — all of which divide exactly, so the
+   block is flush at every breakpoint with no half-empty final row. The
+   first attempt put all seven in one grid and left a 392px hole in the
+   third column. */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 640px)  { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
+
+/* Portrait tiles. Five of the six photographs are portrait, so this is
+   the shape that crops least overall; the one landscape frame is centre
+   -cropped, and its subject sits centre-frame. Every crop here is a
+   thumbnail crop — the lightbox shows the full uncropped photograph. */
+.gallery-tile { aspect-ratio: 3 / 4; }
+
+.gallery-figure {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: var(--color-primary);
+}
+.gallery-figure a { display: block; height: 100%; }
+.gallery-figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.gallery-figure:hover img,
+.gallery-figure:focus-within img { transform: scale(1.04); }
+
+/* Caption sits on the photograph rather than in a white block beneath
+   it, so tiles are a uniform height and the grid reads as one surface.
+   The scrim is opaque enough at the base for white text to clear AA. */
+.gallery-cap {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 2.75rem 1.125rem 1rem;
+  background-image: linear-gradient(
+    to top,
+    rgb(9 20 41 / 0.93) 0%,
+    rgb(9 20 41 / 0.78) 48%,
+    rgb(9 20 41 / 0) 100%
+  );
+  color: #fff;
+}
+.gallery-cap-title {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+}
+.gallery-cap-text {
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: rgb(255 255 255 / 0.88);
+}
+.gallery-feature .gallery-cap-title { font-size: 1.25rem; }
+.gallery-feature .gallery-cap-text  { max-width: 42rem; }
+
+/* A pointer-only reveal would hide the description from touch users, so
+   it stays visible everywhere and only the zoom is a hover affordance. */
+.gallery-figure a:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: -3px;
+}
+
+/* ---------------------------------------------------------------
+   LIGHTBOX
+   Opens the full, uncropped photograph. Without JavaScript the same
+   markup is a plain link straight to the image file, which is what it
+   did before — nothing is lost, only polish.
+   --------------------------------------------------------------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  place-items: center;
+  gap: 0.75rem;
+  padding: clamp(0.75rem, 3vw, 2.5rem);
+  background-color: rgb(9 20 41 / 0.94);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s;
+}
+.lightbox[data-open="true"] { opacity: 1; visibility: visible; }
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
+}
+.lightbox-cap {
+  max-width: 44rem;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 0.9);
+}
+.lightbox-close,
+.lightbox-nav {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgb(255 255 255 / 0.25);
+  border-radius: 999px;
+  background-color: rgb(9 20 41 / 0.6);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.lightbox-close:hover,
+.lightbox-nav:hover { background-color: var(--color-accent); border-color: var(--color-accent); color: var(--color-ink); }
+.lightbox-close:focus-visible,
+.lightbox-nav:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
+.lightbox-close { top: 1rem; right: 1rem; }
+.lightbox-nav--prev { left: 1rem; top: 50%; transform: translateY(-50%); }
+.lightbox-nav--next { right: 1rem; top: 50%; transform: translateY(-50%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-figure img,
+  .gallery-figure:hover img,
+  .gallery-figure:focus-within img { transition: none; transform: none; }
+  .lightbox { transition: none; }
 }
 
 /* ---------------------------------------------------------------

@@ -527,3 +527,123 @@
   window.addEventListener('resize', sync);
   sync();   // correct on load, including a restored scroll position
 })();
+
+/* =================================================================
+ * 10. Gallery lightbox.
+ *
+ * Progressive enhancement: the markup is a list of ordinary links to
+ * full-size images. Without JavaScript, clicking one opens the photo —
+ * which is exactly what the gallery did before this existed. With it,
+ * the photo opens in place with keyboard navigation.
+ *
+ * Built rather than pulled in: a lightbox is a dialog, a couple of
+ * listeners and a focus trap, and a library would have cost more bytes
+ * than the page's images.
+ * ================================================================= */
+(function () {
+  'use strict';
+
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('[data-lightbox]')
+  );
+  if (!links.length) return;
+
+  var index = 0;
+  var lastFocused = null;
+
+  var box = document.createElement('div');
+  box.className = 'lightbox';
+  box.setAttribute('role', 'dialog');
+  box.setAttribute('aria-modal', 'true');
+  box.setAttribute('aria-label', 'Gallery image viewer');
+  box.setAttribute('data-open', 'false');
+  box.setAttribute('inert', '');
+  box.innerHTML =
+    '<img alt="">' +
+    '<p class="lightbox-cap"></p>' +
+    '<button type="button" class="lightbox-close" aria-label="Close viewer">' +
+      '<svg class="icon icon-md" aria-hidden="true"><use href="#i-x"/></svg></button>' +
+    '<button type="button" class="lightbox-nav lightbox-nav--prev" aria-label="Previous image">' +
+      '<svg class="icon icon-md" aria-hidden="true" style="transform:rotate(180deg)"><use href="#i-arrow-right"/></svg></button>' +
+    '<button type="button" class="lightbox-nav lightbox-nav--next" aria-label="Next image">' +
+      '<svg class="icon icon-md" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>';
+  document.body.appendChild(box);
+
+  var img = box.querySelector('img');
+  var cap = box.querySelector('.lightbox-cap');
+  var closeBtn = box.querySelector('.lightbox-close');
+  var prevBtn = box.querySelector('.lightbox-nav--prev');
+  var nextBtn = box.querySelector('.lightbox-nav--next');
+
+  // Only one photo means the arrows are furniture, not controls.
+  if (links.length < 2) {
+    prevBtn.hidden = true;
+    nextBtn.hidden = true;
+  }
+
+  var show = function (i) {
+    index = (i + links.length) % links.length;
+    var link = links[index];
+    var thumb = link.querySelector('img');
+    img.src = link.getAttribute('href');
+    // The thumbnail's alt already describes the photograph; reuse it
+    // rather than inventing a second description of the same image.
+    img.alt = thumb ? thumb.getAttribute('alt') : '';
+    cap.textContent = link.getAttribute('data-caption') || '';
+  };
+
+  var open = function (i, trigger) {
+    lastFocused = trigger || document.activeElement;
+    show(i);
+    box.removeAttribute('inert');
+    box.setAttribute('data-open', 'true');
+    document.body.style.overflow = 'hidden';
+
+    // The closed dialog is `visibility: hidden`, and a hidden element cannot
+    // take focus. Setting the attribute is not enough on its own — the style
+    // has to be recomputed first, or .focus() silently does nothing and a
+    // keyboard user is left tabbing around behind the open dialog. Reading a
+    // layout property forces that flush synchronously. The timeout is a
+    // fallback for engines that defer it anyway; focusing twice is harmless.
+    void box.offsetWidth;
+    closeBtn.focus();
+    if (document.activeElement !== closeBtn) {
+      setTimeout(function () { closeBtn.focus(); }, 50);
+    }
+  };
+
+  var close = function () {
+    box.setAttribute('data-open', 'false');
+    box.setAttribute('inert', '');
+    document.body.style.overflow = '';
+    // Release the image so a large photo is not held in memory.
+    img.removeAttribute('src');
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+  };
+
+  links.forEach(function (link, i) {
+    link.addEventListener('click', function (e) {
+      // Let modified clicks (new tab, download, middle click) behave normally.
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      open(i, link);
+    });
+  });
+
+  closeBtn.addEventListener('click', close);
+  prevBtn.addEventListener('click', function () { show(index - 1); });
+  nextBtn.addEventListener('click', function () { show(index + 1); });
+
+  // Clicking the backdrop closes; clicking the photo or a control does not.
+  box.addEventListener('click', function (e) {
+    if (e.target === box) close();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (box.getAttribute('data-open') !== 'true') return;
+    if (e.key === 'Escape') { close(); return; }
+    if (links.length < 2) return;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); show(index - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); show(index + 1); }
+  });
+})();

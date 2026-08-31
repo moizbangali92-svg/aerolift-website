@@ -109,128 +109,127 @@
 
   <!-- ==========================================================
        GALLERY
-       Masonry columns so portrait and landscape photographs keep
-       their own shape. Each tile links to the larger image, so it
-       works without JavaScript and needs no lightbox library.
+       Aligned grid: tiles claim one or two rows depending on whether
+       the photo is landscape or portrait, so the grid stays flush
+       instead of ragged. The featured shot takes a 2x3 block so the
+       page opens on something.
+
+       Each tile is an ordinary link to the full-size photograph.
+       main.js upgrades that into a lightbox; without JavaScript the
+       link still opens the image. Captions sit on a scrim over the
+       photo rather than in a white block beneath it — see input.css.
        ========================================================== -->
   <section class="bg-white py-16 md:py-20 lg:py-24" aria-labelledby="gallery-heading">
     <div class="container-x">
       <h2 id="gallery-heading" class="sr-only">Photographs of Aerolift equipment and installations</h2>
 
-      <ul class="gallery-masonry">
-
-        <li class="reveal">
-          <figure class="card overflow-hidden">
-            <a href="/assets/img/gallery-portable-gantry-2-5t-twin-hoist-full.jpg" class="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark">
-              <picture>
-                <source type="image/avif" srcset="/assets/img/gallery-portable-gantry-2-5t-twin-hoist.avif">
-                <source type="image/webp" srcset="/assets/img/gallery-portable-gantry-2-5t-twin-hoist.webp">
-                <img src="/assets/img/gallery-portable-gantry-2-5t-twin-hoist.jpg" alt="Aerolift-branded portable gantry crane marked 2.5 t plus 2.5 t, carrying two red electric chain hoists on the beam, standing on castors in an open yard" width="900" height="1200" loading="lazy" decoding="async" class="w-full transition-transform duration-300 hover:scale-[1.03]">
-              </picture>
-            </a>
-            <figcaption class="p-5">
-              <h3 class="text-base text-primary">Portable Gantry, 2.5&nbsp;t + 2.5&nbsp;t</h3>
-              <p class="mt-1 text-sm leading-relaxed text-steel-strong">Twin electric chain hoists on one beam, running on castors. Two independent hooks let a long load be lifted level without a spreader.</p>
-            </figcaption>
-          </figure>
-        </li>
-
-        <li class="reveal">
-          <figure class="card overflow-hidden">
-            <a href="/assets/img/gallery-technicians-on-site-full.jpg" class="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark">
-              <picture>
-                <source type="image/avif" srcset="/assets/img/gallery-technicians-on-site.avif">
-                <source type="image/webp" srcset="/assets/img/gallery-technicians-on-site.webp">
-                <img src="/assets/img/gallery-technicians-on-site.jpg" alt="Two Aerolift technicians in branded hi-vis vests and hard hats watching work on the leg of a large yellow gantry crane, with a boom lift alongside" width="900" height="1200" loading="lazy" decoding="async" class="w-full transition-transform duration-300 hover:scale-[1.03]">
-              </picture>
-            </a>
-            <figcaption class="p-5">
-              <h3 class="text-base text-primary">On Site at a Gantry Leg</h3>
-              <p class="mt-1 text-sm leading-relaxed text-steel-strong">Work at height on a gantry structure, reached by boom lift. The access equipment is as much a part of the plan as the crane.</p>
-            </figcaption>
-          </figure>
-        </li>
-
-        <li class="reveal">
-          <figure class="card overflow-hidden">
-            <a href="/assets/img/gallery-gantry-erection-site-full.jpg" class="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark">
+      <div class="gallery-feature">
+          <figure class="gallery-figure">
+            <a href="/assets/img/gallery-gantry-erection-site-full.jpg" data-lightbox data-caption="Gantry Erection in the Yard — Legs standing, girder going up, rails already laid. A gantry this size goes together in a sequence planned before anything leaves the ground.">
               <picture>
                 <source type="image/avif" srcset="/assets/img/gallery-gantry-erection-site.avif">
                 <source type="image/webp" srcset="/assets/img/gallery-gantry-erection-site.webp">
-                <img src="/assets/img/gallery-gantry-erection-site.jpg" alt="Gantry crane erection in an open yard, with two mobile cranes supporting the girder and legs and rail track laid across the ground" width="900" height="506" loading="lazy" decoding="async" class="w-full transition-transform duration-300 hover:scale-[1.03]">
+                <img src="/assets/img/gallery-gantry-erection-site.jpg" alt="Gantry crane erection in an open yard, with two mobile cranes supporting the girder and legs and rail track laid across the ground" width="900" height="506" decoding="async">
               </picture>
+              <figcaption class="gallery-cap">
+                <p class="gallery-cap-title">Gantry Erection in the Yard</p>
+                <p class="gallery-cap-text">Legs standing, girder going up, rails already laid. A gantry this size goes together in a sequence planned before anything leaves the ground.</p>
+              </figcaption>
             </a>
-            <figcaption class="p-5">
-              <h3 class="text-base text-primary">Gantry Erection in the Yard</h3>
-              <p class="mt-1 text-sm leading-relaxed text-steel-strong">Legs standing, girder going up, rails already laid. A gantry of this size goes together in a sequence that is planned before anything leaves the ground.</p>
-            </figcaption>
+          </figure>
+      </div>
+
+      <ul class="gallery-grid">
+        <li class="gallery-tile">
+          <figure class="gallery-figure">
+            <a href="/assets/img/gallery-portable-gantry-2-5t-twin-hoist-full.jpg" data-lightbox data-caption="Portable Gantry, 2.5 t + 2.5 t — Twin electric chain hoists on one beam, on castors. Two independent hooks lift a long load level without a spreader.">
+              <picture>
+                <source type="image/avif" srcset="/assets/img/gallery-portable-gantry-2-5t-twin-hoist.avif">
+                <source type="image/webp" srcset="/assets/img/gallery-portable-gantry-2-5t-twin-hoist.webp">
+                <img src="/assets/img/gallery-portable-gantry-2-5t-twin-hoist.jpg" alt="Aerolift-branded portable gantry crane marked 2.5 t plus 2.5 t, carrying two red electric chain hoists on the beam, standing on castors in an open yard" width="900" height="1200" loading="lazy" decoding="async">
+              </picture>
+              <figcaption class="gallery-cap">
+                <p class="gallery-cap-title">Portable Gantry, 2.5&nbsp;t + 2.5&nbsp;t</p>
+                <p class="gallery-cap-text">Twin electric chain hoists on one beam, on castors. Two independent hooks lift a long load level without a spreader.</p>
+              </figcaption>
+            </a>
           </figure>
         </li>
-
-        <li class="reveal">
-          <figure class="card overflow-hidden">
-            <a href="/assets/img/gallery-portable-gantry-5t-workshop-full.jpg" class="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark">
+        <li class="gallery-tile">
+          <figure class="gallery-figure">
+            <a href="/assets/img/gallery-portable-gantry-5t-workshop-full.jpg" data-lightbox data-caption="Portable Gantry, 5 t — Rolled into a workshop bay rather than built into it. Where a runway cannot be fitted, the crane moves to the load.">
               <picture>
                 <source type="image/avif" srcset="/assets/img/gallery-portable-gantry-5t-workshop.avif">
                 <source type="image/webp" srcset="/assets/img/gallery-portable-gantry-5t-workshop.webp">
-                <img src="/assets/img/gallery-portable-gantry-5t-workshop.jpg" alt="Aerolift-branded portable gantry crane marked 5 t with a chain hoist and hook, standing inside a steel-framed workshop bay" width="720" height="1280" loading="lazy" decoding="async" class="w-full transition-transform duration-300 hover:scale-[1.03]">
+                <img src="/assets/img/gallery-portable-gantry-5t-workshop.jpg" alt="Aerolift-branded portable gantry crane marked 5 t with a chain hoist and hook, standing inside a steel-framed workshop bay" width="720" height="1280" loading="lazy" decoding="async">
               </picture>
+              <figcaption class="gallery-cap">
+                <p class="gallery-cap-title">Portable Gantry, 5&nbsp;t</p>
+                <p class="gallery-cap-text">Rolled into a workshop bay rather than built into it. Where a runway cannot be fitted, the crane moves to the load.</p>
+              </figcaption>
             </a>
-            <figcaption class="p-5">
-              <h3 class="text-base text-primary">Portable Gantry, 5&nbsp;t</h3>
-              <p class="mt-1 text-sm leading-relaxed text-steel-strong">Rolled into a workshop bay rather than built into it. Where a runway cannot be fitted, the crane moves to the load instead.</p>
-            </figcaption>
           </figure>
         </li>
-
-        <li class="reveal">
-          <figure class="card overflow-hidden">
-            <a href="/assets/img/gallery-end-carriage-rigging-full.jpg" class="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark">
+        <li class="gallery-tile">
+          <figure class="gallery-figure">
+            <a href="/assets/img/gallery-technicians-on-site-full.jpg" data-lightbox data-caption="On Site at a Gantry Leg — Work at height reached by boom lift. The access equipment is as much a part of the plan as the crane.">
+              <picture>
+                <source type="image/avif" srcset="/assets/img/gallery-technicians-on-site.avif">
+                <source type="image/webp" srcset="/assets/img/gallery-technicians-on-site.webp">
+                <img src="/assets/img/gallery-technicians-on-site.jpg" alt="Two Aerolift technicians in branded hi-vis vests and hard hats watching work on the leg of a large yellow gantry crane, with a boom lift alongside" width="900" height="1200" loading="lazy" decoding="async">
+              </picture>
+              <figcaption class="gallery-cap">
+                <p class="gallery-cap-title">On Site at a Gantry Leg</p>
+                <p class="gallery-cap-text">Work at height reached by boom lift. The access equipment is as much a part of the plan as the crane.</p>
+              </figcaption>
+            </a>
+          </figure>
+        </li>
+        <li class="gallery-tile">
+          <figure class="gallery-figure">
+            <a href="/assets/img/gallery-end-carriage-rigging-full.jpg" data-lightbox data-caption="Rigging an End Carriage — Slings set and checked on the ground. Most of a crane installation happens before anything is in the air.">
               <picture>
                 <source type="image/avif" srcset="/assets/img/gallery-end-carriage-rigging.avif">
                 <source type="image/webp" srcset="/assets/img/gallery-end-carriage-rigging.webp">
-                <img src="/assets/img/gallery-end-carriage-rigging.jpg" alt="Aerolift crew in branded hi-vis vests rigging a crane end carriage with slings and chains beneath a mobile crane hook" width="900" height="675" loading="lazy" decoding="async" class="w-full transition-transform duration-300 hover:scale-[1.03]">
+                <img src="/assets/img/gallery-end-carriage-rigging.jpg" alt="Aerolift crew in branded hi-vis vests rigging a crane end carriage with slings and chains beneath a mobile crane hook" width="900" height="675" loading="lazy" decoding="async">
               </picture>
+              <figcaption class="gallery-cap">
+                <p class="gallery-cap-title">Rigging an End Carriage</p>
+                <p class="gallery-cap-text">Slings set and checked on the ground. Most of a crane installation happens before anything is in the air.</p>
+              </figcaption>
             </a>
-            <figcaption class="p-5">
-              <h3 class="text-base text-primary">Rigging an End Carriage</h3>
-              <p class="mt-1 text-sm leading-relaxed text-steel-strong">Slings set and checked on the ground before the lift. Most of the work in a crane installation happens before anything is in the air.</p>
-            </figcaption>
           </figure>
         </li>
-
-        <li class="reveal">
-          <figure class="card overflow-hidden">
-            <a href="/assets/img/gallery-gantry-erection-assembly-full.jpg" class="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark">
+        <li class="gallery-tile">
+          <figure class="gallery-figure">
+            <a href="/assets/img/gallery-gantry-erection-assembly-full.jpg" data-lightbox data-caption="Part-Assembled, Still on the Hook — Legs and cross members held in position while the connections are made. Nothing is released until the joint is complete.">
               <picture>
                 <source type="image/avif" srcset="/assets/img/gallery-gantry-erection-assembly.avif">
                 <source type="image/webp" srcset="/assets/img/gallery-gantry-erection-assembly.webp">
-                <img src="/assets/img/gallery-gantry-erection-assembly.jpg" alt="Looking up at a gantry crane part-assembled, its legs and cross members held by mobile cranes while an access platform reaches the joint" width="900" height="1600" loading="lazy" decoding="async" class="w-full transition-transform duration-300 hover:scale-[1.03]">
+                <img src="/assets/img/gallery-gantry-erection-assembly.jpg" alt="Looking up at a gantry crane part-assembled, its legs and cross members held by mobile cranes while an access platform reaches the joint" width="900" height="1600" loading="lazy" decoding="async">
               </picture>
+              <figcaption class="gallery-cap">
+                <p class="gallery-cap-title">Part-Assembled, Still on the Hook</p>
+                <p class="gallery-cap-text">Legs and cross members held in position while the connections are made. Nothing is released until the joint is complete.</p>
+              </figcaption>
             </a>
-            <figcaption class="p-5">
-              <h3 class="text-base text-primary">Part-Assembled, Still on the Hook</h3>
-              <p class="mt-1 text-sm leading-relaxed text-steel-strong">Legs and cross members held in position while the connections are made. Nothing is released until the joint is complete.</p>
-            </figcaption>
           </figure>
         </li>
-
-        <li class="reveal">
-          <figure class="card overflow-hidden">
-            <a href="/assets/img/gallery-gantry-frame-lift-full.jpg" class="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-dark">
+        <li class="gallery-tile">
+          <figure class="gallery-figure">
+            <a href="/assets/img/gallery-gantry-frame-lift-full.jpg" data-lightbox data-caption="Frame Going Into Position — A gantry frame lowered onto its rails, one person on the ground with eyes on the load.">
               <picture>
                 <source type="image/avif" srcset="/assets/img/gallery-gantry-frame-lift.avif">
                 <source type="image/webp" srcset="/assets/img/gallery-gantry-frame-lift.webp">
-                <img src="/assets/img/gallery-gantry-frame-lift.jpg" alt="A yellow gantry crane frame suspended on chains from a mobile crane, being lowered into position in an open yard while a worker watches from the ground" width="900" height="1200" loading="lazy" decoding="async" class="w-full transition-transform duration-300 hover:scale-[1.03]">
+                <img src="/assets/img/gallery-gantry-frame-lift.jpg" alt="A yellow gantry crane frame suspended on chains from a mobile crane, being lowered into position in an open yard while a worker watches from the ground" width="900" height="1200" loading="lazy" decoding="async">
               </picture>
+              <figcaption class="gallery-cap">
+                <p class="gallery-cap-title">Frame Going Into Position</p>
+                <p class="gallery-cap-text">A gantry frame lowered onto its rails, one person on the ground with eyes on the load.</p>
+              </figcaption>
             </a>
-            <figcaption class="p-5">
-              <h3 class="text-base text-primary">Frame Going Into Position</h3>
-              <p class="mt-1 text-sm leading-relaxed text-steel-strong">A gantry frame lowered onto its rails. One person on the ground with eyes on the load, which is where they should be.</p>
-            </figcaption>
           </figure>
         </li>
-
       </ul>
     </div>
   </section>
