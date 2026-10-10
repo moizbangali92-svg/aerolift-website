@@ -7,3 +7,5 @@ aerolift-home-preview.html
 aerolift-site-preview/
 aerolift-site-preview.zip
 .wrangler/
+.dev.vars
+.dev.vars.*

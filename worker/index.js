@@ -1,5 +1,5 @@
 /**
- * Aerolift — apex to www redirect.
+ * Aerolift — apex to www redirect, and the quote form backend.
  *
  * WHY THIS IS CODE AND NOT A DASHBOARD RULE
  * -----------------------------------------
@@ -26,6 +26,8 @@
  * every page without any visible error.
  */
 
+import { handleQuote } from './quote.js';
+
 const APEX = 'aerolift-cranes.com';
 const CANONICAL_HOST = 'www.aerolift-cranes.com';
 
@@ -44,11 +46,17 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
 
-    // The quote form has no backend by design (see quote-form.html), so with
-    // JavaScript enabled it never POSTs anywhere. Without JavaScript the browser
-    // does submit natively, and a POST to a static asset returns 405 — a dead
-    // end for someone who just typed out an enquiry. Send them back to the page
-    // as a GET so they at least land on the phone number and email address.
+    // The quote form's backend. It has to be matched before the asset binding
+    // sees the request, which is what `run_worker_first` in wrangler.jsonc
+    // buys us — otherwise /api/quote is just a path with no file behind it and
+    // the 404 page answers instead.
+    if (url.pathname === '/api/quote') {
+      return handleQuote(request, env);
+    }
+
+    // Any other POST reaches a static asset, which answers 405 — a dead end
+    // for someone who just typed something out. Send them back to the page as
+    // a GET so they at least land on the phone number and email address.
     // 303 rather than 301/302: it is defined to convert the follow-up to GET.
     if (request.method === 'POST') {
       return new Response(null, { status: 303, headers: { Location: url.pathname } });

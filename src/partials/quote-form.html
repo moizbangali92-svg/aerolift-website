@@ -1,23 +1,22 @@
-<!-- NO FORM BACKEND, BY DECISION.
+<!-- Posts to our own Worker route, not a third-party form service — see
+     worker/quote.js for the handler and DEPLOY.md for its setup.
 
-     The Formspree id (xkgqvbwz) returned 404 "Form not found", so it has been
-     removed rather than left in place failing. `data-transport="mailto"` tells
-     main.js to hand the completed enquiry to the visitor's own mail client,
-     pre-filled with every field. Nothing they typed is lost, and no request is
-     made that we know will fail.
+     Same-origin on purpose: the CSP stays at `form-action 'self'`, no third
+     party sees an enquiry, and a submit without JavaScript posts natively to
+     the same route, which answers with a real HTML page rather than JSON.
 
-     TO RESTORE A REAL ENDPOINT: set action to the Formspree URL and delete the
-     data-transport attribute. main.js then POSTs, and keeps the mailto path as
-     a fallback if that POST ever fails.
+     main.js intercepts the submit and POSTs with `Accept: application/json`.
+     If that fails for any reason it hands the completed enquiry to the
+     visitor's own mail client with every field pre-filled, so nothing they
+     typed is lost. -->
+<form id="quote-form" action="/api/quote" method="post" novalidate class="mt-8">
 
-     `action` points at this page so a submit without JavaScript lands on the
-     contact details rather than a third-party error page. -->
-<form id="quote-form" action="/contact/" method="post" data-transport="mailto" novalidate class="mt-8">
-
-          <input type="hidden" name="_subject" value="New quote request — aerolift-cranes.com">
+          <!-- main.js fills this with the path the enquiry came from, so a
+               reply can tell a hoist question from a spare-parts one. -->
           <input type="hidden" name="page" value="">
-          <!-- Honeypot: bots fill it, humans never see it. Formspree drops
-               submissions where _gotcha is non-empty. -->
+          <!-- Honeypot: bots fill it, humans never see it. worker/quote.js
+               answers a non-empty _gotcha with the success page and sends
+               nothing — a bot told it failed just retries with it blank. -->
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;overflow:hidden">
 
           <p id="form-summary" role="alert" class="mb-6 hidden rounded-md border-l-4 border-[#b42318] bg-[#fef3f2] px-4 py-3 text-sm font-medium text-[#912018]"></p>

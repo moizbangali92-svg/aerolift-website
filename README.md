@@ -10,7 +10,12 @@ npm install
 npm run dev      # copy assets + Tailwind --watch
 npm run build    # copy assets + Tailwind --minify  -> dist/
 npm run serve    # static server for dist/ on :4321
+npm test         # worker/quote.js — validation, payload, failure handling
 ```
+
+`npm run serve` is the static site only; it does not run the Worker, so
+`POST /api/quote` 404s there and the form falls back to mailto:. Use
+`npx wrangler dev` to exercise the quote endpoint.
 
 `dist/` is the deploy artifact. It is gitignored — build it in CI.
 
@@ -68,6 +73,12 @@ Deployment is documented separately in [DEPLOY.md](DEPLOY.md).
 - **Scroll reveal** uses IntersectionObserver *and* a position sweep on scroll.
   Both are needed: IO misses elements carried past the viewport between frames
   (fast scroll, anchor jump), and those would stay invisible permanently.
+- **The quote form posts to our own Worker**, not a form service —
+  `worker/quote.js`, sending through MailChannels. The visitor's address goes
+  in `Reply-To` and never in `From`: `From` has to stay on a domain the DKIM
+  and Domain Lockdown records authorise. The message is `text/plain` only, so
+  nothing typed into the form is ever parsed as markup. Setup and the DNS
+  prerequisites are in [DEPLOY.md](DEPLOY.md).
 - **No invented proof.** Client logos, testimonials, counts, certifications and
   ratings must be real. The `#clients` section ships with `hidden` on it until
   real assets exist.

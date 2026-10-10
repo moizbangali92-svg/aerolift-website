@@ -12,10 +12,22 @@
   // there is nothing to gain here by sitting on the newest one.
   "compatibility_date": "2026-08-01",
 
-  // A one-job Worker script: redirect the apex to www, and hand every other
-  // request straight to the asset server. See worker/index.js for why this is
-  // not a dashboard rule and why it does not cost the _headers rules.
+  // The Worker script: redirect the apex to www, answer POST /api/quote, and
+  // hand every other request straight to the asset server. See worker/index.js
+  // for why the redirect is not a dashboard rule and why passing asset
+  // responses through untouched is what keeps the _headers rules.
   "main": "./worker/index.js",
+
+  // Non-secret configuration for the quote form. The API key is NOT here — it
+  // is a secret, set with `wrangler secret put MAILCHANNELS_API_KEY` (or in
+  // the dashboard), so it never enters the repo. worker/quote.js answers 503
+  // and logs when it is missing, rather than failing silently.
+  "vars": {
+    "QUOTE_TO": "sales@aerolift-cranes.com",
+    // Must stay on a domain the DKIM key and Domain Lockdown record authorise
+    // — see DEPLOY.md. The visitor's own address goes in Reply-To, never here.
+    "QUOTE_FROM": "website@aerolift-cranes.com"
+  },
 
   "assets": {
     "directory": "./dist",

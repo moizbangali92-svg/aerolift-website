@@ -353,6 +353,21 @@
     return ok;
   }
 
+  // Forces a field into the error state. `validate` asks the browser, which
+  // cannot know what the server objected to — an address that is well-formed
+  // but undeliverable, a <select> value that no longer exists. Without this,
+  // a server rejection announces "check the highlighted fields" and
+  // highlights nothing.
+  function showError(input, message) {
+    var err = fieldError(input);
+    input.setAttribute('aria-invalid', 'true');
+    if (err) {
+      var slot = err.querySelector('[data-error-text]') || err;
+      slot.textContent = message || MESSAGES[input.name] || 'Check this field.';
+      err.classList.add('is-visible');
+    }
+  }
+
   var inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
 
   Array.prototype.forEach.call(inputs, function (input) {
@@ -383,9 +398,13 @@
     if (summary) summary.classList.add('hidden');
 
     var action = form.getAttribute('action') || '';
-    var configured = action.indexOf('formspree.io') > -1 && action.indexOf('FORMSPREE_ID') === -1;
-    // Set on the form when there is deliberately no backend: the enquiry goes
-    // out through the visitor's own mail client instead. See quote-form.html.
+    // The backend is our own Worker route (worker/quote.js). Anything that is
+    // not a same-origin path — an empty action, or one left pointing at a page
+    // — means there is no endpoint to POST to, so go straight to mailto:
+    // rather than making a request we know will not be handled.
+    var configured = action.charAt(0) === '/' && action.indexOf('/api/') === 0;
+    // Escape hatch: set data-transport="mailto" on the form to skip the POST
+    // entirely, for a deploy where the backend is knowingly not available.
     var mailtoOnly = form.getAttribute('data-transport') === 'mailto';
 
     var showSuccess = function () {
@@ -477,9 +496,36 @@
     fetch(action, {
       method: 'POST',
       body: new FormData(form),
-      headers: { Accept: 'application/json' }
+      headers: { Accept: 'application/json' },
+      // The route is same-origin, so this changes nothing today. It is here so
+      // that moving the endpoint to another host later cannot silently start
+      // attaching cookies to an enquiry.
+      credentials: 'omit'
     }).then(function (res) {
       if (res.ok) { showSuccess(); return; }
+      // 422 means the server rejected a field the client validator let past.
+      // Saying "could not be sent" there would send the visitor to their mail
+      // client when the fix is one field away.
+      if (res.status === 422) {
+        restore();
+        if (summary) {
+          summary.textContent =
+            'Your request was not sent. Check the highlighted fields below and try again.';
+          summary.classList.remove('hidden');
+        }
+        res.json().then(function (body) {
+          var bad = (body && body.fields) || [];
+          var first = null;
+          bad.forEach(function (name) {
+            var el = form.querySelector('[name="' + name + '"]');
+            if (!el) return;
+            showError(el);
+            if (!first) first = el;
+          });
+          if (first) first.focus();
+        }).catch(function () {});
+        return;
+      }
       offerEmailFallback('Your request could not be sent just now.');
     }).catch(function () {
       offerEmailFallback('Your request could not be sent — check your connection.');
