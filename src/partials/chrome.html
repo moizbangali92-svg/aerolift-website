@@ -31,11 +31,20 @@
 <header id="site-header" class="sticky top-0 z-50 bg-white transition-shadow duration-200 [&.is-scrolled]:shadow-header">
   <div class="container-x flex items-center justify-between gap-6 py-3">
 
-    <!-- The wordmark already contains the tagline, so no separate lockup here. -->
-    <a href="/" class="flex shrink-0 items-center">
+    <!-- The wordmark is ~8:1, so it is capped by WIDTH as well as height: a
+         height cap alone makes it 326px wide, and that collides twice — with
+         the phone and menu buttons on a narrow screen, and with the first nav
+         item from lg, where the full desktop nav appears but the viewport has
+         not yet grown to hold it. Both bands cap by a share of the viewport
+         rather than a fixed px, because what sits to the right of the logo is
+         a fixed width in each: a px cap that clears it at the bottom of the
+         band wastes space at the top. 768-1023 has no desktop nav and no
+         width problem, so it keeps the full 320px. h-auto lets the height
+         follow, so the logo only ever shrinks to fit. -->
+    <a href="/" class="flex min-w-0 shrink items-center">
       <picture>
         <source type="image/webp" srcset="/assets/img/aerolift-logo.webp">
-        <img src="/assets/img/aerolift-logo.png" alt="Aerolift L.L.C. — Your Load, Our Lift" width="480" height="154" class="h-10 w-auto md:h-12">
+        <img src="/assets/img/aerolift-logo.png" alt="Aerolift L.L.C." width="1435" height="176" class="h-auto w-auto max-h-8 max-w-[46vw] sm:max-w-[260px] md:max-h-10 md:max-w-[320px] lg:max-w-[19vw] xl:max-w-[320px]">
       </picture>
     </a>
 

@@ -44,25 +44,34 @@ for (const w of HERO_WIDTHS) {
 }
 
 /* ---- Logo -------------------------------------------------------
-   Trimmed to the artwork, then emitted at 3x the largest on-page size
-   so it stays crisp on high-DPI screens. The source is a JPEG on a
-   white field, so a PNG output keeps the edges clean without trying
-   to key out the background (JPEG ringing would leave a halo). */
+   The wordmark is one flat colour on transparency, so it is sized by
+   HEIGHT, not width: it is roughly 8:1, and a width-based target that
+   suits a photo would leave it a few pixels tall.
+
+   176px clears 3x the tallest on-page use (the header at md and up,
+   40px) with headroom, so a later size bump does not mean regenerating.
+   At 9KB the headroom costs less than the round trip would.
+
+   Lossless, not quality-based. A flat two-tone shape compresses to
+   almost nothing losslessly, and lossy encoding at any setting puts
+   ringing on exactly the hard edges a wordmark is made of. */
 {
-  const base = sharp(resolve(src, 'aerolift-logo.jpg'))
-    .trim({ background: '#ffffff', threshold: 12 });
+  const LOGO_HEIGHT = 176;
+  // Already trimmed in _source, but alpha-trimming again is free and keeps
+  // the output right if the source is ever replaced with a padded export.
+  const base = sharp(resolve(src, 'aerolift-logo.png')).trim();
 
   const png = await base
     .clone()
-    .resize({ width: 480, withoutEnlargement: true })
+    .resize({ height: LOGO_HEIGHT, withoutEnlargement: true })
     .png({ compressionLevel: 9, palette: true })
     .toFile(resolve(out, 'aerolift-logo.png'));
   report.push(['aerolift-logo.png', `${png.width}x${png.height}`, kb(png.size)]);
 
   const webp = await base
     .clone()
-    .resize({ width: 480, withoutEnlargement: true })
-    .webp({ quality: 90, effort: 6 })
+    .resize({ height: LOGO_HEIGHT, withoutEnlargement: true })
+    .webp({ lossless: true, effort: 6 })
     .toFile(resolve(out, 'aerolift-logo.webp'));
   report.push(['aerolift-logo.webp', `${webp.width}x${webp.height}`, kb(webp.size)]);
 }

@@ -7,12 +7,20 @@
     <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))]">
 
       <div>
-        <!-- The wordmark is navy on white, so on navy it sits on a white plate.
-             REPLACE: swap for a white/knockout logo and drop the plate. -->
-        <picture>
-          <source type="image/webp" srcset="/assets/img/aerolift-logo.webp">
-          <img src="/assets/img/aerolift-logo.png" alt="Aerolift L.L.C. — Your Load, Our Lift" width="480" height="154" loading="lazy" decoding="async" class="h-14 w-auto rounded-md bg-white px-3 py-2">
-        </picture>
+        <!-- The wordmark is blue on transparency, so on navy it sits on a
+             white plate. REPLACE: ask the client for a white/knockout version
+             and drop the plate — blue on navy is the one place this logo
+             cannot go directly.
+
+             The plate is the wrapper, not the image: padding on an <img>
+             counts inside its own max-height, so putting it there shrinks the
+             artwork instead of insetting it. -->
+        <span class="inline-block rounded-md bg-white px-4 py-3">
+          <picture>
+            <source type="image/webp" srcset="/assets/img/aerolift-logo.webp">
+            <img src="/assets/img/aerolift-logo.png" alt="Aerolift L.L.C." width="1435" height="176" loading="lazy" decoding="async" class="block h-auto w-auto max-h-8 max-w-[220px] sm:max-w-[260px]">
+          </picture>
+        </span>
         <p class="prose-measure mt-5 text-sm">
           Industrial lifting solutions and material-handling systems for
           operations across the United Arab Emirates.
