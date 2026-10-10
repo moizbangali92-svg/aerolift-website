@@ -1,7 +1,7 @@
 # Aerolift L.L.C. — aerolift-cranes.com
 
-Static site. HTML5 + Tailwind CSS v4 (CLI build, purged) + ~3.5KB of vanilla JS.
-No framework, no CDN scripts, no third-party requests at runtime.
+Static site. HTML5 + Tailwind CSS v4 (CLI build, purged) + ~8KB gzipped of
+vanilla JS. No framework, no CDN scripts, no third-party requests at runtime.
 
 ## Commands
 
@@ -18,12 +18,21 @@ npm run serve    # static server for dist/ on :4321
 
 ```
 src/index.html          -> dist/index.html
+src/404.html            -> dist/404.html        (served for any unmatched path)
+src/<slug>/index.html   -> dist/<slug>/index.html
+src/partials/*.html     -> spliced in by `<!-- @include name -->`
+src/_drafts/            -> never emitted (leading underscore excludes it)
 src/css/input.css       -> dist/css/style.css   (design tokens live in @theme)
 src/js/main.js          -> dist/js/main.js      (deferred)
-src/assets/img/         -> dist/assets/img/
+src/assets/             -> dist/assets/         (minus _source/ originals)
 robots.txt, sitemap.xml, favicon.svg -> dist/
+_headers, _redirects    -> dist/                (Cloudflare deploy config)
 node_modules/@fontsource/* -> dist/fonts/       (self-hosted woff2, 5 weights)
+worker/index.js         -> not built; deployed by wrangler alongside dist/
 ```
+
+Pages today: `/`, `/about/`, `/services/` (+4 service pages), `/products/`
+(+5 product pages), `/gallery/`, `/insights/` (+2 articles), `/contact/`.
 
 There is no `tailwind.config.js`. Tailwind v4 takes its configuration from the
 `@theme` block at the top of `src/css/input.css` — colours, type scale, radii,
