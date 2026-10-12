@@ -31,21 +31,24 @@
 <header id="site-header" class="sticky top-0 z-50 bg-white transition-shadow duration-200 [&.is-scrolled]:shadow-header">
   <div class="container-x flex items-center justify-between gap-6 py-3">
 
-    <!-- The wordmark is ~8:1, so it is capped by WIDTH as well as height: a
-         height cap alone makes it 326px wide, and that collides twice — with
-         the phone and menu buttons on a narrow screen, and with the first nav
-         item from lg, where the full desktop nav appears but the viewport has
-         not yet grown to hold it. Both bands cap by a share of the viewport
-         rather than a fixed px, because what sits to the right of the logo is
-         a fixed width in each: a px cap that clears it at the bottom of the
-         band wastes space at the top. 768-1023 has no desktop nav and no
-         width problem, so it keeps the full 320px. h-auto lets the height
-         follow, so the logo only ever shrinks to fit. -->
+    <!-- The wordmark is ~8:1, so it is capped by WIDTH as well as height — a
+         height cap alone runs it past the controls beside it. Two bands cap
+         by a share of the viewport rather than a fixed px, because what sits
+         to the right of the logo is a fixed width in each, so a px cap that
+         clears it at the bottom of the band wastes space at the top: below sm
+         it is the phone and menu buttons, and from lg it is the desktop nav,
+         which appears before the viewport has grown enough to hold both.
+         768-1023 has neither problem and takes the full cap. h-auto lets the
+         height follow, so the logo only ever shrinks to fit.
+
+         Sizes were cut ~20% from the first pass; nothing below depends on the
+         old numbers, but if they are raised again, re-check the clearance at
+         320 and at 1024 — those are the two widths that bind. -->
     <a href="/" class="flex min-w-0 shrink items-center">
       <!-- A plain <img>: the logo ships as a palette PNG only, because a
            lossless WebP of this artwork is larger than the PNG and a <picture>
            would hand every browser the bigger file. See scripts/images.mjs. -->
-      <img src="/assets/img/aerolift-logo.png" alt="Aerolift L.L.C." width="1428" height="176" class="h-auto w-auto max-h-8 max-w-[46vw] sm:max-w-[260px] md:max-h-10 md:max-w-[320px] lg:max-w-[19vw] xl:max-w-[320px]">
+      <img src="/assets/img/aerolift-logo.png" alt="Aerolift L.L.C." width="1428" height="176" class="h-auto w-auto max-h-7 max-w-[37vw] sm:max-w-[210px] md:max-h-8 md:max-w-[256px] lg:max-w-[15vw] xl:max-w-[256px]">
     </a>
 
     <!-- Desktop nav -->
