@@ -42,10 +42,10 @@
          width problem, so it keeps the full 320px. h-auto lets the height
          follow, so the logo only ever shrinks to fit. -->
     <a href="/" class="flex min-w-0 shrink items-center">
-      <picture>
-        <source type="image/webp" srcset="/assets/img/aerolift-logo.webp">
-        <img src="/assets/img/aerolift-logo.png" alt="Aerolift L.L.C." width="1435" height="176" class="h-auto w-auto max-h-8 max-w-[46vw] sm:max-w-[260px] md:max-h-10 md:max-w-[320px] lg:max-w-[19vw] xl:max-w-[320px]">
-      </picture>
+      <!-- A plain <img>: the logo ships as a palette PNG only, because a
+           lossless WebP of this artwork is larger than the PNG and a <picture>
+           would hand every browser the bigger file. See scripts/images.mjs. -->
+      <img src="/assets/img/aerolift-logo.png" alt="Aerolift L.L.C." width="1428" height="176" class="h-auto w-auto max-h-8 max-w-[46vw] sm:max-w-[260px] md:max-h-10 md:max-w-[320px] lg:max-w-[19vw] xl:max-w-[320px]">
     </a>
 
     <!-- Desktop nav -->

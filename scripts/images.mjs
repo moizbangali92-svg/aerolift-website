@@ -44,17 +44,24 @@ for (const w of HERO_WIDTHS) {
 }
 
 /* ---- Logo -------------------------------------------------------
-   The wordmark is one flat colour on transparency, so it is sized by
-   HEIGHT, not width: it is roughly 8:1, and a width-based target that
-   suits a photo would leave it a few pixels tall.
+   The wordmark is navy with a black keyline on transparency, and it is
+   sized by HEIGHT, not width: it is roughly 8:1, and a width-based
+   target that suits a photo would leave it a few pixels tall.
+
+   The keyline is part of the artwork — in the supplied file it is 4px
+   on a 3741px-wide master, fully opaque, following the contour. It is
+   not the 1px edge that lossy colour plus an alpha mask leaves behind,
+   so it is kept rather than flattened away; at display size it reads
+   as a faint definition on the edge, which is the point of it.
 
    176px clears 3x the tallest on-page use (the header at md and up,
    40px) with headroom, so a later size bump does not mean regenerating.
    At 9KB the headroom costs less than the round trip would.
 
-   Lossless, not quality-based. A flat two-tone shape compresses to
-   almost nothing losslessly, and lossy encoding at any setting puts
-   ringing on exactly the hard edges a wordmark is made of. */
+   Lossless, not quality-based. A flat-colour shape compresses to almost
+   nothing losslessly, and lossy encoding at any setting puts ringing on
+   exactly the hard edges a wordmark is made of — worse here, because a
+   thin keyline is the first thing a lossy encoder smears. */
 {
   const LOGO_HEIGHT = 176;
   // Already trimmed in _source, but alpha-trimming again is free and keeps
@@ -68,12 +75,13 @@ for (const w of HERO_WIDTHS) {
     .toFile(resolve(out, 'aerolift-logo.png'));
   report.push(['aerolift-logo.png', `${png.width}x${png.height}`, kb(png.size)]);
 
-  const webp = await base
-    .clone()
-    .resize({ height: LOGO_HEIGHT, withoutEnlargement: true })
-    .webp({ lossless: true, effort: 6 })
-    .toFile(resolve(out, 'aerolift-logo.webp'));
-  report.push(['aerolift-logo.webp', `${webp.width}x${webp.height}`, kb(webp.size)]);
+  // NO WEBP, deliberately. Measured on this artwork at 176px tall:
+  //   palette PNG      15.1KB   lossless
+  //   WebP lossless    21.1KB   lossless
+  //   WebP q90         14.0KB   lossy
+  // A <picture> offers WebP first, so the lossless one would make every
+  // browser download the LARGER file. The only smaller WebP is lossy, and
+  // 1.1KB does not buy smearing the keyline. The PNG is served on its own.
 }
 
 /* ---- Product cards ----------------------------------------------
