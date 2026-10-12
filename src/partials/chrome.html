@@ -78,7 +78,12 @@
         <li><a href="/gallery/" data-nav="gallery" class="nav-link">Gallery</a></li>
         <li><a href="/insights/" data-nav="insights" class="nav-link">Insights</a></li>
         <li><a href="/contact/" data-nav="contact" class="nav-link">Contact</a></li>
-        <li class="ml-2"><a href="/#request-a-quote" class="btn btn-primary">Request a Quote</a></li>
+        <!-- nowrap: at lg the nav wants 6px more than it gets, and the only
+             thing that gives is this label, which breaks onto two lines and
+             makes the button twice as tall. Refusing the break pushes those
+             6px onto the logo, which is already free to shrink. A two-line
+             CTA looks broken at any width, so this is not only about lg. -->
+        <li class="ml-2"><a href="/#request-a-quote" class="btn btn-primary whitespace-nowrap">Request a Quote</a></li>
       </ul>
     </nav>
 
