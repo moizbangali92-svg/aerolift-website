@@ -85,29 +85,34 @@ for (const w of HERO_WIDTHS) {
 }
 
 /* ---- Favicon ----------------------------------------------------
-   The logo's first glyph, knocked out in white on a navy tile.
+   The logo's first glyph, navy, on transparency.
 
-   Why a tile and not the bare glyph: the wordmark is navy on
-   transparency, and a transparent navy mark disappears into a dark
-   browser tab strip. A filled tile keeps its own silhouette in both
-   light and dark UI, and the brand colour does the work.
+   KNOWN TRADE-OFF, CHOSEN DELIBERATELY: a navy mark on transparency
+   has little to separate it from a dark browser tab strip. The filled
+   tile that solves that was rejected in favour of the bare glyph. If a
+   dark tab ever needs solving, the fix is a tile, not a lighter navy —
+   lightening it would put the favicon off-brand everywhere to serve
+   one context.
 
-   Why raster and not SVG: the supplied logo is a JPEG inside a PDF, so
-   there is no vector to carry over, and a favicon is never drawn above
-   64px. The .ico packs 16/32/48 for tabs; apple-touch-icon is 180.
+   With no tile the glyph needs no breathing room for a tile edge, so
+   it runs to 96% of the canvas — wider than it could be inside a tile,
+   which buys back some of the legibility the tile was providing.
 
-   The glyph fills 84% of the tile width. It is 1.55:1, so it can never
-   fill the height — sized smaller it turns to mush at 16px.
+   apple-touch-icon is the exception and keeps an opaque background:
+   iOS composites a transparent home-screen icon onto BLACK, which
+   would leave a navy glyph nearly invisible. That is a platform rule,
+   not a style choice. It is also square, because iOS applies its own
+   mask and pre-rounded corners come out rounded twice.
 
-   apple-touch-icon is SQUARE, deliberately: iOS applies its own mask,
-   and pre-rounded corners come out rounded twice. */
+   Raster, not SVG: the supplied logo is a JPEG inside a PDF, so there
+   is no vector to carry over, and a favicon is never drawn above 64px.
+   The .ico packs 16/32/48 for tabs. */
 {
-  const TILE = '#21346e';
   const SIZE = 512;
-  const GLYPH = Math.round(SIZE * 0.84);
+  const GLYPH = Math.round(SIZE * 0.96);
 
   // The first glyph ends at x=714 in the master; the gap to the "E" runs
-  // 714-789, so the cut is inside empty space, not through artwork.
+  // 714-789, so the cut lands in empty space, not through artwork.
   const a = await sharp(resolve(src, 'aerolift-logo.png'))
     .extract({ left: 0, top: 0, width: 714, height: 461 })
     .trim()
@@ -115,50 +120,39 @@ for (const w of HERO_WIDTHS) {
 
   const scaled = await sharp(a).resize({ width: GLYPH }).toBuffer();
   const gm = await sharp(scaled).metadata();
-  // Paint the glyph white by keeping only its alpha as a stencil. On navy
-  // the artwork's black keyline would be invisible anyway.
-  const stencil = await sharp(scaled).ensureAlpha().extractChannel('alpha').toBuffer();
-  const whiteGlyph = await sharp({ create: { width: GLYPH, height: gm.height, channels: 3, background: '#ffffff' } })
-    .joinChannel(stencil)
+  const place = { input: scaled, top: Math.round((SIZE - gm.height) / 2), left: Math.round((SIZE - GLYPH) / 2) };
+
+  // Transparent canvas, glyph as supplied — navy, with its keyline.
+  const bare = await sharp({
+    create: { width: SIZE, height: SIZE, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
+  })
+    .composite([place])
     .png()
     .toBuffer();
-  const place = { input: whiteGlyph, top: Math.round((SIZE - gm.height) / 2), left: Math.round((SIZE - GLYPH) / 2) };
-
-  const squareTile = () => sharp({ create: { width: SIZE, height: SIZE, channels: 4, background: TILE } }).composite([place]);
-
-  const mask = Buffer.from(
-    `<svg width="${SIZE}" height="${SIZE}"><rect width="${SIZE}" height="${SIZE}" rx="104" ry="104" fill="#fff"/></svg>`
-  );
-  const roundedTile = async () =>
-    sharp({ create: { width: SIZE, height: SIZE, channels: 4, background: TILE } })
-      .composite([{ input: mask, blend: 'dest-in' }, place])
-      .png()
-      .toBuffer();
-
-  const rounded = await roundedTile();
 
   // 192 only: 16/32/48 live inside favicon.ico below, and a standalone PNG
   // at those sizes would be a file nothing references.
-  const png192 = await sharp(rounded).resize(192, 192).png({ compressionLevel: 9 }).toFile(resolve(root, 'favicon-192.png'));
+  const png192 = await sharp(bare).resize(192, 192).png({ compressionLevel: 9 }).toFile(resolve(root, 'favicon-192.png'));
   report.push(['favicon-192.png', `${png192.width}x${png192.height}`, kb(png192.size)]);
 
-  // Render the full-size tile first: sharp runs resize BEFORE composite, so
-  // resizing in the same pipeline would try to paste a 430px glyph onto a
-  // 180px canvas and throw.
-  const squareBuf = await squareTile().png().toBuffer();
-  const apple = await sharp(squareBuf).resize(180, 180).png({ compressionLevel: 9 }).toFile(resolve(root, 'apple-touch-icon.png'));
+  // White, not transparent — see the iOS note above.
+  const appleBuf = await sharp({ create: { width: SIZE, height: SIZE, channels: 4, background: '#ffffff' } })
+    .composite([place])
+    .png()
+    .toBuffer();
+  const apple = await sharp(appleBuf).resize(180, 180).png({ compressionLevel: 9 }).toFile(resolve(root, 'apple-touch-icon.png'));
   report.push(['apple-touch-icon.png', `${apple.width}x${apple.height}`, kb(apple.size)]);
 
   // favicon.ico, written here rather than shelled out to ImageMagick: this
   // script's only dependency is sharp, and a contributor should not need a
   // system package to regenerate an icon. ICO is a 6-byte header, a 16-byte
   // directory entry per image, then the payloads — and PNG payloads are
-  // legal in ICO, which every browser in use understands and which keeps
-  // the file a third of the size of the uncompressed BMP form.
+  // legal in ICO, which every browser in use understands, keeps the alpha
+  // channel, and keeps the file a fraction of the uncompressed BMP form.
   {
     const sizes = [16, 32, 48];
     const pngs = await Promise.all(
-      sizes.map((px) => sharp(rounded).resize(px, px).png({ compressionLevel: 9 }).toBuffer())
+      sizes.map((px) => sharp(bare).resize(px, px).png({ compressionLevel: 9 }).toBuffer())
     );
     const header = Buffer.alloc(6);
     header.writeUInt16LE(0, 0);            // reserved
