@@ -2,7 +2,7 @@
 // Run with `npm run images` after replacing anything in _source.
 // Outputs are committed, so a normal build does not need sharp.
 import sharp from 'sharp';
-import { mkdir, stat } from 'node:fs/promises';
+import { mkdir, stat, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -82,6 +82,108 @@ for (const w of HERO_WIDTHS) {
   // A <picture> offers WebP first, so the lossless one would make every
   // browser download the LARGER file. The only smaller WebP is lossy, and
   // 1.1KB does not buy smearing the keyline. The PNG is served on its own.
+}
+
+/* ---- Favicon ----------------------------------------------------
+   The logo's first glyph, knocked out in white on a navy tile.
+
+   Why a tile and not the bare glyph: the wordmark is navy on
+   transparency, and a transparent navy mark disappears into a dark
+   browser tab strip. A filled tile keeps its own silhouette in both
+   light and dark UI, and the brand colour does the work.
+
+   Why raster and not SVG: the supplied logo is a JPEG inside a PDF, so
+   there is no vector to carry over, and a favicon is never drawn above
+   64px. The .ico packs 16/32/48 for tabs; apple-touch-icon is 180.
+
+   The glyph fills 84% of the tile width. It is 1.55:1, so it can never
+   fill the height — sized smaller it turns to mush at 16px.
+
+   apple-touch-icon is SQUARE, deliberately: iOS applies its own mask,
+   and pre-rounded corners come out rounded twice. */
+{
+  const TILE = '#21346e';
+  const SIZE = 512;
+  const GLYPH = Math.round(SIZE * 0.84);
+
+  // The first glyph ends at x=714 in the master; the gap to the "E" runs
+  // 714-789, so the cut is inside empty space, not through artwork.
+  const a = await sharp(resolve(src, 'aerolift-logo.png'))
+    .extract({ left: 0, top: 0, width: 714, height: 461 })
+    .trim()
+    .toBuffer();
+
+  const scaled = await sharp(a).resize({ width: GLYPH }).toBuffer();
+  const gm = await sharp(scaled).metadata();
+  // Paint the glyph white by keeping only its alpha as a stencil. On navy
+  // the artwork's black keyline would be invisible anyway.
+  const stencil = await sharp(scaled).ensureAlpha().extractChannel('alpha').toBuffer();
+  const whiteGlyph = await sharp({ create: { width: GLYPH, height: gm.height, channels: 3, background: '#ffffff' } })
+    .joinChannel(stencil)
+    .png()
+    .toBuffer();
+  const place = { input: whiteGlyph, top: Math.round((SIZE - gm.height) / 2), left: Math.round((SIZE - GLYPH) / 2) };
+
+  const squareTile = () => sharp({ create: { width: SIZE, height: SIZE, channels: 4, background: TILE } }).composite([place]);
+
+  const mask = Buffer.from(
+    `<svg width="${SIZE}" height="${SIZE}"><rect width="${SIZE}" height="${SIZE}" rx="104" ry="104" fill="#fff"/></svg>`
+  );
+  const roundedTile = async () =>
+    sharp({ create: { width: SIZE, height: SIZE, channels: 4, background: TILE } })
+      .composite([{ input: mask, blend: 'dest-in' }, place])
+      .png()
+      .toBuffer();
+
+  const rounded = await roundedTile();
+
+  // 192 only: 16/32/48 live inside favicon.ico below, and a standalone PNG
+  // at those sizes would be a file nothing references.
+  const png192 = await sharp(rounded).resize(192, 192).png({ compressionLevel: 9 }).toFile(resolve(root, 'favicon-192.png'));
+  report.push(['favicon-192.png', `${png192.width}x${png192.height}`, kb(png192.size)]);
+
+  // Render the full-size tile first: sharp runs resize BEFORE composite, so
+  // resizing in the same pipeline would try to paste a 430px glyph onto a
+  // 180px canvas and throw.
+  const squareBuf = await squareTile().png().toBuffer();
+  const apple = await sharp(squareBuf).resize(180, 180).png({ compressionLevel: 9 }).toFile(resolve(root, 'apple-touch-icon.png'));
+  report.push(['apple-touch-icon.png', `${apple.width}x${apple.height}`, kb(apple.size)]);
+
+  // favicon.ico, written here rather than shelled out to ImageMagick: this
+  // script's only dependency is sharp, and a contributor should not need a
+  // system package to regenerate an icon. ICO is a 6-byte header, a 16-byte
+  // directory entry per image, then the payloads — and PNG payloads are
+  // legal in ICO, which every browser in use understands and which keeps
+  // the file a third of the size of the uncompressed BMP form.
+  {
+    const sizes = [16, 32, 48];
+    const pngs = await Promise.all(
+      sizes.map((px) => sharp(rounded).resize(px, px).png({ compressionLevel: 9 }).toBuffer())
+    );
+    const header = Buffer.alloc(6);
+    header.writeUInt16LE(0, 0);            // reserved
+    header.writeUInt16LE(1, 2);            // 1 = icon
+    header.writeUInt16LE(sizes.length, 4);
+
+    let offset = 6 + 16 * sizes.length;
+    const entries = sizes.map((px, i) => {
+      const e = Buffer.alloc(16);
+      e.writeUInt8(px === 256 ? 0 : px, 0); // 0 means 256
+      e.writeUInt8(px === 256 ? 0 : px, 1);
+      e.writeUInt8(0, 2);                   // palette size, 0 for truecolour
+      e.writeUInt8(0, 3);                   // reserved
+      e.writeUInt16LE(1, 4);                // colour planes
+      e.writeUInt16LE(32, 6);               // bits per pixel
+      e.writeUInt32LE(pngs[i].length, 8);
+      e.writeUInt32LE(offset, 12);
+      offset += pngs[i].length;
+      return e;
+    });
+
+    const ico = Buffer.concat([header, ...entries, ...pngs]);
+    await writeFile(resolve(root, 'favicon.ico'), ico);
+    report.push(['favicon.ico', sizes.join('/'), kb(ico.length)]);
+  }
 }
 
 /* ---- Product cards ----------------------------------------------

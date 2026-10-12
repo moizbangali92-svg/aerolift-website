@@ -90,7 +90,7 @@ await cp(p('src/assets'), p('dist/assets'), {
 
 // _headers and _redirects are the Netlify/Cloudflare Pages deploy config; they
 // are plain files at the publish root and are ignored by hosts that don't use them.
-for (const f of ['robots.txt', 'sitemap.xml', 'favicon.svg', 'site.webmanifest', '_headers', '_redirects']) {
+for (const f of ['robots.txt', 'sitemap.xml', 'favicon.ico', 'favicon-192.png', 'apple-touch-icon.png', 'site.webmanifest', '_headers', '_redirects']) {
   if (await exists(p(f))) await cp(p(f), p('dist', f));
 }
 

@@ -30,7 +30,8 @@ src/_drafts/            -> never emitted (leading underscore excludes it)
 src/css/input.css       -> dist/css/style.css   (design tokens live in @theme)
 src/js/main.js          -> dist/js/main.js      (deferred)
 src/assets/             -> dist/assets/         (minus _source/ originals)
-robots.txt, sitemap.xml, favicon.svg -> dist/
+robots.txt, sitemap.xml   -> dist/
+favicon.ico, favicon-192.png, apple-touch-icon.png -> dist/
 _headers, _redirects    -> dist/                (Cloudflare deploy config)
 node_modules/@fontsource/* -> dist/fonts/       (self-hosted woff2, 5 weights)
 worker/index.js         -> not built; deployed by wrangler alongside dist/
