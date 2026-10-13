@@ -105,61 +105,46 @@ for (const w of HERO_WIDTHS) {
 }
 
 /* ---- Favicon ----------------------------------------------------
-   The logo's first glyph, navy, on transparency.
+   The AL monogram, navy-blue on transparency.
 
-   KNOWN TRADE-OFF, CHOSEN DELIBERATELY: a navy mark on transparency
-   has little to separate it from a dark browser tab strip. The filled
-   tile that solves that was rejected in favour of the bare glyph. If a
-   dark tab ever needs solving, the fix is a tile, not a lighter navy —
-   lightening it would put the favicon off-brand everywhere to serve
-   one context.
+   SHAPE IS THE LIMIT HERE, not resolution. The monogram is 3.21:1,
+   so inside a square icon it can only ever fill about 30% of the
+   height — at 16px that is a five-pixel-tall mark. The single A it
+   replaced was 1.55:1 and got roughly twice the height. This is the
+   brand's own lockup and the trade is deliberate; do not "fix" it by
+   stretching the mark or cropping the L off.
 
-   With no tile the glyph needs no breathing room for a tile edge, so
-   it runs to 96% of the canvas — wider than it could be inside a tile,
-   which buys back some of the legibility the tile was providing.
+   Transparent, as asked. A navy mark on transparency has little
+   separating it from a dark browser tab strip; the fix for that, if
+   it is ever wanted, is a filled tile, not a lighter blue.
 
-   apple-touch-icon is the exception and keeps an opaque background:
-   iOS composites a transparent home-screen icon onto BLACK, which
-   would leave a navy glyph nearly invisible. That is a platform rule,
-   not a style choice. It is also square, because iOS applies its own
-   mask and pre-rounded corners come out rounded twice.
+   apple-touch-icon keeps an opaque white background: iOS composites a
+   transparent home-screen icon onto BLACK. Platform rule, not taste.
+   It is square too, because iOS applies its own mask and pre-rounded
+   corners come out rounded twice.
 
-   Raster, not SVG: the supplied logo is a JPEG inside a PDF, so there
-   is no vector to carry over, and a favicon is never drawn above 64px.
-   The .ico packs 16/32/48 for tabs. */
+   Raster, not SVG: the supplied mark is a PNG, and a favicon is never
+   drawn above 64px. The .ico packs 16/32/48 for tabs. */
 {
   const SIZE = 512;
   const GLYPH = Math.round(SIZE * 0.96);
 
-  // The first glyph ends at x=714 in the master; the gap to the "E" runs
-  // 714-789, so the cut lands in empty space, not through artwork.
-  const a = await sharp(resolve(src, 'aerolift-logo.png'))
-    .extract({ left: 0, top: 0, width: 714, height: 461 })
-    .trim()
-    .toBuffer();
-
+  const a = await sharp(resolve(src, 'aerolift-monogram.png')).trim().toBuffer();
   const scaled = await sharp(a).resize({ width: GLYPH }).toBuffer();
   const gm = await sharp(scaled).metadata();
   const place = { input: scaled, top: Math.round((SIZE - gm.height) / 2), left: Math.round((SIZE - GLYPH) / 2) };
 
-  // Transparent canvas, glyph as supplied — navy, with its keyline.
   const bare = await sharp({
     create: { width: SIZE, height: SIZE, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
-  })
-    .composite([place])
-    .png()
-    .toBuffer();
+  }).composite([place]).png().toBuffer();
 
   // 192 only: 16/32/48 live inside favicon.ico below, and a standalone PNG
   // at those sizes would be a file nothing references.
   const png192 = await sharp(bare).resize(192, 192).png({ compressionLevel: 9 }).toFile(resolve(root, 'favicon-192.png'));
   report.push(['favicon-192.png', `${png192.width}x${png192.height}`, kb(png192.size)]);
 
-  // White, not transparent — see the iOS note above.
   const appleBuf = await sharp({ create: { width: SIZE, height: SIZE, channels: 4, background: '#ffffff' } })
-    .composite([place])
-    .png()
-    .toBuffer();
+    .composite([place]).png().toBuffer();
   const apple = await sharp(appleBuf).resize(180, 180).png({ compressionLevel: 9 }).toFile(resolve(root, 'apple-touch-icon.png'));
   report.push(['apple-touch-icon.png', `${apple.width}x${apple.height}`, kb(apple.size)]);
 
@@ -175,19 +160,19 @@ for (const w of HERO_WIDTHS) {
       sizes.map((px) => sharp(bare).resize(px, px).png({ compressionLevel: 9 }).toBuffer())
     );
     const header = Buffer.alloc(6);
-    header.writeUInt16LE(0, 0);            // reserved
-    header.writeUInt16LE(1, 2);            // 1 = icon
+    header.writeUInt16LE(0, 0);
+    header.writeUInt16LE(1, 2);
     header.writeUInt16LE(sizes.length, 4);
 
     let offset = 6 + 16 * sizes.length;
     const entries = sizes.map((px, i) => {
       const e = Buffer.alloc(16);
-      e.writeUInt8(px === 256 ? 0 : px, 0); // 0 means 256
+      e.writeUInt8(px === 256 ? 0 : px, 0);
       e.writeUInt8(px === 256 ? 0 : px, 1);
-      e.writeUInt8(0, 2);                   // palette size, 0 for truecolour
-      e.writeUInt8(0, 3);                   // reserved
-      e.writeUInt16LE(1, 4);                // colour planes
-      e.writeUInt16LE(32, 6);               // bits per pixel
+      e.writeUInt8(0, 2);
+      e.writeUInt8(0, 3);
+      e.writeUInt16LE(1, 4);
+      e.writeUInt16LE(32, 6);
       e.writeUInt32LE(pngs[i].length, 8);
       e.writeUInt32LE(offset, 12);
       offset += pngs[i].length;
