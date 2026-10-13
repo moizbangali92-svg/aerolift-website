@@ -85,7 +85,29 @@
   <!-- ==========================================================
        PAGE HEADER
        ========================================================== -->
-  <section class="bg-primary text-white">
+  <!-- The page band carries the same photograph as the home hero, behind a
+       heavy navy wash. One image for every inner page because it is the only
+       hero-resolution landscape shot in the repo — everything else in
+       _source is portrait or square product and site photography, which a
+       4.5:1 band would crop to a sliver. Give the pages their own images the
+       day real wide photography exists; nothing here assumes a single file.
+
+       The wash is near-solid on the left where the copy sits and thins out
+       to the right, so the photograph fills the space the text does not use
+       rather than competing with it. Heavier at every stop below md, where
+       the copy runs the full width and has nothing but the wash behind it.
+
+       Decorative: alt is empty and the image is not preloaded. The home page
+       preloads its hero because that is the page people land on; paying that
+       cost on all eighteen inner pages would buy a slightly faster paint on
+       an image nobody came for. -->
+  <section class="relative isolate overflow-hidden bg-primary text-white">
+    <picture>
+      <source type="image/avif" sizes="100vw" srcset="/assets/img/hero-crane-bay-960.avif 960w, /assets/img/hero-crane-bay-1440.avif 1440w, /assets/img/hero-crane-bay-1672.avif 1672w">
+      <source type="image/webp" sizes="100vw" srcset="/assets/img/hero-crane-bay-960.webp 960w, /assets/img/hero-crane-bay-1440.webp 1440w, /assets/img/hero-crane-bay-1672.webp 1672w">
+      <img src="/assets/img/hero-crane-bay-1440.jpg" alt="" width="1672" height="941" decoding="async" class="absolute inset-0 -z-10 size-full object-cover">
+    </picture>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-primary-dark/96 via-primary-dark/92 to-primary-dark/86 md:from-primary-dark/95 md:via-primary-dark/82 md:to-primary/55" aria-hidden="true"></div>
     <div class="container-x py-14 md:py-16 lg:py-20">
       <nav aria-label="Breadcrumb" class="text-xs">
         <ol class="flex items-center gap-2">
