@@ -12,6 +12,7 @@ const out = resolve(root, 'src/assets/img');
 await mkdir(out, { recursive: true });
 
 const kb = (n) => (n / 1024).toFixed(1) + 'KB';
+const exists = async (f) => stat(f).then(() => true, () => false);
 const report = [];
 
 /* ---- Hero -------------------------------------------------------
@@ -196,6 +197,70 @@ for (const w of HERO_WIDTHS) {
     const ico = Buffer.concat([header, ...entries, ...pngs]);
     await writeFile(resolve(root, 'favicon.ico'), ico);
     report.push(['favicon.ico', sizes.join('/'), kb(ico.length)]);
+  }
+}
+
+/* ---- Page band images -------------------------------------------
+   The strip behind each inner page's heading. It is 2.78:1 on a
+   desktop viewport and portrait on a phone, so a square or upright
+   frame crops to it perfectly well — the limit here is resolution,
+   not shape.
+
+   Eleven of these have a full-size original in _source and are cut to
+   1440 and 960. about-who-we-are and the two service photographs have
+   no original, so they are emitted at whatever width they already are
+   and the browser scales them. That is survivable only because the
+   navy wash over them is 82-95% opaque; do not reuse these particular
+   files anywhere the image is meant to be seen properly.
+
+   Quality is set below the product-card figure on purpose. Nothing in
+   this set is ever looked at directly. */
+{
+  const BANDS = [
+    ['about-who-we-are', null],
+    ['service-technician', null],
+    ['service-installation', null],
+    ['hero-crane-bay', 'hero-crane-bay.png'],
+    ['product-eot-crane', 'product-eot-crane.png'],
+    ['product-gantry-crane', 'product-gantry-crane.png'],
+    ['product-jib-crane', 'product-jib-crane.png'],
+    ['product-wire-rope-hoist', 'product-wire-rope-hoist.png'],
+    ['product-crane-spare-parts', 'product-crane-spare-parts.png'],
+    ['gallery-gantry-erection-assembly', 'gallery-gantry-erection-assembly.jpg'],
+    ['gallery-gantry-frame-lift', 'gallery-gantry-frame-lift.jpg'],
+    ['gallery-end-carriage-rigging', 'gallery-end-carriage-rigging.jpg'],
+    ['gallery-technicians-on-site', 'gallery-technicians-on-site.jpg'],
+    ['gallery-portable-gantry-5t-workshop', 'gallery-portable-gantry-5t-workshop.jpg'],
+    ['gallery-portable-gantry-2-5t-twin-hoist', 'gallery-portable-gantry-2-5t-twin-hoist.jpg'],
+  ];
+
+  for (const [name, original] of BANDS) {
+    // Fall back to the already-optimised copy when there is no original.
+    const from = original ? resolve(src, original) : resolve(out, `${name}.jpg`);
+    if (!(await exists(from))) { report.push([`band-${name}`, 'SOURCE MISSING', '-']); continue; }
+    const srcMeta = await sharp(from).metadata();
+
+    for (const w of [960, 1440]) {
+      if (w > srcMeta.width && w !== 960) continue;        // never upscale on disk
+      const width = Math.min(w, srcMeta.width);
+      const av = await sharp(from)
+        .resize({ width, withoutEnlargement: true })
+        .avif({ quality: 46, effort: 5 })
+        .toFile(resolve(out, `band-${name}-${w}.avif`));
+      report.push([`band-${name}-${w}.avif`, `${av.width}x${av.height}`, kb(av.size)]);
+
+      const wp = await sharp(from)
+        .resize({ width, withoutEnlargement: true })
+        .webp({ quality: 62, effort: 6 })
+        .toFile(resolve(out, `band-${name}-${w}.webp`));
+      report.push([`band-${name}-${w}.webp`, `${wp.width}x${wp.height}`, kb(wp.size)]);
+    }
+
+    const jp = await sharp(from)
+      .resize({ width: Math.min(1440, srcMeta.width), withoutEnlargement: true })
+      .jpeg({ quality: 68, progressive: true, mozjpeg: true })
+      .toFile(resolve(out, `band-${name}.jpg`));
+    report.push([`band-${name}.jpg`, `${jp.width}x${jp.height}`, kb(jp.size)]);
   }
 }
 
