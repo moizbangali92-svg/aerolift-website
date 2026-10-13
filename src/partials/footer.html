@@ -7,17 +7,13 @@
     <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))]">
 
       <div>
-        <!-- The wordmark is blue on transparency, so on navy it sits on a
-             white plate. REPLACE: ask the client for a white/knockout version
-             and drop the plate — blue on navy is the one place this logo
-             cannot go directly.
-
-             The plate is the wrapper, not the image: padding on an <img>
-             counts inside its own max-height, so putting it there shrinks the
-             artwork instead of insetting it. -->
-        <span class="inline-block rounded-md bg-white px-4 py-3">
-          <img src="/assets/img/aerolift-logo.png" alt="Aerolift L.L.C." width="1428" height="176" loading="lazy" decoding="async" class="block h-auto w-auto max-h-8 max-w-[220px] sm:max-w-[260px]">
-        </span>
+        <!-- The knockout, not the navy mark on a white plate. It is a
+             separate file rather than a CSS filter: `invert` on a navy glyph
+             gives pale yellow, not white, and `brightness(0) invert(1)` would
+             also flatten the artwork's black keyline into the glyph, which is
+             the right result here but only by accident. The generated file
+             says what it is. See the knockout note in scripts/images.mjs. -->
+        <img src="/assets/img/aerolift-logo-white.png" alt="Aerolift L.L.C." width="1428" height="176" loading="lazy" decoding="async" class="block h-auto w-auto max-h-8 max-w-[220px] sm:max-w-[260px]">
         <p class="prose-measure mt-5 text-sm">
           Industrial lifting solutions and material-handling systems for
           operations across the United Arab Emirates.

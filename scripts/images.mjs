@@ -75,6 +75,25 @@ for (const w of HERO_WIDTHS) {
     .toFile(resolve(out, 'aerolift-logo.png'));
   report.push(['aerolift-logo.png', `${png.width}x${png.height}`, kb(png.size)]);
 
+  // Knockout for the footer, which sits on --color-primary-dark. Built from
+  // the alpha channel alone rather than by recolouring: the artwork is navy
+  // WITH A BLACK KEYLINE, and keeping that keyline would draw a dark line
+  // around a white mark on a dark ground — it would read as a dirty, thinned
+  // edge rather than definition. The alpha carries the whole silhouette,
+  // keyline included, so the knockout keeps the exact outer contour.
+  const stencil = await base
+    .clone()
+    .resize({ height: LOGO_HEIGHT, withoutEnlargement: true })
+    .ensureAlpha()
+    .extractChannel('alpha')
+    .toBuffer();
+  const sm = await sharp(stencil).metadata();
+  const white = await sharp({ create: { width: sm.width, height: sm.height, channels: 3, background: '#ffffff' } })
+    .joinChannel(stencil)
+    .png({ compressionLevel: 9, palette: true })
+    .toFile(resolve(out, 'aerolift-logo-white.png'));
+  report.push(['aerolift-logo-white.png', `${white.width}x${white.height}`, kb(white.size)]);
+
   // NO WEBP, deliberately. Measured on this artwork at 176px tall:
   //   palette PNG      15.1KB   lossless
   //   WebP lossless    21.1KB   lossless
